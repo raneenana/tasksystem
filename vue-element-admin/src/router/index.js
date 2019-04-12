@@ -13,6 +13,7 @@ import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
 import examRouter from './modules/classes'
 import examination from './modules/examination'
+import user from './modules/user'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -41,6 +42,7 @@ import examination from './modules/examination'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  user,
   examination,
   examRouter,
   {
@@ -174,6 +176,7 @@ export const asyncRoutes = [
   },
 
   /** when your routing map is too long, you can split it into small modules **/
+
   componentsRouter,
   chartsRouter,
   nestedRouter,
