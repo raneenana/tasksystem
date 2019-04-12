@@ -1,5 +1,8 @@
 export default {
   route: {
+    user: '用户管理',
+    addUser: '添加用户',
+    showUser: '展示用户',
     dashboard: '首页',
     documentation: '文档',
     guide: '引导页',

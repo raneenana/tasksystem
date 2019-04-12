@@ -11,6 +11,7 @@ import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
+import user from './modules/user'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -39,6 +40,7 @@ import nestedRouter from './modules/nested'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  user,
   {
     path: '/redirect',
     component: Layout,
@@ -170,6 +172,7 @@ export const asyncRoutes = [
   },
 
   /** when your routing map is too long, you can split it into small modules **/
+
   componentsRouter,
   chartsRouter,
   nestedRouter,
