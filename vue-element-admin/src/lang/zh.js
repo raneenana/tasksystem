@@ -65,7 +65,10 @@ export default {
     classes: '班级管理',
     class: '班级管理',
     classroom: '教室管理',
-    student: '学生管理'
+    student: '学生管理',
+    examination: '考试管理',
+    Addexamination: '添加考试',
+    Listexamination: '试卷列表'
   },
   navbar: {
     logOut: '退出登录',

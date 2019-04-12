@@ -12,6 +12,7 @@ import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
 import examRouter from './modules/classes'
+import examination from './modules/examination'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -40,6 +41,7 @@ import examRouter from './modules/classes'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  examination,
   examRouter,
   {
     path: '/redirect',
