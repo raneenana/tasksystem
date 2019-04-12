@@ -11,6 +11,8 @@ import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
+import examRouter from './modules/exam'
+import readRouter from './modules/readPapers'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -38,7 +40,10 @@ import nestedRouter from './modules/nested'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+// 不需要授权的路由
 export const constantRoutes = [
+  examRouter,
+  readRouter,
   {
     path: '/redirect',
     component: Layout,
@@ -114,6 +119,7 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
+// 需要授权的路由
 export const asyncRoutes = [
   {
     path: '/permission',
