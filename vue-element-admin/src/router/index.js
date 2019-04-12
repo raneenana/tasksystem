@@ -11,7 +11,10 @@ import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
-import examRouter from './modules/exam'
+import examRouter from './modules/classes'
+import examination from './modules/examination'
+import user from './modules/user'
+import examsRouter from './modules/exam'
 import readRouter from './modules/readPapers'
 
 /**
@@ -42,6 +45,9 @@ import readRouter from './modules/readPapers'
  */
 // 不需要授权的路由
 export const constantRoutes = [
+  examsRouter,
+  user,
+  examination,
   examRouter,
   readRouter,
   {
@@ -176,11 +182,11 @@ export const asyncRoutes = [
   },
 
   /** when your routing map is too long, you can split it into small modules **/
+
   componentsRouter,
   chartsRouter,
   nestedRouter,
   tableRouter,
-
   {
     path: '/example',
     component: Layout,

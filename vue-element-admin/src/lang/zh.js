@@ -1,5 +1,8 @@
 export default {
   route: {
+    user: '用户管理',
+    addUser: '添加用户',
+    showUser: '展示用户',
     dashboard: '首页',
     exam: '试题管理',
     addQuestion: '添加试题',
@@ -67,7 +70,14 @@ export default {
     theme: '换肤',
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
-    externalLink: '外链'
+    externalLink: '外链',
+    classes: '班级管理',
+    class: '班级管理',
+    classroom: '教室管理',
+    student: '学生管理',
+    examination: '考试管理',
+    Addexamination: '添加考试',
+    Listexamination: '试卷列表'
   },
   navbar: {
     logOut: '退出登录',
