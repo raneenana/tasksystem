@@ -18,9 +18,9 @@ const readRouter = {
     }
   },
   {
-    path: 'waitClass',
+    path: 'wait',
     component: () => import('@/views/charts/keyboard'),
-    name: 'waitClass',
+    name: 'wait',
     meta: {
       title: '',
       noCache: true
