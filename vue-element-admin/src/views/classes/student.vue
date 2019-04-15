@@ -60,13 +60,10 @@
       </el-table>
       <div class="block">
         <el-pagination
-          :current-page="currentPage4"
-          :page-sizes="[5, 10, 20, 50,100]"
+          :page-sizes="[5, 10, 20, 50, 100]"
           :page-size="20"
           layout="total, sizes, prev, pager, next, jumper"
           :total="400"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
         />
       </div>
     </div>
