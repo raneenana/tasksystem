@@ -41,7 +41,7 @@
         <el-table-column
           prop="class"
           label="班级"
-          width="200"
+          width="220"
         />
         <el-table-column
           prop="creator"
