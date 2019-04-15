@@ -65,7 +65,9 @@
           </div>
         </form>
       </div>
-      <el-button type="primary">创建试卷</el-button>
+      <router-link :to="{path:'add'}">
+        <el-button type="primary">创建试卷</el-button>
+      </router-link>
     </div>
   </div>
 </template>

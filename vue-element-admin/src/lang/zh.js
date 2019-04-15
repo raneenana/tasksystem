@@ -77,7 +77,9 @@ export default {
     student: '学生管理',
     examination: '考试管理',
     Addexamination: '添加考试',
-    Listexamination: '试卷列表'
+    Listexamination: '试卷列表',
+    add: '创建试卷',
+    detail: '详情页'
   },
   navbar: {
     logOut: '退出登录',

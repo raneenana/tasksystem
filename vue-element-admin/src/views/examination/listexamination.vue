@@ -29,6 +29,14 @@
       </form>
     </div>
     <div class="add-layout-content">
+      <div class="add-layout-title">
+        <h4>试卷列表</h4>
+        <el-button-group>
+          <el-button plain>全部</el-button>
+          <el-button plain>进行中</el-button>
+          <el-button plain>已结束</el-button>
+        </el-button-group>
+      </div>
       <el-table
         :data="tableData"
         style="width: 100%;font-size:12px"
@@ -59,18 +67,18 @@
           width="200"
         />
         <el-table-column
-          fixed="right"
+          prop="operation"
           label="操作"
-          width="150"
+          width="160"
         >
-          <template>
+          <router-link :to="{path:'detail'}">
             <el-button
               type="text"
               size="small"
             >
               详情
             </el-button>
-          </template>
+          </router-link>
         </el-table-column>
       </el-table>
     </div>
@@ -197,6 +205,21 @@ h2 {
   padding: 24px;
   margin: 0px 0px 20px;
   border-radius: 10px;
+}
+.add-layout-title{
+  display: flex;
+  justify-content: space-between;
+  h4{
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+  }
+  .add-layout-button{
+    // display: flex;
+    button{
+      flex-shrink: 0;
+      margin: 0;
+    }
+  }
 }
 .add-form {
   font-size: 14px;
