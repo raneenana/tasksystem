@@ -2,7 +2,7 @@
   <div class="layout" style="padding: 0px 24px 24px;">
     <h2 style="padding: 20px 0px; margin-top: 10px;">班级管理</h2>
     <div class="layout-content">
-      <el-button type="primary" class="button">+添加班级</el-button>
+      <el-button type="primary" class="button" @click="dialogFormVisible = true">+添加班级</el-button>
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -26,10 +26,39 @@
           label="操作"
           width="312"
         >
-          <span>修改</span>|<span>删除</span>
+          <el-button type="text" @click="dialogFormVisible = true">修改</el-button>|<span style="color:#1890ff">删除</span>
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog title="添加班级" :visible.sync="dialogFormVisible" width="520px" height="317px">
+      <el-form :model="form">
+        <el-form-item label="班级名" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off" placeholder="班级名" />
+        </el-form-item>
+        <el-form-item label="教室号" :label-width="formLabelWidth">
+          <el-select v-model="form.region" placeholder="请选择教室号">
+            <el-option label="34315" value="34315" />
+            <el-option label="34305" value="34305" />
+            <el-option label="34315" value="34315" />
+            <el-option label="24315" value="24315" />
+            <el-option label="34395" value="34395" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="课程名" :label-width="formLabelWidth">
+          <el-select v-model="form.regions" placeholder="请选择课程号">
+            <el-option label="javascript下" value="javascript下" />
+            <el-option label="javascript上" value="javascript上" />
+            <el-option label="node" value="node" />
+            <el-option label="小程序" value="小程序" />
+            <el-option label="vue" value="vue" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">提 交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -57,8 +86,31 @@ export default {
         name: 'node基础',
         address: '34303',
         edit: ''
-      }]
+      }],
+      dialogFormVisible: false,
+      form: {
+        name: '',
+        region: '',
+        regions: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      },
+      formLabelWidth: '120px'
     }
+  },
+  created() {
+    var fly = require('flyio')
+    fly.get('/manger/student')
+      .then(function(response) {
+        console.log(response)
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
   }
 }
 </script>

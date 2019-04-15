@@ -2,7 +2,7 @@
   <div class="layout" style="padding: 0px 24px 24px;">
     <h2 style="padding: 20px 0px; margin-top: 10px;">教室管理</h2>
     <div class="layout-content">
-      <el-button type="primary" class="button">+添加教室</el-button>
+      <el-button type="primary" class="button" @click="dialogFormVisible = true">+添加教室</el-button>
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -15,10 +15,21 @@
           prop="edit"
           label="操作"
         >
-          <span>修改</span>|<span>删除</span>
+          <el-button type="text" @click="open2">删除</el-button>
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog title="添加教室" :visible.sync="dialogFormVisible" width="520px" height="317px">
+      <el-form :model="form">
+        <el-form-item label="教室号" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off" placeholder="教室号" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">提 交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -38,7 +49,31 @@ export default {
       }, {
         date: '1701B',
         edit: ''
-      }]
+      }],
+      dialogFormVisible: false,
+      form: {
+        name: ''
+      },
+      formLabelWidth: '120px'
+    }
+  },
+  methods: {
+    open2() {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
 }
