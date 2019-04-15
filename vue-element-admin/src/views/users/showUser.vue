@@ -23,6 +23,7 @@
   </div>
 </template>
 <script>
+// import { indenity } from '@/api/article'
 export default {
   data() {
     return {
@@ -183,7 +184,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .wrap .head h3 {
   width:100%;
   height:50px;
