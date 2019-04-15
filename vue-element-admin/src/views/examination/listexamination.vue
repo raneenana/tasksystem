@@ -36,7 +36,7 @@
         <el-table-column
           prop="information"
           label="试卷信息"
-          width="320"
+          width="300"
         />
         <el-table-column
           prop="class"
