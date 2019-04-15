@@ -18,12 +18,12 @@
         <el-table-column prop="name" label="姓名" width="380" />
         <el-table-column prop="address" label="地址" />
       </el-table>
-      <el-pagination background layout="prev, pager, next" :total="tableData.length" />
+      <el-pagination background layout="prev, pager, next" style="float:right;margin:20px 0;" :total="tableData.length" />
     </div>
   </div>
 </template>
 <script>
-// import { indenity } from '@/api/article'
+// import { mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -181,6 +181,14 @@ export default {
         address: '上海市普陀区金沙江路 1516 弄'
       }]
     }
+  },
+  created() {
+    // this.dateList()
+  },
+  methods: {
+    // ...mapActions({
+    //   dateList: 'showUser/dateList'
+    // })
   }
 }
 </script>

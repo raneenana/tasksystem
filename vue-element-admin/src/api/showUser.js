@@ -1,7 +1,8 @@
-import request from '@/utils/requests'
+import request from '@/utils/request'
 
-export let idenity = () => {
+export function identity() {
   return request({
-    url: "/user/idenity"
+    url: '/roles',
+    method: 'get'
   })
 }
