@@ -2,7 +2,27 @@
   <div class="layout" style="padding: 0px 24px 24px;">
     <h2 style="padding: 20px 0px; margin-top: 10px;">学生管理</h2>
     <div class="layout-content">
-      <el-button type="primary" class="button">重置</el-button>
+      <div class="top">
+        <el-input v-model="input" style="width: 165px; margin-right: 15px;" placeholder="请输入学生姓名" />
+        <el-select v-model="value" style="width: 165px; margin-right: 15px;" placeholder="请选择教室号">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+        <el-select v-model="valueclass" style="width: 165px; margin-right: 15px;" placeholder="班级名">
+          <el-option
+            v-for="item in optionsClass"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+        <el-button type="primary" class="button">搜索</el-button>
+        <el-button type="primary" class="button">重置</el-button>
+      </div>
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -58,6 +78,9 @@
 export default {
   data() {
     return {
+      input: '',
+      value: '',
+      valueclass: '',
       tableData: [{
         date: '张三',
         idCard: '102711000869',
@@ -86,6 +109,38 @@ export default {
         classroom: '34401',
         password: '@zhangna',
         edit: '删除'
+      }],
+      options: [{
+        value: '选项1',
+        label: '34401'
+      }, {
+        value: '选项2',
+        label: '34402'
+      }, {
+        value: '选项3',
+        label: '34403'
+      }, {
+        value: '选项4',
+        label: '34404'
+      }, {
+        value: '选项5',
+        label: '34405'
+      }],
+      optionsClass: [{
+        value: '选项1',
+        label: '1609A'
+      }, {
+        value: '选项2',
+        label: '1609B'
+      }, {
+        value: '选项3',
+        label: '1608A'
+      }, {
+        value: '选项4',
+        label: '1608B'
+      }, {
+        value: '选项5',
+        label: '1608C'
       }]
     }
   }
@@ -93,6 +148,10 @@ export default {
 </script>
 
 <style scoped>
+  .top{
+    width: 100%;
+    display: flex;
+  }
   .chart-container {
     position: relative;
     width: 100%;
