@@ -51,7 +51,7 @@
               <label for="title" class="add-form-item-required" title="设置题量">设置题量：</label>
             </div>
             <div class="add-form-item-control-wrapper">
-              <el-input-number v-model="num" controls-position="right" :min="0" :max="10" @change="handleChange" />
+              <el-input-number v-model="num" controls-position="right" :min="0" :max="10" />
             </div>
           </div>
           <div class="add-form-item">
@@ -59,8 +59,8 @@
               <label for="title" class="add-form-item-required" title="考试时间">考试时间：</label>
             </div>
             <div class="add-form-item-control-wrapper">
-              <el-date-picker v-model="startTime" type="date" placeholder="选择开始日期" :picker-options="pickerOptionsStart" @change="startTimeChang" /> —
-              <el-date-picker v-model="endTime" type="date" placeholder="选择结束日期" :picker-options="pickerOptionsOver" @change="endTimeChang" />
+              <el-date-picker v-model="startTime" type="date" placeholder="选择开始日期" /> —
+              <el-date-picker v-model="endTime" type="date" placeholder="选择结束日期" />
             </div>
           </div>
         </form>
