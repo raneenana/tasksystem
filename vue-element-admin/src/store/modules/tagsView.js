@@ -2,7 +2,6 @@ const state = {
   visitedViews: [],
   cachedViews: []
 }
-
 const mutations = {
   ADD_VISITED_VIEW: (state, view) => {
     if (state.visitedViews.some(v => v.path === view.path)) return
@@ -36,7 +35,6 @@ const mutations = {
       }
     }
   },
-
   DEL_OTHERS_VISITED_VIEWS: (state, view) => {
     state.visitedViews = state.visitedViews.filter(v => {
       return v.meta.affix || v.path === view.path
@@ -51,7 +49,6 @@ const mutations = {
       }
     }
   },
-
   DEL_ALL_VISITED_VIEWS: state => {
     // keep affix tags
     const affixTags = state.visitedViews.filter(tag => tag.meta.affix)
@@ -60,7 +57,6 @@ const mutations = {
   DEL_ALL_CACHED_VIEWS: state => {
     state.cachedViews = []
   },
-
   UPDATE_VISITED_VIEW: (state, view) => {
     for (let v of state.visitedViews) {
       if (v.path === view.path) {
@@ -82,7 +78,6 @@ const actions = {
   addCachedView({ commit }, view) {
     commit('ADD_CACHED_VIEW', view)
   },
-
   delView({ dispatch, state }, view) {
     return new Promise(resolve => {
       dispatch('delVisitedView', view)

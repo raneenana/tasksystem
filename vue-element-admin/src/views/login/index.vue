@@ -84,8 +84,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'chenmanjie',
-        password: 'Chenmanjie123!'
+        username: 'wangqingsong',
+        password: 'Wangqingsong123!'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur' }, { trigger: 'blur', validator: validateUsername }],
@@ -124,6 +124,18 @@ export default {
       login: 'user/login',
       generateRoutes: 'permission/generateRoutes'
     }),
+    // checkCapslock({ shiftKey, key } = {}) {
+    //   if (key && key.length === 1) {
+    //     if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
+    //       this.capsTooltip = true
+    //     } else {
+    //       this.capsTooltip = false
+    //     }
+    //   }
+    //   if (key === 'CapsLock' && this.capsTooltip === true) {
+    //     this.capsTooltip = false
+    //   }
+    // },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -138,9 +150,8 @@ export default {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           console.log(this.loginForm)
-          this.loading = true
           const res = await this.login(this.loginForm)
-          console.log('login res...', res)
+          console.log('login rres...', res)
           if (res.code === 1) {
             await this.generateRoutes([])
             this.$router.push({ path: this.redirect || '/' })

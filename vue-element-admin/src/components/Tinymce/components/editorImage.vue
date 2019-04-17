@@ -106,6 +106,7 @@ export default {
   margin-bottom: 20px;
   /deep/ .el-upload--picture-card {
     width: 100%;
+    height:400px;
   }
 }
 </style>

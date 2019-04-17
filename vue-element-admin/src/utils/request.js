@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
+import { Message } from 'element-ui' // MessageBox,
+// import store from '@/store'
 import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
-  // baseURL: 'http://169.254.12.55:7001', // api 的 base_url
-
   baseURL: '/api',
+  // baseURL: process.env.VUE_APP_BASE_API, // api 的 base_url
   // withCredentials: true, // 跨域请求时发送 cookies
   timeout: 5000 // request timeout
 })
@@ -18,6 +18,7 @@ service.interceptors.request.use(
     if (getToken()) {
       // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
       config.headers['authorization'] = getToken()
+      // config.headers['authorization'] = getToken()
     }
     return config
   },
@@ -45,10 +46,9 @@ service.interceptors.response.use(
     if (res.code === 1) {
       return res
     }
-
     // if (res.code !== 20000) {
     //   Message({
-    //     message: res.msg || 'error',
+    //     message: res.message || 'error',
     //     type: 'error',
     //     duration: 5 * 1000
     //   })

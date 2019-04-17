@@ -10,7 +10,7 @@ const examRouter = {
   },
   children: [
     {
-      path: '/addQuestion',
+      path: 'addQuestion',
       component: () => import('@/views/exam/addQuestion'),
       name: 'addQuestion',
       meta: {
@@ -19,7 +19,7 @@ const examRouter = {
       }
     },
     {
-      path: '/questionType',
+      path: 'questionType',
       component: () => import('@/views/exam/questionType'),
       name: 'questionType',
       meta: {
@@ -28,11 +28,19 @@ const examRouter = {
       }
     },
     {
-      path: '/papers',
+      path: 'papers',
       component: () => import('@/views/exam/papers'),
       name: 'papers',
       meta: {
         title: 'papers',
+        noCache: true
+      }
+    },
+    {
+      path: 'detail',
+      component: () => import('@/views/exam/details'),
+      meta: {
+        title: 'detail',
         noCache: true
       }
     }
