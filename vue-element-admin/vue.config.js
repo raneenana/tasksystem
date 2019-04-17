@@ -39,9 +39,16 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
+      },
+      '/api': {
+        target: 'http://169.254.121.1:7001',
+        changeOrigin: true,
+        pathRewrite: {
+          '/api':''
+        }
       }
     },
-    after: require('./mock/mock-server.js')
+    // after: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
