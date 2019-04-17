@@ -140,10 +140,10 @@ export default {
           // this.loading = true
           const res = await this.login(this.loginForm)
           console.log('login res...', res)
-          // if (res.code === 1){
-          //   await this.generateRoutes([]);
-          //   this.$router.push({ path: this.redirect || '/' })
-          // }
+          if (res.code === 1) {
+            await this.generateRoutes([])
+            this.$router.push({ path: this.redirect || '/' })
+          }
           this.loading = false
         } else {
           console.log('error submit!!')

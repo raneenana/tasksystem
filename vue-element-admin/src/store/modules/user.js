@@ -34,7 +34,7 @@ const actions = {
     // login({user_name: username, user_pwd: password});
     var res = await login({ user_name: username, user_pwd: password })
     console.log(res)
-    // setToken(res.token);
+    setToken(res.token)
     return res
   },
   // get user info
