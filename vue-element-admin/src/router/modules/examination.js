@@ -24,8 +24,21 @@ const examination = {
     import('@/views/examination/listexamination'),
     name: 'Listexamination',
     meta: { title: 'Listexamination', noCache: true }
-  }
-  ]
+  },
+  {
+    path: 'add',
+    component: () =>
+        import('@/views/examination/add'),
+    name: 'add',
+    meta: { title: 'add', noCache: true }
+  },
+  {
+    path: 'detail',
+    component: () =>
+        import('@/views/examination/detail'),
+    name: 'detail',
+    meta: { title: 'detail', noCache: true }
+  }]
 }
 
 export default examination
