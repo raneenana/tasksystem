@@ -79,16 +79,17 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+// import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './socialSignin'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
   components: { LangSelect, SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
+      if (!value) {
         callback(new Error('Please enter the correct user name'))
       } else {
         callback()
@@ -103,8 +104,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: 'wangqingsong',
+        password: 'Wangqingsong123!'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -139,18 +140,22 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
-    checkCapslock({ shiftKey, key } = {}) {
-      if (key && key.length === 1) {
-        if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
-          this.capsTooltip = true
-        } else {
-          this.capsTooltip = false
-        }
-      }
-      if (key === 'CapsLock' && this.capsTooltip === true) {
-        this.capsTooltip = false
-      }
-    },
+    ...mapActions({
+      login: 'user/login',
+      generateRoutes: 'permission/generateRoutes'
+    }),
+    // checkCapslock({ shiftKey, key } = {}) {
+    //   if (key && key.length === 1) {
+    //     if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
+    //       this.capsTooltip = true
+    //     } else {
+    //       this.capsTooltip = false
+    //     }
+    //   }
+    //   if (key === 'CapsLock' && this.capsTooltip === true) {
+    //     this.capsTooltip = false
+    //   }
+    // },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -162,17 +167,16 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
+          console.log(this.loginForm)
+          const res = await this.login(this.loginForm)
+          console.log('login rres...', res)
+          if (res.code === 1) {
+            await this.generateRoutes([])
+            this.$router.push({ path: this.redirect || '/' })
+          }
+          this.loading = false
         } else {
           console.log('error submit!!')
           return false
