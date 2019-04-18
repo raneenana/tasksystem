@@ -4,18 +4,24 @@
     <div class="layout-content">
       <el-button type="primary" class="button" @click="dialogFormVisible = true">+添加教室</el-button>
       <el-table
-        :data="tableData"
+        :data="allRoom.roomarr"
         style="width: 100%"
-      ><el-table-column
-         prop="date"
-         label="教室号"
-         width="887"
-       />
+      >
         <el-table-column
-          prop="edit"
-          label="操作"
+          label="姓名"
+          width="695"
         >
-          <el-button type="text" @click="open2">删除</el-button>
+          <template slot-scope="scope">
+            {{ scope.row.room_text }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              @click="open2(scope.row.room_id)"
+            >删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -27,29 +33,17 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">提 交</el-button>
+        <el-button type="primary" @click="sure">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      tableData: [{
-        date: '1701B',
-        edit: ''
-      }, {
-        date: '1701B',
-        edit: ''
-      }, {
-        date: '1701B',
-        edit: ''
-      }, {
-        date: '1701B',
-        edit: ''
-      }],
       dialogFormVisible: false,
       form: {
         name: ''
@@ -57,8 +51,28 @@ export default {
       formLabelWidth: '120px'
     }
   },
+  computed: {
+    ...mapState({
+      allRoom: state => state.classes,
+      roomId: state => state.classes.roomId
+    })
+  },
+  created() {
+    this.room()
+    console.log('room', this.allRoom)
+  },
   methods: {
-    open2() {
+    ...mapActions({
+      room: 'classes/allRoom',
+      allAddroom: 'classes/allAddroom',
+      deletecurrent: 'classes/deleteroom'
+    }),
+    async sure() {
+      this.dialogFormVisible = false
+      await this.allAddroom({ room_text: this.form.name })
+      await this.room()
+    },
+    open2(id) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -68,6 +82,8 @@ export default {
           type: 'success',
           message: '删除成功!'
         })
+        this.deletecurrent({ room_id: id })
+        this.room()
       }).catch(() => {
         this.$message({
           type: 'info',
