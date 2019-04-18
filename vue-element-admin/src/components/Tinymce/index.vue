@@ -189,6 +189,7 @@ export default {
 }
 .tinymce-container>>>.mce-fullscreen {
   z-index: 10000;
+  border-radius: 15px;
 }
 .tinymce-textarea {
   visibility: hidden;

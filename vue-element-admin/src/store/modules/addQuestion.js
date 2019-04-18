@@ -3,7 +3,8 @@ const state = {
   allQuestion: [],
   examType: [],
   subjectType: [],
-  questionsType: []
+  questionsType: [],
+  detail: {}
 }
 const mutations = {
   updataState(state, payload) {
@@ -42,6 +43,11 @@ const actions = {
     var result = await searchExam(payload)
     commit('updataState', { allQuestion: result.data })
     console.log(result, 'alllll/...')
+  },
+  // 获取详情信息
+  async getDetail({ commit }, payload) {
+    commit('updataState', { detail: payload })
+    console.log(payload, 'alllll/...')
   }
 }
 

@@ -17,7 +17,7 @@
             <div class="item">
               <label class="" title="题目主题">题目主题</label>
             </div>
-            <Tinymce />
+            <markdown-editor ref="markdownEditor" v-model="content" height="300px" />
             <div class="f-item">
               <label for="title" class="add-form-item-required" title="试卷名称">请选择考试类型:</label>
               <el-select v-model="examType.value" placeholder="请选择">
@@ -36,7 +36,7 @@
                 <el-option v-for="item in questionsType" :key="item.questions_type_id" :label="item.label" :value="item.questions_type_text" />
               </el-select>
             </div>
-            <Tinymce />
+            <markdown-editor ref="markdownEditor" v-model="content1" height="300px" />
             <button class="sbmit" type="primary" @click="sbmit">提交</button>
             <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
               <span>这是一段信息</span>
@@ -53,13 +53,15 @@
 </template>
 
 <script>
-import Tinymce from '@/components/Tinymce'
+import MarkdownEditor from '@/components/MarkdownEditor'
 import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'TinymceDemo',
-  components: { Tinymce },
+  components: { MarkdownEditor },
   data() {
     return {
+      content: '',
+      content1: '',
       dialogVisible: false,
       value: '',
       tableData: [{
@@ -87,6 +89,7 @@ export default {
   },
   computed: {
     ...mapState({
+      detail: state => state.addQuestion.detail,
       examType: state => state.addQuestion.examType,
       subjectType: state => state.addQuestion.subjectType,
       questionsType: state => state.addQuestion.questionsType
@@ -206,7 +209,7 @@ export default {
   border:none;
   outline: none;
   border-radius: 5px;
-  background: #00f;
+  background: linear-gradient(-90deg,#4e75ff,#0139fd);
   color:#fff;
   margin-top:35px;
   box-sizing: border-box;

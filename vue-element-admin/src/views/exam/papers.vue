@@ -100,23 +100,16 @@ export default {
       getSubjectType: 'addQuestion/getSubjectType', // 获取所有的课程
       getQuestionsTpe: 'addQuestion/getQuestionsTpe', // 获取所有的试题类型
       getAllExam: 'addQuestion/getAllExam', // 获取所有的试题
-      getRightExam: 'addQuestion/getRightExam'// 按条件获取试题
+      getRightExam: 'addQuestion/getRightExam', // 按条件获取试题
+      getDetail: 'addQuestion/getDetail' // 获取详情信息
     }),
-    detail(e, item) {
-      console.log(item)
-      let str = ''
-      // var obj = {
-      //   title: item.title,
-      //   exam_name: item.exam_name,
-      //   questions_stem: item.questions_stem,
-      //   user_name: item.user_name,
-      //   subject_text: item.subject_text,
-      //   questions_type_text: item.questions_type_text
-      // }
+    async detail(e, item) {
+      await this.getDetail(item)
+      var str = ''
       if (e.target.tagName === 'SPAN') {
-        str = 'addQuestion?title=' + item.title + 'exam_name=' + item.exam_name + 'questions_stem=' + item.questions_stem + 'user_name=' + item.user_name + 'subject_text=' + item.subject_text + 'questions_type_text=' + item.questions_type_text
+        str = 'addQuestion'
       } else {
-        str = 'detail?title=' + item.title + 'exam_name=' + item.exam_name + 'questions_stem=' + item.questions_stem + 'user_name=' + item.user_name + 'subject_text=' + item.subject_text + 'questions_type_text=' + item.questions_type_text
+        str = 'detail'
       }
       this.$router.push({ path: str })
     },

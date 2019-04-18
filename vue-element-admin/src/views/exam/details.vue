@@ -3,15 +3,15 @@
     <h2 class="tittle">试题详情</h2>
     <div class="messtitle">
       <p class="username">
-        <span>出题人: </span>{{ item.user_name }}</p>
+        <span>出题人: </span>{{ detail.user_name }}</p>
       <p class="message">题目信息</p>
       <div class="text">
-        <span class="type_text">{{ item.questions_type_text }}</span>
-        <span class="subject_text">{{ item.subject_text }}</span>
-        <span class="exam_name">{{ item.exam_name }}</span>
+        <span class="type_text">{{ detail.questions_type_text }}</span>
+        <span class="subject_text">{{ detail.subject_text }}</span>
+        <span class="exam_name">{{ detail.exam_name }}</span>
       </div>
       <p class="value">
-        {{ item.questions_stem }}
+        {{ detail.questions_stem }}
       </p>
     </div>
     <div class="Answer">
@@ -22,27 +22,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  data() {
-    return {
-      item: {
-        title: '',
-        exam_name: '',
-        questions_stem: '',
-        user_name: '',
-        subject_text: '',
-        questions_type_text: ''
-      }
-    }
-  },
-  mounted() {
-    this.item.title = this.$route.query.title
-    this.item.exam_name = this.$route.query.exam_name
-    this.item.questions_stem = this.$route.query.questions_stem
-    this.item.user_name = this.$route.query.user_name
-    this.item.subject_text = this.$route.query.subject_text
-    this.item.questions_type_text = this.$route.query.questions_type_text
-    console.log(this.item.title)
+  computed: {
+    ...mapState({
+      detail: state => state.addQuestion.detail
+    })
   }
 }
 </script>
