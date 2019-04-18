@@ -27,16 +27,18 @@ import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      activeName: 'first'
+      activeName: 'first',
+      apiList: []
     }
   },
   computed: {
     ...mapState({
-      date: state => state.showUsers.dateList
+      date: state => state.adduser.dateList
     })
   },
   created() {
-    console.log(this.date)
+    // console.log(this.date)
+    this.apiList = ['dateList', 'showViewAuth', 'allViewList', 'showApiAuth', 'getApiAuth', 'getAllIndetity']
   },
   async mounted() {
     await this.dateList()
@@ -44,12 +46,17 @@ export default {
 
   methods: {
     ...mapActions({
-      dateList: 'showUsers/dateList',
-      identity: 'showUsers/identity'
+      dateList: 'adduser/dateList',
+      showViewAuth: 'adduser/showViewAuth', // 身份与视图权限信息
+      allViewList: 'adduser/allViewList', // 视图接口
+      showApiAuth: 'adduser/showApiAuth', // 身份与api接口权限信息
+      getApiAuth: 'adduser/getApiAuth', // api接口信息
+      getAllIndetity: 'adduser/getAllIndetity' // 身份信息
     }),
     async handleClick(tab, event) {
       console.log(tab, event)
-      await this.identity()
+      await this.showViewAuth()
+      console.log(this.date)
     }
   }
 }
@@ -70,47 +77,5 @@ export default {
 .content #pane_first {
   font-size: 30px;
   font-weight: normal;
-}
-.content .table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  border-radius: 2px 2px 0 0;
-  border-spacing: 2px;
-  font-size: 14px;
-  font-variant: tabular-nums;
-  line-height: 1.5;
-  color: rgba(0, 0, 0, 0.65);
-  border-spacing: 2px;
-}
-.table thead th {
-  display: table-cell;
-  vertical-align: inherit;
-}
-.content .table thead {
-  font-size: 14px;
-  height: 50px;
-  font-variant: tabular-nums;
-  line-height: 1.5;
-  color: rgba(0, 0, 0, 0.65);
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.content .table tbody {
-  display: table-row-group;
-  vertical-align: middle;
-  border-color: inherit;
-}
-.content .table tr {
-  display: table-row;
-  vertical-align: inherit;
-  border-color: inherit;
-}
-.content .table td,th {
-  padding: 16px 16px;
-  border-bottom: 1px solid #e8e8e8;
-  transition: all 0.3s, border 0s;
 }
 </style>

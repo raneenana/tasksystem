@@ -6,27 +6,46 @@ import {
   allIndentity,
   apiAuth,
   setApi,
-  setView
+  setView,
+  showApi,
+  showView
 } from '@/api/addUser'
+import { showUser } from '@/api/showUser'
 const state = {
   viewOpt: [],
   allIden: [],
-  apiOpt: []
+  apiOpt: [],
+  dateList: []
 }
 
 const mutations = {
   CHANGE_VIEWOPT: (state, payload) => {
     state.viewOpt = payload.data
+    state.dateList = payload.data
   },
   CHANGE_ALLIDEN: (state, payload) => {
     state.allIden = payload.data
+    state.dateList = payload.data
   },
   CHANGE_APIOPT: (state, payload) => {
     state.apiOpt = payload.data
+    state.dateList = payload.data
+  },
+  CHANGE_DATELIST: (state, token) => {
+    state.dateList = token.data
+    state.dateList = token.data
+  },
+  CHANGE_DATALIST: (state, token) => {
+    state.dateList = token.data
   }
 }
 
 const actions = {
+  // 用户信息
+  async dateList({ commit }, payload) {
+    var res = await showUser()
+    commit('CHANGE_DATELIST', res)
+  },
   // 添加身份信息
   async addIdentity({ commit }, payload) {
     var res = await addIdent(payload)
@@ -67,6 +86,17 @@ const actions = {
   async setViewAuth({ commit }, payload) {
     var data = await setView(payload)
     return data
+  },
+  // 展示身份与api接口权限
+  async showApiAuth({ commit }, payload) {
+    var data = await showApi()
+    // console.log(data)
+    commit('CHANGE_DATALIST', data)
+  },
+  // 展示身份与视图接口
+  async showViewAuth({ commit }, payload) {
+    var data = await showView()
+    commit('CHANGE_DATALIST', data)
   }
 }
 
