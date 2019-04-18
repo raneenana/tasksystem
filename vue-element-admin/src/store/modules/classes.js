@@ -3,7 +3,8 @@ const state = {
   arr: [],
   roomarr: [],
   studentarr: [],
-  roomId: ''
+  roomId: '',
+  gradeId: ''
 }
 const mutations = {
   updata(state, payload) {
@@ -33,8 +34,10 @@ const actions = {
     await deleteRoom(payload)
   },
   async addgrade({ commit }, payload) { // 添加班级
+    console.log(payload)
     const obj = await addGrade(payload)
-    commit('updata', { roomId: obj.grade_id })
+    console.log(obj)
+    // commit('updata', { gradeId: obj.grade_id })
   }
 }
 
