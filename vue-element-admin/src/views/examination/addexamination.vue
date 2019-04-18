@@ -101,7 +101,6 @@ export default {
       createExam: 'examination/createTestPaper'
     }),
     submitForm(formData) {
-      // console.log(this.formData)
       this.$refs[formData].validate(async(valid) => {
         if (valid) {
           // 参数
@@ -114,7 +113,8 @@ export default {
             number: this.formData.num === 0 ? 4 : this.formData.num * 1
           }
           const res = await this.createExam(formData)
-          console.log(res)
+          window.localStorage.setItem('exam', JSON.stringify(res))
+          this.$router.push({ path: 'add' })
         } else {
           console.log('error submit!!')
           return false

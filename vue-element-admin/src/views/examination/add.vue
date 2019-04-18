@@ -8,14 +8,11 @@
           <h3>报考院校</h3>
           <p>考试时间：1小时30分钟 监考人：刘于 开始考试时间：2018.9.10 10:00 阅卷人：刘于</p>
         </div>
-        <div class="list">
-          <div class="content-list-style">
-            <h4>1：微信分享后地址发生改变，根据地址获取get传递参数 <a href="javascript:;" style="float: right;color:#0139FD">删除</a></h4>
-            <div class="react-markdown">
-              <pre>
-                <code>var url = 'http://test6m.wukonglicai.com/act/bfe/wk-op/jf-forest/index.html?from=singlemessage&amp;isappinstalled=0#/transfer?shareId=9fwkZUWBURLF65AL544MFOXDFSBBGI'var get = function (url, key) {}console.log(get(url, 'shareId')) //  9fwkZUWBURLF65AL544MFOXDFSBBGI
-                </code>
-              </pre>
+        <div v-for="(item,index) in questionList" :key="index" class="list">
+          <div class="style_questionitem__3ETlC" :data-id="item.questions_id">
+            <h4>{{ index+1 }}：{{ item.title }} <a href="javascript:;" style="float: right;">删除</a></h4>
+            <div class="markdown">
+              <pre>{{ item.questions_stem }}</pre>
             </div>
           </div>
         </div>
@@ -40,8 +37,13 @@
 export default {
   data() {
     return {
-      flag: false
+      flag: false,
+      questionList: []
     }
+  },
+  created() {
+    const data = JSON.parse(window.localStorage.getItem('exam'))
+    this.questionList = data.questions
   },
   methods: {
     showDialog() {
@@ -51,8 +53,8 @@ export default {
 }
 </script>
 
-<style scoped>
-.add-drawer{
+<style lang="scss" scoped>
+.add-drawer {
   position: fixed;
   top: 0;
   left: 0;
@@ -60,13 +62,13 @@ export default {
   height: 100%;
   z-index: 1000;
 }
-.mask{
+.mask {
   position: fixed;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
 }
-.add-drawer-right{
+.add-drawer-right {
   width: 40%;
   height: 100%;
   position: relative;
@@ -84,6 +86,7 @@ export default {
   background: #f0f2f5;
   min-height: 0;
   padding: 0px 24px 24px;
+  box-sizing: border-box;
 }
 h2 {
   padding: 20px 0px;
@@ -103,7 +106,8 @@ h2 {
   margin: 0px 0px 20px;
   border-radius: 10px;
 }
-h3,h4{
+h3,
+h4 {
   font-weight: normal;
   display: block;
   font-size: 1.3em;
@@ -112,8 +116,18 @@ h3,h4{
   margin-inline-start: 0px;
   margin-inline-end: 0px;
 }
-h4{
-  font-size: 1.0em;
+h4 {
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+a {
+  color: #0139FD;
+  background-color: initial;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: color .3s;
 }
 .content-list {
   width: 100%;
@@ -121,23 +135,34 @@ h4{
 }
 .top-title {
   text-align: center;
+  p {
+    font-size: 1em;
+  }
 }
-.content-list-style{
+.style_questionitem__3ETlC {
   text-align: left;
   border: 1px solid #ccc;
   padding: 20px;
+  margin-bottom: 20px;
 }
-.react-markdown pre {
-    display: block;
-    padding: 1em;
-    overflow: auto;
-    line-height: 1.3;
-    max-height: 35em;
-    color: #657b83;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AgMAAABHkjHhAAAACVBMV…v3iO9zG/UOphyPeinPl1J8Gtaa7xPTa/Dk+RIs4deMvwGvcGsmsCvJ0AAAAABJRU5ErkJggg==) #f6f6f6;
-    background-size: 30px 30px;
+.markdown,pre,code{
+  margin: 0;
+  padding: 0;
 }
-code{
+.markdown pre {
+  margin-top: 5px;
+  height: 100%;
+  display: block;
+  padding: 2em;
+  line-height: 1.2;
+  // max-height: 35em;
+  color: #657b83;
+  background:#f6f6f6;
+  background-size: 30px 30px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 1em;
+  white-space:normal;
   white-space: pre-wrap;
+  word-wrap: break-word;
 }
 </style>
