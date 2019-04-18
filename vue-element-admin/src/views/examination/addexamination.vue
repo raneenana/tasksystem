@@ -97,13 +97,27 @@ export default {
   methods: {
     ...mapActions({
       typeData: 'examination/getExamType',
-      curriculumData: 'examination/getCurriculums'
+      curriculumData: 'examination/getCurriculums',
+      createExam: 'examination/createTestPaper'
     }),
     submitForm(formData) {
-      this.$refs[formData].validate((valid) => {
+      // console.log(this.formData)
+      this.$refs[formData].validate(async(valid) => {
         if (valid) {
-          console.log(this.formData.startTime * 1)
-          console.log(this.formData.endTime * 1)
+          // 参数
+          const formData = {
+            title: this.formData.title,
+            exam_id: this.formData.typeId,
+            subject_id: this.formData.classId,
+            start_time: this.formData.startTime * 1,
+            end_time: this.formData.endTime * 1,
+            number: this.formData.num === 0 ? 4 : this.formData.num * 1
+          }
+          const res = await this.createExam(formData)
+          console.log(res)
+        } else {
+          console.log('error submit!!')
+          return false
         }
       })
     }

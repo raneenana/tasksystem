@@ -8,9 +8,7 @@ const state = {
   // 获取考试类型.
   examType: [],
   // 获取课程
-  curriculum: [],
-  // 创建试卷
-  createExam: []
+  curriculum: []
 }
 const mutations = {
   // 考试类型
@@ -20,9 +18,6 @@ const mutations = {
   // 课程
   updateCurriculum(state, payload) {
     state.curriculum = payload
-  },
-  updateTestPaper(state, payload) {
-    state.createExam = payload
   }
 }
 const actions = {
@@ -36,9 +31,11 @@ const actions = {
     const curriculums = await getCurriculum()
     commit('updateCurriculum', curriculums.data)
   },
-  async createTestPaper({ commit }) {
-    const create = await CreateExam()
-    commit('updateTestPaper', create.data)
+  // 创建试卷
+  async createTestPaper({ commit }, payload) {
+    const create = await CreateExam(payload)
+    // console.log('create',create)
+    return create.data
   }
 }
 
