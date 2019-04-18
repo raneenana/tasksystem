@@ -1,4 +1,11 @@
 import request from '@/utils/request'
+// 获取当前用户信息
+export function getUserInfo() {
+  return request({
+    url: '/user/userInfo',
+    method: 'get'
+  })
+}
 // 获取考试类型
 export function getType() {
   return request({
@@ -20,12 +27,12 @@ export function getQuestionsType() {
     method: 'get'
   })
 }
-
-export function addQuestion(params) {
+// 添加试题
+export function addQuestion(data) {
   return request({
     url: '/exam/questions',
     method: 'post',
-    params
+    data
   })
 }
 // 获取所有的试题

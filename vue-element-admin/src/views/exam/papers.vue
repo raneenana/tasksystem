@@ -105,6 +105,7 @@ export default {
     }),
     async detail(e, item) {
       await this.getDetail(item)
+      console.log(item)
       var str = ''
       if (e.target.tagName === 'SPAN') {
         str = 'addQuestion'

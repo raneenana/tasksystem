@@ -1,5 +1,6 @@
-import { getType, getSubject, getQuestionsType, allExam, searchExam } from '@/api/addQuestion'
+import { getUserInfo, getType, getSubject, getQuestionsType, addQuestion, allExam, searchExam } from '@/api/addQuestion'
 const state = {
+  userInfo: [],
   allQuestion: [],
   examType: [],
   subjectType: [],
@@ -14,6 +15,12 @@ const mutations = {
   }
 }
 const actions = {
+  // 获取当前用户信息
+  async getUser({ commit }, payload) {
+    var result = await getUserInfo()
+    commit('updataState', { userInfo: result.data })
+    console.log(result)
+  },
   // 获取所有的考试类型
   async getExamType({ commit }, payload) {
     var result = await getType()
@@ -31,6 +38,14 @@ const actions = {
     var result = await getQuestionsType()
     commit('updataState', { questionsType: result.data })
     console.log(result, 'snf')
+  },
+  // 更新试题 ,
+  async addQuestions({ commit }, paylod) {
+    console.log(paylod, 'saddsad')
+    var result = await addQuestion(paylod)
+    console.log(result, 'results')
+    // commit('updataState', { questionsType: result.data })
+    return result
   },
   // 获取所有的试题
   async getAllExam({ commit }, payload) {
