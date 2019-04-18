@@ -58,3 +58,12 @@ export function setApi(params) {
     data: params
   })
 }
+
+// 给身份设置视图权限
+export function setView(params) {
+  return request({
+    url: '/user/setIdentityView',
+    method: 'post',
+    data: params
+  })
+}

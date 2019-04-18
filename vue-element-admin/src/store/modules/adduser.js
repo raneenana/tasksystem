@@ -5,7 +5,8 @@ import {
   addView,
   allIndentity,
   apiAuth,
-  setApi
+  setApi,
+  setView
 } from '@/api/addUser'
 const state = {
   viewOpt: [],
@@ -60,7 +61,11 @@ const actions = {
   // 设置身份api接口权限
   async setApiAuth({ commit }, payload) {
     var data = await setApi(payload)
-    console.log('data.....', data)
+    return data
+  },
+  // 设置身份的视图接口
+  async setViewAuth({ commit }, payload) {
+    var data = await setView(payload)
     return data
   }
 }

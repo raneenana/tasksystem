@@ -108,7 +108,7 @@
             <span class="active">给身份设置视图权限</span>
           </p>
           <div class="mainForm">
-            <el-select v-model="idAuthorize" placeholder="请选择身份id" style="margin-top:10px;">
+            <el-select v-model="viewAuthor.idAuth" placeholder="请选择身份id" style="margin-top:10px;">
               <el-option
                 v-for="item in allIden"
                 :key="item.identity_id"
@@ -116,18 +116,18 @@
                 :value="item.identity_text"
                 style="margin-left:5px;"
               />
-            </el-select>
-            <el-select v-model="value" placeholder="请选择视图权限id" style="margin-top:10px;">
+            </el-select><br>
+            <el-select v-model="viewAuthor.viewAuth" placeholder="请选择视图权限id" style="margin-top:10px;">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in viewOpt"
+                :key="item.view_id"
+                :label="item.view_authority_text"
+                :value="item.view_authority_text"
                 style="margin-left:5px;"
               />
             </el-select>
             <p>
-              <el-button type="primary">确定</el-button>
+              <el-button type="primary" @click="viewAuth">确定</el-button>
               <el-button @click="reset">重置</el-button>
             </p>
           </div>
@@ -146,6 +146,7 @@ export default {
       password: '',
       value: '',
       idValue: '',
+      viewMsg: '',
       setApi: {
         idMsg: '',
         apiMsg: ''
@@ -156,25 +157,14 @@ export default {
         url: '',
         method: ''
       },
-      viewMsg: '',
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ]
+      viewAuthor: {
+        idAuth: '',
+        viewAuth: ''
+      },
+      options: [{
+        name: '',
+        label: ''
+      }]
     }
   },
   computed: {
@@ -191,7 +181,7 @@ export default {
     // }
     await this.getAllIndetity()
     await this.getApiAuth()
-    console.log(this.allIden, this.apiOpt)
+    console.log(this.viewOpt)
   },
   methods: {
     ...mapActions({
@@ -201,7 +191,8 @@ export default {
       addViewAuth: 'adduser/addViewAuth',
       getAllIndetity: 'adduser/getAllIndetity',
       getApiAuth: 'adduser/getApiAuth',
-      setApiAuth: 'adduser/setApiAuth'
+      setApiAuth: 'adduser/setApiAuth',
+      setViewAuth: 'adduser/setViewAuth'
     }),
     // 添加身份
     async addIden() {
@@ -289,6 +280,34 @@ export default {
         identity_id: idNum,
         api_authority_id: apiNum
       })
+      if (res.code === 1) {
+        alert(res.msg)
+      }
+    },
+    // 身份设置视图权限
+    async viewAuth() {
+      console.log(this.viewAuthor)
+      if (!this.viewAuthor.idAuth) {
+        alert('身份id不能为空')
+        return false
+      }
+      if (!this.viewAuthor.viewAuth) {
+        alert('视图权限不能为空')
+        return false
+      }
+      const item = this.allIden.filter((item) => {
+        return item.identity_text === this.viewAuthor.idAuth
+      })
+      const array = this.viewOpt.filter((item) => {
+        return item.view_authority_text === this.viewAuthor.viewAuth
+      })
+      const idNum = item[0].identity_id
+      const apiNum = array[0].api_authority_id
+      const res = await this.setViewAuth({
+        identity_id: idNum,
+        view_authority_id: apiNum
+      })
+      console.log('res.....', res)
       if (res.code === 1) {
         alert(res.msg)
       }
