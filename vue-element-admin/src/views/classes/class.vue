@@ -6,27 +6,43 @@
       <el-table
         :data="allArr.arr"
         style="width: 100%"
-      ><el-table-column
-         prop="grade_name"
-         label="班级名"
-         width="312"
-       />
+      >
         <el-table-column
-          prop="subject_text"
-          label="课程名"
-          width="594"
-        />
-        <el-table-column
-          prop="room_text"
-          label="教师号"
-          width="312"
-        />
-        <el-table-column
-          prop=""
-          label="操作"
-          width="312"
+          label="班级名"
+          width="311"
         >
-          <el-button type="text" @click="dialogFormVisible = true">修改</el-button>|<span style="color:#1890ff">删除</span>
+          <template slot-scope="scope">
+            {{ scope.row.grade_name }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="课程名"
+          width="460"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.subject_text }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="教室号"
+          width="315"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.room_text }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              @click="editRow(scope.row.grade_name,scope.row.subject_text,scope.row.room_text)"
+            >编辑</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="deleteRow(scope.row.grade_id)"
+            >删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -40,7 +56,7 @@
             <el-option
               v-for="item in allArr.arr"
               :key="item.room_id"
-              :label="item.room_text"
+              :label="roomText||item.room_text"
               :value="item.room_id"
             />
           </el-select>
@@ -50,8 +66,8 @@
             <el-option
               v-for="item in allArr.arr"
               :key="item.room_id"
-              :label="item.subject_text"
-              :value="item.room_id"
+              :label="subjectText||item.subject_text"
+              :value="item.subject_id"
             />
           </el-select>
         </el-form-item>
@@ -65,6 +81,7 @@
 </template>
 
 <script>
+// scope.row.grade_id,  scope.row.grade_name,scope.row.subject_id,scope.row.room_id,scope.row.subject_text,scope.row.room_text
 import { mapState, mapActions } from 'vuex'
 export default {
   data() {
@@ -75,8 +92,8 @@ export default {
         roomid: '',
         subjectid: ''
       },
-      // id:'',
-
+      roomText: '',
+      subjectText: '',
       formLabelWidth: '120px'
     }
   },
@@ -87,18 +104,30 @@ export default {
   },
   created() {
     this.allClass()
-    console.log('arr', this.allArr)
   },
   methods: {
     ...mapActions({
       allClass: 'classes/allClass',
-      addgrade: 'classes/addgrade'
+      addgrade: 'classes/addgrade',
+      deletegrade: 'classes/deletegrade'
     }),
     async addClasses() {
       this.dialogFormVisible = false
       const obj = this.form
-      this.addgrade({ grade_name: obj.name, room_id: obj.roomid, subject_id: obj.subjectid })
+      await this.addgrade({ grade_name: obj.name, subject_id: obj.subjectid })
+      await this.allClass()
+    },
+    deleteRow(id) {
+      this.deletegrade({ grade_id: id })
       this.allClass()
+    },
+    editRow(gradeName, roomName, subjectName) {
+      this.dialogFormVisible = true
+      this.form.name = gradeName
+      this.roomText = roomName
+      this.subjectText = subjectName
+      // console.log(gradeName,roomName,subjectName)
+      // this.form =
     }
   }
 }
