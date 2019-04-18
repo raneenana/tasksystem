@@ -37,7 +37,6 @@ export default {
     })
   },
   created() {
-    // console.log(this.date)
     this.apiList = ['dateList', 'showViewAuth', 'allViewList', 'showApiAuth', 'getApiAuth', 'getAllIndetity']
   },
   async mounted() {

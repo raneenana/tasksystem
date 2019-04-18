@@ -259,7 +259,6 @@ export default {
     },
     // 身份设置api接口权限
     async idAuth() {
-      console.log(this.setApi)
       if (!this.setApi.idMsg) {
         alert('身份id不能为空')
         return false
