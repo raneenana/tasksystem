@@ -36,22 +36,22 @@
           <el-input v-model="form.name" autocomplete="off" placeholder="班级名" />
         </el-form-item>
         <el-form-item label="教室号" :label-width="formLabelWidth">
-          <el-select v-model="roomid" placeholder="请选择">
+          <el-select v-model="form.roomid" placeholder="请选择">
             <el-option
               v-for="item in allArr.arr"
-              :key="item.room_text"
+              :key="item.room_id"
               :label="item.room_text"
-              value="shanghai"
+              :value="item.room_id"
             />
           </el-select>
         </el-form-item>
         <el-form-item label="课程名" :label-width="formLabelWidth">
-          <el-select v-model="subjectid" placeholder="请选择">
+          <el-select v-model="form.subjectid" placeholder="请选择">
             <el-option
               v-for="item in allArr.arr"
-              :key="item.subject_id"
+              :key="item.room_id"
               :label="item.subject_text"
-              value="shanghai"
+              :value="item.room_id"
             />
           </el-select>
         </el-form-item>
@@ -71,11 +71,12 @@ export default {
     return {
       dialogFormVisible: false,
       form: {
-        name: ''
+        name: '',
+        roomid: '',
+        subjectid: ''
       },
       // id:'',
-      roomid: '',
-      subjectid: '',
+
       formLabelWidth: '120px'
     }
   },
@@ -93,10 +94,11 @@ export default {
       allClass: 'classes/allClass',
       addgrade: 'classes/addgrade'
     }),
-    addClasses() {
-      this.dialogFormVisible = true
-      console.log(this.form.name)
-      // this.addgrade({grade_name:})
+    async addClasses() {
+      this.dialogFormVisible = false
+      const obj = this.form
+      this.addgrade({ grade_name: obj.name, room_id: obj.roomid, subject_id: obj.subjectid })
+      this.allClass()
     }
   }
 }
