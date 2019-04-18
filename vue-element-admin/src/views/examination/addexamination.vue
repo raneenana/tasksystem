@@ -32,7 +32,7 @@
           </el-form-item>
           <el-form-item class="add-form-item" label="设置题量:" prop="num" required>
             <br>
-            <el-input-number v-model="formData.num" controls-position="right" :min="0" :max="10" class="add-form-item-control-wrapper" />
+            <el-input-number v-model="formData.num" controls-position="right" :min="4" :max="10" value="0" class="add-form-item-control-wrapper" />
           </el-form-item>
           <el-form-item label="考试时间:">
             <br>
@@ -108,8 +108,8 @@ export default {
             title: this.formData.title,
             exam_id: this.formData.typeId,
             subject_id: this.formData.classId,
-            start_time: this.formData.startTime * 1,
-            end_time: this.formData.endTime * 1,
+            start_time: this.formData.startTime.getTime(),
+            end_time: this.formData.endTime.getTime(),
             number: this.formData.num === 0 ? 4 : this.formData.num * 1
           }
           const res = await this.createExam(formData)

@@ -9,15 +9,15 @@
           <p>考试时间：1小时30分钟 监考人：刘于 开始考试时间：2018.9.10 10:00 阅卷人：刘于</p>
         </div>
         <div v-for="(item,index) in questionList" :key="index" class="list">
-          <div class="style_questionitem__3ETlC" :data-id="item.questions_id">
-            <h4>{{ index+1 }}：{{ item.title }} <a href="javascript:;" style="float: right;">删除</a></h4>
+          <div class="style_questionitem__3ETlC">
+            <h4>{{ index+1 }}：{{ item.title }} <a href="javascript:;" style="float: right;" @click="open(index)">删除</a></h4>
             <div class="markdown">
               <pre>{{ item.questions_stem }}</pre>
             </div>
           </div>
         </div>
       </div>
-      <el-button type="primary">创建试卷</el-button>
+      <el-button type="primary" @click="jump">创建试卷</el-button>
     </div>
     <div v-show="flag" class="add-drawer">
       <div class="mask" />
@@ -47,7 +47,31 @@ export default {
   },
   methods: {
     showDialog() {
-      this.flag = !this.flag
+      this.flag = true
+    },
+    open(ind) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      })
+        .then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.questionList.splice(ind, 1)
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+    },
+    jump() {
+      this.$router.push({ path: 'listexamination' })
     }
   }
 }
@@ -122,12 +146,12 @@ h4 {
   padding: 0;
 }
 a {
-  color: #0139FD;
+  color: #0139fd;
   background-color: initial;
   text-decoration: none;
   outline: none;
   cursor: pointer;
-  transition: color .3s;
+  transition: color 0.3s;
 }
 .content-list {
   width: 100%;
@@ -136,7 +160,7 @@ a {
 .top-title {
   text-align: center;
   p {
-    font-size: 1em;
+    font-size: 14px;
   }
 }
 .style_questionitem__3ETlC {
@@ -145,7 +169,9 @@ a {
   padding: 20px;
   margin-bottom: 20px;
 }
-.markdown,pre,code{
+.markdown,
+pre,
+code {
   margin: 0;
   padding: 0;
 }
@@ -157,11 +183,12 @@ a {
   line-height: 1.2;
   // max-height: 35em;
   color: #657b83;
-  background:#f6f6f6;
+  background: #f6f6f6;
   background-size: 30px 30px;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 1em;
-  white-space:normal;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
+    monospace;
+  font-size: 14px;
+  white-space: normal;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
