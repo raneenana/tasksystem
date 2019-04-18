@@ -1,20 +1,23 @@
-// import { identity } from "@/api/showUser"
+import { showUser, identity } from '@/api/showUser'
 
 const state = {
-  dateList: []
+  dateList: [],
+  identity: {}
 }
 
-const mutations = {}
+const mutations = {
+  CHANGE_DATELIST: (state, token) => {
+    state.dateList = token.data
+  }
+}
 const actions = {
-  dateList({ commit }, payload) {
-    // commit('CHANGE_SETTING', data)
-    // var date = await identity();
-    // console.log(date)
-    // return new Promise((resolove,reject)=>{
-    //   identity().then(res=>{
-    //     console.log(res);
-    //   })
-    // })
+  async dateList({ commit }, payload) {
+    var res = await showUser()
+    commit('CHANGE_DATELIST', res)
+  },
+  async identity({ commit }, payload) {
+    var res = await identity()
+    console.log(res)
   }
 }
 
@@ -24,4 +27,3 @@ export default {
   mutations,
   actions
 }
-

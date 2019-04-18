@@ -33,7 +33,6 @@ const actions = {
     const { username, password } = userInfo
     // login({user_name: username, user_pwd: password});
     var res = await login({ user_name: username, user_pwd: password })
-    console.log(res)
     setToken(res.token)
     return res
   },

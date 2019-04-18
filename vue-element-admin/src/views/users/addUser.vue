@@ -22,7 +22,7 @@
             </el-select>
             <p>
               <el-button type="primary">确定</el-button>
-              <el-button>重置</el-button>
+              <el-button @click="reset">重置</el-button>
             </p>
           </div>
         </div>
@@ -31,10 +31,10 @@
             <span class="active">添加身份</span>
           </p>
           <div class="mainForm">
-            <el-input v-model="input" placeholder="请输入身份" style="width:90%; margin:10px 0" />
+            <el-input v-model="idValue" placeholder="请输入身份" style="width:90%; margin:10px 0" />
             <p>
-              <el-button type="primary">确定</el-button>
-              <el-button>重置</el-button>
+              <el-button type="primary" @click="addIden">确定</el-button>
+              <el-button @click="reset">重置</el-button>
             </p>
           </div>
         </div>
@@ -43,12 +43,12 @@
             <span class="active">添加接口权限</span>
           </p>
           <div class="mainForm">
-            <el-input v-model="input" placeholder="请输入api接口权限名称" style="width:90%; margin:10px 0" />
-            <el-input v-model="input" placeholder="请输入api接口权限url" style="width:90%; margin:10px 0" />
-            <el-input v-model="input" placeholder="请输入api接口权限方法" style="width:90%; margin:10px 0" />
+            <el-input v-model="apiMsg.name" placeholder="请输入api接口权限名称" style="width:90%; margin:10px 0" />
+            <el-input v-model="apiMsg.url" placeholder="请输入api接口权限url" style="width:90%; margin:10px 0" />
+            <el-input v-model="apiMsg.method" placeholder="请输入api接口权限方法" style="width:90%; margin:10px 0" />
             <p>
-              <el-button type="primary">确定</el-button>
-              <el-button>重置</el-button>
+              <el-button type="primary" @click="addApi">确定</el-button>
+              <el-button @click="reset">重置</el-button>
             </p>
           </div>
         </div>
@@ -59,18 +59,18 @@
             <span class="active">添加视图接口权限</span>
           </p>
           <div class="mainForm">
-            <el-select v-model="value" placeholder="请选择已有视图" style="margin-top:10px;">
+            <el-select v-model="viewMsg" placeholder="请选择已有视图" style="margin-top:10px;">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in viewOpt"
+                :key="item.view_id"
+                :label="item.view_authority_text"
+                :value="item.view_id"
                 style="margin-left:5px;"
               />
             </el-select>
             <p>
-              <el-button type="primary">确定</el-button>
-              <el-button>重置</el-button>
+              <el-button type="primary" @click="addView">确定</el-button>
+              <el-button @click="reset">重置</el-button>
             </p>
           </div>
         </div>
@@ -99,7 +99,7 @@
             </el-select>
             <p>
               <el-button type="primary">确定</el-button>
-              <el-button>重置</el-button>
+              <el-button @click="reset">重置</el-button>
             </p>
           </div>
         </div>
@@ -108,12 +108,12 @@
             <span class="active">给身份设置视图权限</span>
           </p>
           <div class="mainForm">
-            <el-select v-model="value" placeholder="请选择身份id" style="margin-top:10px;">
+            <el-select v-model="viewMsg" placeholder="请选择身份id" style="margin-top:10px;">
               <el-option
                 v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item.view_id"
+                :label="item.view_authority_text"
+                :value="item.view_authority_text"
                 style="margin-left:5px;"
               />
             </el-select>
@@ -128,7 +128,7 @@
             </el-select>
             <p>
               <el-button type="primary">确定</el-button>
-              <el-button>重置</el-button>
+              <el-button @click="reset">重置</el-button>
             </p>
           </div>
         </div>
@@ -138,12 +138,20 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
       input: '',
       password: '',
       value: '',
+      idValue: '',
+      apiMsg: {
+        name: '',
+        url: '',
+        method: ''
+      },
+      viewMsg: '',
       options: [
         {
           value: '选项1',
@@ -162,6 +170,80 @@ export default {
           label: '北京烤鸭'
         }
       ]
+    }
+  },
+  computed: {
+    ...mapState({
+      viewOpt: state => state.adduser.viewOpt
+    })
+  },
+  async created() {
+    await this.allViewList()
+    console.log(this.viewOpt)
+    // if (res.code ===1 ) {
+    //   this.viewOpt = res.data
+    // }
+  },
+  methods: {
+    ...mapActions({
+      addIndentity: 'adduser/addIdentity',
+      addApiAuth: 'adduser/addApiAuth',
+      allViewList: 'adduser/allViewList',
+      addViewAuth: 'adduser/addViewAuth'
+    }),
+    async addIden() {
+      if (!this.idValue) {
+        alert('身份信息不能为空')
+        return false
+      }
+      var res = await this.addIndentity({ identity_text: this.idValue })
+      if (res.code === 1) {
+        alert(res.msg)
+        this.idValue = ''
+      }
+    },
+    async addApi() {
+      if (!this.apiMsg.name) {
+        alert('api接口名不能为空')
+        return false
+      }
+      if (!this.apiMsg.url) {
+        alert('api路径不能为空')
+        return false
+      }
+      if (!this.apiMsg.method) {
+        alert('api接口方法不能为空')
+        return false
+      }
+      var res = await this.addApiAuth({
+        api_authority_text: this.apiMsg.name,
+        api_authority_url: this.apiMsg.url,
+        api_authority_method: this.apiMsg.method
+      })
+      console.log('获取数据', res)
+      if (res.code === 1) {
+        alert(res.msg)
+        this.apiMsg = {
+          name: '',
+          url: '',
+          method: ''
+        }
+      }
+    },
+    async addView() {
+      // console.log(this.viewMsg)
+      if (!this.viewMsg) {
+        alert('视图信息不能为空')
+        return false
+      }
+      var item = this.viewOpt.filter((item) => {
+        return item.view_id === this.viewMsg
+      })
+      // let res = await this.addViewAuth({ view_authority_text: item[0].view_authority_text, view_id: item[0].view_id })
+      console.log(item)
+    },
+    reset() {
+      this.idValue = ''
     }
   }
 }

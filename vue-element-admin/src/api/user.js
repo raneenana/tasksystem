@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-console.log(request)
 
 export function login(data) {
   return request({
