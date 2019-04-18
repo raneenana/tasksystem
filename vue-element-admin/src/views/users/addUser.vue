@@ -142,6 +142,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
+      isShow: false,
       input: '',
       password: '',
       value: '',
@@ -181,7 +182,6 @@ export default {
     // }
     await this.getAllIndetity()
     await this.getApiAuth()
-    console.log(this.viewOpt)
   },
   methods: {
     ...mapActions({
@@ -307,7 +307,6 @@ export default {
         identity_id: idNum,
         view_authority_id: apiNum
       })
-      console.log('res.....', res)
       if (res.code === 1) {
         alert(res.msg)
       }

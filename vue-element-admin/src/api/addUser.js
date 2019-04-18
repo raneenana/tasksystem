@@ -67,3 +67,17 @@ export function setView(params) {
     data: params
   })
 }
+// 展示身份与api接口信息
+export function showApi() {
+  return request({
+    url: '/user/identity_api_authority_relation',
+    method: 'get'
+  })
+}
+// 展示身份与视图接口权限
+export function showView() {
+  return request({
+    url: '/user/identity_view_authority_relation',
+    method: 'get'
+  })
+}
