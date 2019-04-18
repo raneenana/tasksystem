@@ -1,12 +1,26 @@
-import { addIdent, addApi, allView, addView } from '@/api/addUser'
+import {
+  addIdent,
+  addApi,
+  allView,
+  addView,
+  allIndentity,
+  apiAuth
+} from '@/api/addUser'
 const state = {
-  viewOpt: []
+  viewOpt: [],
+  allIden: [],
+  apiOpt: []
 }
 
 const mutations = {
   CHANGE_VIEWOPT: (state, payload) => {
-    console.log('payload....', payload)
     state.viewOpt = payload.data
+  },
+  CHANGE_ALLIDEN: (state, payload) => {
+    state.allIden = payload.data
+  },
+  CHANGE_APIOPT: (state, payload) => {
+    state.apiOpt = payload.data
   }
 }
 
@@ -30,6 +44,21 @@ const actions = {
   async addViewAuth({ commit }, payload) {
     var res = await addView(payload)
     return res
+  },
+  // 获取身份id
+  async getAllIndetity({ commit }, payload) {
+    var res = await allIndentity()
+    commit('CHANGE_ALLIDEN', res)
+  },
+  // 获取api接口信息
+  async getApiAuth({ commit }, payload) {
+    var res = await apiAuth()
+    commit('CHANGE_APIOPT', res)
+    console.log('api接口数据', res)
+  },
+  // 设置身份api接口权限
+  async setApiAuth({ commit }, payload) {
+
   }
 }
 

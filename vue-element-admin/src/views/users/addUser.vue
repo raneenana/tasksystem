@@ -79,26 +79,26 @@
             <span class="active">给身份设置api接口权限</span>
           </p>
           <div class="mainForm">
-            <el-select v-model="value" placeholder="请选择身份id" style="margin-top:10px;">
+            <el-select v-model="setApi.idMsg" placeholder="请选择身份id" style="margin-top:10px;">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in allIden"
+                :key="item.identity_id"
+                :label="item.identity_text"
+                :value="item.identity_text"
                 style="margin-left:5px;"
               />
             </el-select>
-            <el-select v-model="value" placeholder="请选择api接口权限" style="margin-top:10px;">
+            <el-select v-model="setApi.apiMsg" placeholder="请选择api接口权限" style="margin-top:10px;">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in apiOpt"
+                :key="item.api_authority_id"
+                :label="item.api_authority_text"
+                :value="item.api_authority_text"
                 style="margin-left:5px;"
               />
             </el-select>
             <p>
-              <el-button type="primary">确定</el-button>
+              <el-button type="primary" @click="idAuth">确定</el-button>
               <el-button @click="reset">重置</el-button>
             </p>
           </div>
@@ -108,12 +108,12 @@
             <span class="active">给身份设置视图权限</span>
           </p>
           <div class="mainForm">
-            <el-select v-model="viewMsg" placeholder="请选择身份id" style="margin-top:10px;">
+            <el-select v-model="idAuthorize" placeholder="请选择身份id" style="margin-top:10px;">
               <el-option
-                v-for="item in options"
-                :key="item.view_id"
-                :label="item.view_authority_text"
-                :value="item.view_authority_text"
+                v-for="item in allIden"
+                :key="item.identity_id"
+                :label="item.identity_text"
+                :value="item.identity_text"
                 style="margin-left:5px;"
               />
             </el-select>
@@ -146,6 +146,11 @@ export default {
       password: '',
       value: '',
       idValue: '',
+      setApi: {
+        idMsg: '',
+        apiMsg: ''
+      },
+      idAuthorize: '',
       apiMsg: {
         name: '',
         url: '',
@@ -174,23 +179,30 @@ export default {
   },
   computed: {
     ...mapState({
-      viewOpt: state => state.adduser.viewOpt
+      viewOpt: state => state.adduser.viewOpt,
+      allIden: state => state.adduser.allIden,
+      apiOpt: state => state.adduser.apiOpt
     })
   },
   async created() {
     await this.allViewList()
-    console.log(this.viewOpt)
     // if (res.code ===1 ) {
     //   this.viewOpt = res.data
     // }
+    await this.getAllIndetity()
+    await this.getApiAuth()
   },
   methods: {
     ...mapActions({
       addIndentity: 'adduser/addIdentity',
       addApiAuth: 'adduser/addApiAuth',
       allViewList: 'adduser/allViewList',
-      addViewAuth: 'adduser/addViewAuth'
+      addViewAuth: 'adduser/addViewAuth',
+      getAllIndetity: 'adduser/getAllIndetity',
+      getApiAuth: 'adduser/getApiAuth',
+      setApiAuth: 'adduser/setApiAuth'
     }),
+    // 添加身份
     async addIden() {
       if (!this.idValue) {
         alert('身份信息不能为空')
@@ -202,6 +214,7 @@ export default {
         this.idValue = ''
       }
     },
+    // 添加接口权限信息
     async addApi() {
       if (!this.apiMsg.name) {
         alert('api接口名不能为空')
@@ -220,7 +233,6 @@ export default {
         api_authority_url: this.apiMsg.url,
         api_authority_method: this.apiMsg.method
       })
-      console.log('获取数据', res)
       if (res.code === 1) {
         alert(res.msg)
         this.apiMsg = {
@@ -230,6 +242,7 @@ export default {
         }
       }
     },
+    // 添加视图接口权限
     async addView() {
       // console.log(this.viewMsg)
       if (!this.viewMsg) {
@@ -239,8 +252,26 @@ export default {
       var item = this.viewOpt.filter((item) => {
         return item.view_id === this.viewMsg
       })
-      // let res = await this.addViewAuth({ view_authority_text: item[0].view_authority_text, view_id: item[0].view_id })
-      console.log(item)
+      var id = item[0].view_id
+      var text = item[0].view_authority_text
+      const res = await this.addViewAuth({ view_authority_text: text, view_id: id })
+      if (!res) {
+        alert('视图接口重复')
+        this.viewMsg = ''
+      } else {
+        if (res.code === 1) {
+          alert(res.msg)
+          this.viewMsg = ''
+        }
+      }
+    },
+    // 身份设置api接口权限
+    async idAuth() {
+      console.log(this.setApi)
+      if (!this.setApi.idMsg) {
+        alert('身份id不能为空')
+        return false
+      }
     },
     reset() {
       this.idValue = ''
