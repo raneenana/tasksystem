@@ -1,8 +1,7 @@
 import {
   typeExam,
   getCurriculum,
-  CreateExam,
-  getExamList
+  CreateExam
 } from '@/api/examination'
 
 const state = {
@@ -10,8 +9,8 @@ const state = {
   examType: [],
   // 获取课程
   curriculum: [],
-  createExam: [],
-  examList: []
+  // 创建试卷
+  createExam: []
 }
 const mutations = {
   // 考试类型
@@ -24,9 +23,6 @@ const mutations = {
   },
   updateTestPaper(state, payload) {
     state.createExam = payload
-  },
-  updateExamList(state, payload) {
-    state.examList = payload
   }
 }
 const actions = {
@@ -43,10 +39,6 @@ const actions = {
   async createTestPaper({ commit }) {
     const create = await CreateExam()
     commit('updateTestPaper', create.data)
-  },
-  async allExamList({ commit }) {
-    const all = await getExamList()
-    commit('updateExamList', all.exam)
   }
 }
 
