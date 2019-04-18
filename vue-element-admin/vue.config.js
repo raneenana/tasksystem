@@ -21,7 +21,12 @@ module.exports = {
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
+<<<<<<< HEAD
+  lintOnSave: false,
+=======
   lintOnSave: process.env.NODE_ENV === 'development',
+  // process.env.NODE_ENV === 'development'
+>>>>>>> wqs
   productionSourceMap: false,
   devServer: {
     port: port,
@@ -31,13 +36,11 @@ module.exports = {
       errors: true
     },
     proxy: {
-      // change xxx-api/login => mock/login
-      // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API]: {
-        target: `http://localhost:${port}/mock`,
+      '/api': {
+        target: `http://169.254.121.1:7001/`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
+          '/api': ''
         }
       },
       '/api': {
@@ -47,8 +50,27 @@ module.exports = {
           '/api':''
         }
       }
+<<<<<<< HEAD
     },
     // after: require('./mock/mock-server.js')
+=======
+<<<<<<< HEAD
+    }
+=======
+      // change xxx-api/login => mock/login
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      // [process.env.VUE_APP_BASE_API]: {
+      //   target: `http://localhost:${port}/mock`,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_BASE_API]: ''
+      //   }
+      // }
+    }
+    // ,
+    // after: require('./mock/mock-server.js')
+>>>>>>> wqs
+>>>>>>> eaa4b5bf93c8dd8c76f9cf605900f25aa80e69c8
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -56,7 +78,8 @@ module.exports = {
     name: name,
     resolve: {
       alias: {
-        '@': resolve('src')
+        '@': resolve('src'),
+        'vue$': 'vue/dist/vue.runtime.esm.js'
       }
     }
   },

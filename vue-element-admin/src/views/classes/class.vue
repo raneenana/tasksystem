@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -102,15 +103,10 @@ export default {
       formLabelWidth: '120px'
     }
   },
-  created() {
-    var fly = require('flyio')
-    fly.get('/manger/student')
-      .then(function(response) {
-        console.log(response)
-      })
-      .catch(function(error) {
-        console.log(error)
-      })
+  computed: {
+    ...mapActions({
+      allClss: 'classes/allClss'
+    })
   }
 }
 </script>

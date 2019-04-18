@@ -36,7 +36,6 @@ const actions = {
     setToken(res.token)
     return res
   },
-
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
