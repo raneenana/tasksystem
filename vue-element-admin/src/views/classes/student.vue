@@ -6,17 +6,17 @@
         <el-input v-model="input" style="width: 165px; margin-right: 15px;" placeholder="请输入学生姓名" />
         <el-select v-model="value" style="width: 165px; margin-right: 15px;" placeholder="请选择教室号">
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
+            v-for="item in allStud.studentarr"
+            :key="item.student_id"
+            :label="item.room_text"
             :value="item.value"
           />
         </el-select>
         <el-select v-model="valueclass" style="width: 165px; margin-right: 15px;" placeholder="班级名">
           <el-option
-            v-for="item in optionsClass"
-            :key="item.value"
-            :label="item.label"
+            v-for="item in allStud.studentarr"
+            :key="item.student_id"
+            :label="item.grade_name"
             :value="item.value"
           />
         </el-select>
@@ -24,46 +24,65 @@
         <el-button type="primary" class="button">重置</el-button>
       </div>
       <el-table
-        :data="allStud.studentarr"
+        :data="allData"
         style="width: 100%"
-      ><el-table-column
-         prop="student_name"
-         label="姓名"
-         width="216"
-       />
+      >
         <el-table-column
-          prop="student_id"
+          label="姓名"
+          width="216"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.student_name }}
+          </template>
+        </el-table-column>
+        <el-table-column
           label="学号"
           width="359"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.student_id }}
+          </template>
+        </el-table-column>
         <el-table-column
-          prop="grade_name"
           label="班级"
           width="216"
-        />
-        <el-table-column
-          prop="room_text"
-          label="教室"
-          width="359"
-        />
-        <el-table-column
-          prop="student_pwd"
-          label="密码"
-          width="210"
-        />
-        <el-table-column
-          prop=""
-          label="操作"
         >
-          <span>修改</span>|<span>删除</span>
+          <template slot-scope="scope">
+            {{ scope.row.grade_name }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="教室"
+          width="204"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.room_text }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="密码"
+          width="459"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.student_pwd }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="danger"
+              @click="deleteRow(scope.row.student_id)"
+            >删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="block">
         <el-pagination
           :page-sizes="[5, 10, 20, 50, 100]"
-          :page-size="20"
+          :page-size="10"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="allStud.studentarr.length"
         />
       </div>
     </div>
@@ -78,67 +97,7 @@ export default {
       input: '',
       value: '',
       valueclass: '',
-      // tableData: [{
-      //   date: '张三',
-      //   idCard: '102711000869',
-      //   class: '1609B',
-      //   classroom: '34401',
-      //   password: '@zhangna',
-      //   edit: '删除'
-      // }, {
-      //   date: '张三',
-      //   idCard: '102711000869',
-      //   class: '1609B',
-      //   classroom: '34405',
-      //   password: '@zhangna',
-      //   edit: '删除'
-      // }, {
-      //   date: '张三',
-      //   idCard: '102711000869',
-      //   class: '1609B',
-      //   classroom: '34401',
-      //   password: '@zhangna',
-      //   edit: '删除'
-      // }, {
-      //   date: '张三',
-      //   idCard: '102711000869',
-      //   class: '1609B',
-      //   classroom: '34401',
-      //   password: '@zhangna',
-      //   edit: '删除'
-      // }],
-      options: [{
-        value: '选项1',
-        label: '34401'
-      }, {
-        value: '选项2',
-        label: '34402'
-      }, {
-        value: '选项3',
-        label: '34403'
-      }, {
-        value: '选项4',
-        label: '34404'
-      }, {
-        value: '选项5',
-        label: '34405'
-      }],
-      optionsClass: [{
-        value: '选项1',
-        label: '1609A'
-      }, {
-        value: '选项2',
-        label: '1609B'
-      }, {
-        value: '选项3',
-        label: '1608A'
-      }, {
-        value: '选项4',
-        label: '1608B'
-      }, {
-        value: '选项5',
-        label: '1608C'
-      }]
+      allData: []
     }
   },
   computed: {
@@ -148,12 +107,19 @@ export default {
   },
   created() {
     this.student()
-    console.log('student', this.allStud)
+    this.allData = this.allStud.studentarr.slice(0, 10)
+    console.log(this)
+    // console.log('student', this.allStud.studentarr)
   },
   methods: {
     ...mapActions({
-      student: 'classes/allStudent'
-    })
+      student: 'classes/allStudent',
+      deletestudent: 'classes/deletestudent'
+    }),
+    async deleteRow(id) {
+      await this.deletestudent({ student_id: id })
+      await this.student()
+    }
   }
 }
 </script>

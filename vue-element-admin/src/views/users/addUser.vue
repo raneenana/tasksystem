@@ -79,26 +79,26 @@
             <span class="active">给身份设置api接口权限</span>
           </p>
           <div class="mainForm">
-            <el-select v-model="value" placeholder="请选择身份id" style="margin-top:10px;">
+            <el-select v-model="setApi.idMsg" placeholder="请选择身份id" style="margin-top:10px;">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in allIden"
+                :key="item.identity_id"
+                :label="item.identity_text"
+                :value="item.identity_text"
                 style="margin-left:5px;"
               />
-            </el-select>
-            <el-select v-model="value" placeholder="请选择api接口权限" style="margin-top:10px;">
+            </el-select><br>
+            <el-select v-model="setApi.apiMsg" placeholder="请选择api接口权限" style="margin-top:10px;">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in apiOpt"
+                :key="item.api_authority_id"
+                :label="item.api_authority_text"
+                :value="item.api_authority_text"
                 style="margin-left:5px;"
               />
             </el-select>
             <p>
-              <el-button type="primary">确定</el-button>
+              <el-button type="primary" @click="idAuth">确定</el-button>
               <el-button @click="reset">重置</el-button>
             </p>
           </div>
@@ -108,26 +108,26 @@
             <span class="active">给身份设置视图权限</span>
           </p>
           <div class="mainForm">
-            <el-select v-model="viewMsg" placeholder="请选择身份id" style="margin-top:10px;">
+            <el-select v-model="viewAuthor.idAuth" placeholder="请选择身份id" style="margin-top:10px;">
               <el-option
-                v-for="item in options"
+                v-for="item in allIden"
+                :key="item.identity_id"
+                :label="item.identity_text"
+                :value="item.identity_text"
+                style="margin-left:5px;"
+              />
+            </el-select><br>
+            <el-select v-model="viewAuthor.viewAuth" placeholder="请选择视图权限id" style="margin-top:10px;">
+              <el-option
+                v-for="item in viewOpt"
                 :key="item.view_id"
                 :label="item.view_authority_text"
                 :value="item.view_authority_text"
                 style="margin-left:5px;"
               />
             </el-select>
-            <el-select v-model="value" placeholder="请选择视图权限id" style="margin-top:10px;">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-                style="margin-left:5px;"
-              />
-            </el-select>
             <p>
-              <el-button type="primary">确定</el-button>
+              <el-button type="primary" @click="viewAuth">确定</el-button>
               <el-button @click="reset">重置</el-button>
             </p>
           </div>
@@ -146,51 +146,55 @@ export default {
       password: '',
       value: '',
       idValue: '',
+      viewMsg: '',
+      setApi: {
+        idMsg: '',
+        apiMsg: ''
+      },
+      idAuthorize: '',
       apiMsg: {
         name: '',
         url: '',
         method: ''
       },
-      viewMsg: '',
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ]
+      viewAuthor: {
+        idAuth: '',
+        viewAuth: ''
+      },
+      options: [{
+        name: '',
+        label: ''
+      }]
     }
   },
   computed: {
     ...mapState({
-      viewOpt: state => state.adduser.viewOpt
+      viewOpt: state => state.adduser.viewOpt,
+      allIden: state => state.adduser.allIden,
+      apiOpt: state => state.adduser.apiOpt
     })
   },
   async created() {
     await this.allViewList()
-    console.log(this.viewOpt)
     // if (res.code ===1 ) {
     //   this.viewOpt = res.data
     // }
+    await this.getAllIndetity()
+    await this.getApiAuth()
+    console.log(this.viewOpt)
   },
   methods: {
     ...mapActions({
       addIndentity: 'adduser/addIdentity',
       addApiAuth: 'adduser/addApiAuth',
       allViewList: 'adduser/allViewList',
-      addViewAuth: 'adduser/addViewAuth'
+      addViewAuth: 'adduser/addViewAuth',
+      getAllIndetity: 'adduser/getAllIndetity',
+      getApiAuth: 'adduser/getApiAuth',
+      setApiAuth: 'adduser/setApiAuth',
+      setViewAuth: 'adduser/setViewAuth'
     }),
+    // 添加身份
     async addIden() {
       if (!this.idValue) {
         alert('身份信息不能为空')
@@ -202,6 +206,7 @@ export default {
         this.idValue = ''
       }
     },
+    // 添加接口权限信息
     async addApi() {
       if (!this.apiMsg.name) {
         alert('api接口名不能为空')
@@ -220,7 +225,6 @@ export default {
         api_authority_url: this.apiMsg.url,
         api_authority_method: this.apiMsg.method
       })
-      console.log('获取数据', res)
       if (res.code === 1) {
         alert(res.msg)
         this.apiMsg = {
@@ -230,6 +234,7 @@ export default {
         }
       }
     },
+    // 添加视图接口权限
     async addView() {
       // console.log(this.viewMsg)
       if (!this.viewMsg) {
@@ -239,8 +244,73 @@ export default {
       var item = this.viewOpt.filter((item) => {
         return item.view_id === this.viewMsg
       })
-      // let res = await this.addViewAuth({ view_authority_text: item[0].view_authority_text, view_id: item[0].view_id })
-      console.log(item)
+      var id = item[0].view_id
+      var text = item[0].view_authority_text
+      const res = await this.addViewAuth({ view_authority_text: text, view_id: id })
+      if (!res) {
+        alert('视图接口重复')
+        this.viewMsg = ''
+      } else {
+        if (res.code === 1) {
+          alert(res.msg)
+          this.viewMsg = ''
+        }
+      }
+    },
+    // 身份设置api接口权限
+    async idAuth() {
+      console.log(this.setApi)
+      if (!this.setApi.idMsg) {
+        alert('身份id不能为空')
+        return false
+      }
+      if (!this.setApi.apiMsg) {
+        alert('接口权限不能为空')
+        return false
+      }
+      const item = this.allIden.filter((item) => {
+        return item.identity_text === this.setApi.idMsg
+      })
+      const array = this.apiOpt.filter((item) => {
+        return item.api_authority_text === this.setApi.apiMsg
+      })
+      const idNum = item[0].identity_id
+      const apiNum = array[0].api_authority_id
+      var res = await this.setApiAuth({
+        identity_id: idNum,
+        api_authority_id: apiNum
+      })
+      if (res.code === 1) {
+        alert(res.msg)
+      }
+    },
+    // 身份设置视图权限
+    async viewAuth() {
+      console.log(this.viewAuthor)
+      if (!this.viewAuthor.idAuth) {
+        alert('身份id不能为空')
+        return false
+      }
+      if (!this.viewAuthor.viewAuth) {
+        alert('视图权限不能为空')
+        return false
+      }
+      const item = this.allIden.filter((item) => {
+        return item.identity_text === this.viewAuthor.idAuth
+      })
+      const array = this.viewOpt.filter((item) => {
+        return item.view_authority_text === this.viewAuthor.viewAuth
+      })
+      const idNum = item[0].identity_id
+      const apiNum = array[0].api_authority_id
+      const res = await this.setViewAuth({
+        identity_id: idNum,
+        view_authority_id: apiNum
+      })
+      console.log('res.....', res)
+      if (res.code === 1) {
+        alert(res.msg)
+      }
     },
     reset() {
       this.idValue = ''

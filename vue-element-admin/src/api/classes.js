@@ -49,3 +49,21 @@ export function addGrade(params) {
     data: params
   })
 }
+
+// 删除班级
+export function deleteGrade(params) {
+  return request({
+    url: '/manger/grade/delete',
+    method: 'delete',
+    data: params
+  })
+}
+
+// 删除学生
+export function deleteStudent(params) {
+  return request({
+    url: '/manger/student/:id=>student_id',
+    method: 'delete',
+    data: params
+  })
+}
