@@ -4,25 +4,25 @@
     <div class="layout-content">
       <el-button type="primary" class="button" @click="dialogFormVisible = true">+添加班级</el-button>
       <el-table
-        :data="tableData"
+        :data="allArr.arr"
         style="width: 100%"
       ><el-table-column
-         prop="date"
+         prop="grade_name"
          label="班级名"
          width="312"
        />
         <el-table-column
-          prop="name"
+          prop="subject_text"
           label="课程名"
           width="594"
         />
         <el-table-column
-          prop="address"
+          prop="room_text"
           label="教师号"
           width="312"
         />
         <el-table-column
-          prop="edit"
+          prop=""
           label="操作"
           width="312"
         >
@@ -36,77 +36,68 @@
           <el-input v-model="form.name" autocomplete="off" placeholder="班级名" />
         </el-form-item>
         <el-form-item label="教室号" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择教室号">
-            <el-option label="34315" value="34315" />
-            <el-option label="34305" value="34305" />
-            <el-option label="34315" value="34315" />
-            <el-option label="24315" value="24315" />
-            <el-option label="34395" value="34395" />
+          <el-select v-model="roomid" placeholder="请选择">
+            <el-option
+              v-for="item in allArr.arr"
+              :key="item.room_text"
+              :label="item.room_text"
+              value="shanghai"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="课程名" :label-width="formLabelWidth">
-          <el-select v-model="form.regions" placeholder="请选择课程号">
-            <el-option label="javascript下" value="javascript下" />
-            <el-option label="javascript上" value="javascript上" />
-            <el-option label="node" value="node" />
-            <el-option label="小程序" value="小程序" />
-            <el-option label="vue" value="vue" />
+          <el-select v-model="subjectid" placeholder="请选择">
+            <el-option
+              v-for="item in allArr.arr"
+              :key="item.subject_id"
+              :label="item.subject_text"
+              value="shanghai"
+            />
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">提 交</el-button>
+        <el-button type="primary" @click="addClasses">提 交</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      tableData: [{
-        date: '1701B',
-        name: 'node基础',
-        address: '34303',
-        edit: ''
-      }, {
-        date: '1701B',
-        name: 'node基础',
-        address: '34303',
-        edit: ''
-      }, {
-        date: '1701B',
-        name: 'node基础',
-        address: '34303',
-        edit: ''
-      }, {
-        date: '1701B',
-        name: 'node基础',
-        address: '34303',
-        edit: ''
-      }],
       dialogFormVisible: false,
       form: {
-        name: '',
-        region: '',
-        regions: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        name: ''
       },
+      // id:'',
+      roomid: '',
+      subjectid: '',
       formLabelWidth: '120px'
     }
   },
   computed: {
-    ...mapActions({
-      allClss: 'classes/allClss'
+    ...mapState({
+      allArr: state => state.classes
     })
+  },
+  created() {
+    this.allClass()
+    console.log('arr', this.allArr)
+  },
+  methods: {
+    ...mapActions({
+      allClass: 'classes/allClass',
+      addgrade: 'classes/addgrade'
+    }),
+    addClasses() {
+      this.dialogFormVisible = true
+      console.log(this.form.name)
+      // this.addgrade({grade_name:})
+    }
   }
 }
 </script>

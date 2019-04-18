@@ -24,35 +24,35 @@
         <el-button type="primary" class="button">重置</el-button>
       </div>
       <el-table
-        :data="tableData"
+        :data="allStud.studentarr"
         style="width: 100%"
       ><el-table-column
-         prop="date"
+         prop="student_name"
          label="姓名"
          width="216"
        />
         <el-table-column
-          prop="idCard"
+          prop="student_id"
           label="学号"
           width="359"
         />
         <el-table-column
-          prop="class"
+          prop="grade_name"
           label="班级"
           width="216"
         />
         <el-table-column
-          prop="classroom"
+          prop="room_text"
           label="教室"
           width="359"
         />
         <el-table-column
-          prop="password"
+          prop="student_pwd"
           label="密码"
           width="210"
         />
         <el-table-column
-          prop="edit"
+          prop=""
           label="操作"
         >
           <span>修改</span>|<span>删除</span>
@@ -68,45 +68,45 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
       input: '',
       value: '',
       valueclass: '',
-      tableData: [{
-        date: '张三',
-        idCard: '102711000869',
-        class: '1609B',
-        classroom: '34401',
-        password: '@zhangna',
-        edit: '删除'
-      }, {
-        date: '张三',
-        idCard: '102711000869',
-        class: '1609B',
-        classroom: '34405',
-        password: '@zhangna',
-        edit: '删除'
-      }, {
-        date: '张三',
-        idCard: '102711000869',
-        class: '1609B',
-        classroom: '34401',
-        password: '@zhangna',
-        edit: '删除'
-      }, {
-        date: '张三',
-        idCard: '102711000869',
-        class: '1609B',
-        classroom: '34401',
-        password: '@zhangna',
-        edit: '删除'
-      }],
+      // tableData: [{
+      //   date: '张三',
+      //   idCard: '102711000869',
+      //   class: '1609B',
+      //   classroom: '34401',
+      //   password: '@zhangna',
+      //   edit: '删除'
+      // }, {
+      //   date: '张三',
+      //   idCard: '102711000869',
+      //   class: '1609B',
+      //   classroom: '34405',
+      //   password: '@zhangna',
+      //   edit: '删除'
+      // }, {
+      //   date: '张三',
+      //   idCard: '102711000869',
+      //   class: '1609B',
+      //   classroom: '34401',
+      //   password: '@zhangna',
+      //   edit: '删除'
+      // }, {
+      //   date: '张三',
+      //   idCard: '102711000869',
+      //   class: '1609B',
+      //   classroom: '34401',
+      //   password: '@zhangna',
+      //   edit: '删除'
+      // }],
       options: [{
         value: '选项1',
         label: '34401'
@@ -140,6 +140,20 @@ export default {
         label: '1608C'
       }]
     }
+  },
+  computed: {
+    ...mapState({
+      allStud: state => state.classes
+    })
+  },
+  created() {
+    this.student()
+    console.log('student', this.allStud)
+  },
+  methods: {
+    ...mapActions({
+      student: 'classes/allStudent'
+    })
   }
 }
 </script>
