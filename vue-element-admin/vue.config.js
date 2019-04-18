@@ -21,12 +21,8 @@ module.exports = {
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
-<<<<<<< HEAD
-  lintOnSave: false,
-=======
   lintOnSave: process.env.NODE_ENV === 'development',
   // process.env.NODE_ENV === 'development'
->>>>>>> wqs
   productionSourceMap: false,
   devServer: {
     port: port,
@@ -43,9 +39,6 @@ module.exports = {
           '/api': ''
         }
       }
-<<<<<<< HEAD
-    }
-=======
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       // [process.env.VUE_APP_BASE_API]: {
@@ -58,7 +51,6 @@ module.exports = {
     }
     // ,
     // after: require('./mock/mock-server.js')
->>>>>>> wqs
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

@@ -20,25 +20,24 @@
             <Tinymce />
             <div class="f-item">
               <label for="title" class="add-form-item-required" title="试卷名称">请选择考试类型:</label>
-              <el-select v-model="examoptions.value" placeholder="请选择">
-                <el-option v-for="item in examoptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-select v-model="examType.value" placeholder="请选择">
+                <el-option v-for="item in examType" :key="item.exam_id" :label="item.label" :value="item.exam_name" />
               </el-select>
             </div>
             <div class="f-item">
               <label for="title" class="add-form-item-required" title="试卷名称">请选择课程类型:</label>
-              <el-select v-model="typeoptions.value" placeholder="请选择">
-                <el-option v-for="item in typeoptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-select v-model="subjectType.value" placeholder="请选择">
+                <el-option v-for="item in subjectType" :key="item.subject_id" :label="item.label" :value="item.subject_text" />
               </el-select>
             </div>
             <div class="f-item">
               <label for="title" class="add-form-item-required" title="试卷名称">请选择题目类型:</label>
-              <el-select v-model="typeoptions.value" placeholder="请选择">
-                <el-option v-for="item in typeoptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-select v-model="questionsType.value" placeholder="请选择">
+                <el-option v-for="item in questionsType" :key="item.questions_type_id" :label="item.label" :value="item.questions_type_text" />
               </el-select>
             </div>
             <Tinymce />
             <button class="sbmit" type="primary" @click="sbmit">提交</button>
-            <el-button type="text" @click="dialogVisible = true">提交</el-button>
             <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
               <span>这是一段信息</span>
               <span slot="footer" class="dialog-footer">
@@ -55,73 +54,14 @@
 
 <script>
 import Tinymce from '@/components/Tinymce'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'TinymceDemo',
   components: { Tinymce },
   data() {
     return {
       dialogVisible: false,
-      examoptions: [
-        {
-          value: '0',
-          label: '周考1'
-        },
-        {
-          value: '1',
-          label: '周考2'
-        },
-        {
-          value: '2',
-          label: '周考3'
-        },
-        {
-          value: '3',
-          label: '月考'
-        }
-      ],
       value: '',
-      typeoptions: [
-        {
-          value: '0',
-          label: 'javaScript上'
-        },
-        {
-          value: '1',
-          label: 'javaScript下'
-        },
-        {
-          value: '2',
-          label: '模块化开发'
-        },
-        {
-          value: '3',
-          label: '移动端开发'
-        },
-        {
-          value: '4',
-          label: 'node基础'
-        },
-        {
-          value: '5',
-          label: '组件化开发(vue)'
-        },
-        {
-          value: '6',
-          label: '渐进式开发(react)'
-        },
-        {
-          value: '7',
-          label: '项目实战'
-        },
-        {
-          value: '8',
-          label: 'javaScript高级'
-        },
-        {
-          value: '9',
-          label: 'node高级'
-        }
-      ],
       tableData: [{
         information: 'Nodejs开发第二周摸底考试',
         class: '1608',
@@ -145,11 +85,27 @@ export default {
       }]
     }
   },
-  methods: {
-    sbmit() {
+  computed: {
+    ...mapState({
+      examType: state => state.addQuestion.examType,
+      subjectType: state => state.addQuestion.subjectType,
+      questionsType: state => state.addQuestion.questionsType
+    })
+  },
 
-    },
+  methods: {
+    ...mapMutations({
+      updataState: 'addQuestion/updataState'
+    }),
+    ...mapActions({
+      getExamType: 'addQuestion/getExamType',
+      getSubjectType: 'addQuestion/getSubjectType',
+      getQuestionsTpe: 'addQuestion/getQuestionsTpe'
+    }),
     addQuestion() {},
+    sbmit() {
+      this.dialogVisible = true
+    },
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
@@ -157,6 +113,11 @@ export default {
         })
         .catch(_ => {})
     }
+  },
+  created() {
+    this.getExamType()
+    this.getSubjectType()
+    this.getQuestionsTpe()
   }
 }
 </script>

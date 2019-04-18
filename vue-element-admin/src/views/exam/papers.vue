@@ -7,52 +7,39 @@
           <div class="add-form-top">
             <label for="title" class="add-form-item-required" title="试卷名称">课程类型:</label>
             <div class="add-item-every">
-              <div>all</div>
-              <div>every</div>
-              <div>things</div>
-              <div>none</div>
-              <div>javascript</div>
-              <div>javascript</div>
-              <div>javascript</div>
-              <div>javascript</div>
-              <div>javascript</div>
-              <div>javascript</div>
-              <div>javascript</div>
-              <div>javascript</div>
-              <div>javascript</div>
-              <div>javascript</div>
+              <div v-for="(item,index) in subjectType" :key="index" @click="every(item.subject_id)">{{ item.subject_text }}</div>
             </div>
           </div>
           <div class="add-form-bottom">
             <div class="add-form-item">
               <label for="title" class="add-form-item-required" title="试卷名称">考试类型:</label>
-              <el-select v-model="examoptions.value" placeholder="请选择">
-                <el-option v-for="item in examoptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-select v-model="value" placeholder="请选择">
+                <el-option v-for="item in examType" :key="item.exam_id" :label="item.exam_name" :value="item.exam_id" />
               </el-select>
             </div>
             <div class="add-form-item">
               <label for="title" class="add-form-item-required" title="试卷名称">试题题目:</label>
-              <el-select v-model="typeoptions.value" placeholder="请选择">
-                <el-option v-for="item in typeoptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-select v-model="value1" placeholder="请选择">
+                <el-option v-for="item in questionsType" :key="item.questions_type_id" :label="item.questions_type_text" :value="item.questions_type_id" />
               </el-select>
             </div>
-            <el-button type="primary"><i class="el-icon-search" />查询</el-button>
+            <el-button type="primary" @click="search"><i class="el-icon-search" />查询</el-button>
           </div>
         </form>
       </div>
       <div>
         <ul>
-          <li v-for="(item,index) in newData" :key="index" @click="detail">
+          <li v-for="(item,index) in allQuestion" :key="index" @click="detail($event,item)">
             <div class="left">
-              <p>{{ item.name }}</p>
+              <p>{{ item.title }}</p>
               <div>
-                <p>代码不全</p>
-                <p>代码不全</p>
-                <p>代码不全</p>
+                <p :data-type-id="item.questions_type_id" :data-id="item.questions_id">{{ item.questions_type_text }}</p>
+                <p :data-id="item.subject_id">{{ item.subject_text }}</p>
+                <p :data-id="item.exam_id">{{ item.exam_name }}</p>
               </div>
-              <p class="color">{{ item.autor }}</p>
+              <p class="color" :data-id="item.user_id">{{ item.user_name }}</p>
             </div>
-            <router-link to="/addQuestion" class="edit color" @click="edit">编辑</router-link>
+            <span class="edit color">编辑</span>
           </li>
         </ul>
       </div>
@@ -61,84 +48,14 @@
 </template>
 
 <script>
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   data() {
     return {
-      isShow: false,
-      newData: [{
-        name: '封装图片加载Promise',
-        type: ['代码不全', '代码不全', '代码不全'],
-        autor: 'cehnmanjiefabu'
-      }, {
-        name: '封装图片加载Promise',
-        type: ['代码不全', '代码不全', '代码不全'],
-        autor: 'cehnmanjiefabu'
-      }, {
-        name: '封装图片加载Promise',
-        type: ['代码不全', '代码不全', '代码不全'],
-        autor: 'cehnmanjiefabu'
-      }],
-      examoptions: [
-        {
-          value: '0',
-          label: '周考1'
-        },
-        {
-          value: '1',
-          label: '周考2'
-        },
-        {
-          value: '2',
-          label: '周考3'
-        },
-        {
-          value: '3',
-          label: '月考'
-        }
-      ],
       value: '',
-      typeoptions: [
-        {
-          value: '0',
-          label: 'javaScript上'
-        },
-        {
-          value: '1',
-          label: 'javaScript下'
-        },
-        {
-          value: '2',
-          label: '模块化开发'
-        },
-        {
-          value: '3',
-          label: '移动端开发'
-        },
-        {
-          value: '4',
-          label: 'node基础'
-        },
-        {
-          value: '5',
-          label: '组件化开发(vue)'
-        },
-        {
-          value: '6',
-          label: '渐进式开发(react)'
-        },
-        {
-          value: '7',
-          label: '项目实战'
-        },
-        {
-          value: '8',
-          label: 'javaScript高级'
-        },
-        {
-          value: '9',
-          label: 'node高级'
-        }
-      ],
+      value1: '',
+      subject_id: '',
+      isShow: false,
       tableData: [{
         information: 'Nodejs开发第二周摸底考试',
         class: '1608',
@@ -160,9 +77,59 @@ export default {
       }]
     }
   },
+  computed: {
+    ...mapState({
+      examType: state => state.addQuestion.examType,
+      allQuestion: state => state.addQuestion.allQuestion,
+      subjectType: state => state.addQuestion.subjectType,
+      questionsType: state => state.addQuestion.questionsType
+    })
+  },
+  created() {
+    this.getAllExam()
+    this.getExamType()
+    this.getSubjectType()
+    this.getQuestionsTpe()
+  },
   methods: {
-    detail() {
-      this.$router.push({ path: 'detail' })
+    ...mapMutations({
+      updataState: 'addQuestion/updataState'
+    }),
+    ...mapActions({
+      getExamType: 'addQuestion/getExamType', // 获取所有的考试类型s
+      getSubjectType: 'addQuestion/getSubjectType', // 获取所有的课程
+      getQuestionsTpe: 'addQuestion/getQuestionsTpe', // 获取所有的试题类型
+      getAllExam: 'addQuestion/getAllExam', // 获取所有的试题
+      getRightExam: 'addQuestion/getRightExam'// 按条件获取试题
+    }),
+    detail(e, item) {
+      console.log(item)
+      let str = ''
+      // var obj = {
+      //   title: item.title,
+      //   exam_name: item.exam_name,
+      //   questions_stem: item.questions_stem,
+      //   user_name: item.user_name,
+      //   subject_text: item.subject_text,
+      //   questions_type_text: item.questions_type_text
+      // }
+      if (e.target.tagName === 'SPAN') {
+        str = 'addQuestion?title=' + item.title + 'exam_name=' + item.exam_name + 'questions_stem=' + item.questions_stem + 'user_name=' + item.user_name + 'subject_text=' + item.subject_text + 'questions_type_text=' + item.questions_type_text
+      } else {
+        str = 'detail?title=' + item.title + 'exam_name=' + item.exam_name + 'questions_stem=' + item.questions_stem + 'user_name=' + item.user_name + 'subject_text=' + item.subject_text + 'questions_type_text=' + item.questions_type_text
+      }
+      this.$router.push({ path: str })
+    },
+    every(sid) {
+      this.subject_id = sid
+    },
+    async search() {
+      await this.getRightExam({
+        questions_type_id: this.value1,
+        // questinos_id: '',
+        subject_id: this.subject_id,
+        exam_id: this.value
+      })
     }
   }
 }
