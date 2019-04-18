@@ -1,4 +1,4 @@
-import { getAllClass, getAllRoom, getAllStudent, addRoom, deleteRoom, addGrade } from '@/api/classes'
+import { getAllClass, getAllRoom, getAllStudent, addRoom, deleteRoom, addGrade, deleteGrade, deleteStudent } from '@/api/classes'
 const state = {
   arr: [],
   roomarr: [],
@@ -30,15 +30,25 @@ const actions = {
     const obj = await addRoom(payload)
     commit('updata', { roomId: obj.room_id })
   },
-  async deleteroom({ commit }, payload) {
+  async deleteroom({ commit }, payload) { // 删除教室
     await deleteRoom(payload)
   },
   async addgrade({ commit }, payload) { // 添加班级
-    console.log(payload)
+    console.log('添加班级', payload)
     const obj = await addGrade(payload)
     console.log(obj)
-    // commit('updata', { gradeId: obj.grade_id })
+    return obj
+  },
+  async deletegrade({ commit }, payload) { // 删除班级
+    const obj = await deleteGrade(payload)
+    console.log(obj)
+  },
+  async deletestudent({ commit }, payload) { // 删除学生
+    console.log('删除学生', payload)
+    const obj = await deleteStudent(payload)
+    console.log(obj)
   }
+
 }
 
 export default {

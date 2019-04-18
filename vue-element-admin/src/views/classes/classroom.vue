@@ -19,6 +19,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
+              type="danger"
               @click="open2(scope.row.room_id)"
             >删除</el-button>
           </template>
@@ -59,7 +60,6 @@ export default {
   },
   created() {
     this.room()
-    console.log('room', this.allRoom)
   },
   methods: {
     ...mapActions({
