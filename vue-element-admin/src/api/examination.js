@@ -14,12 +14,12 @@ export function getCurriculum() {
     method: 'get'
   })
 }
-
-export function CreateExam(data) {
+// 创建试卷
+export function CreateExam(params) {
   return request({
     url: '/exam/exam',
     method: 'post',
-    data
+    data: params
   })
 }
 
