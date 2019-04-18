@@ -2,188 +2,59 @@
   <div class="wrap">
     <div class="head">
       <h3>展示用户</h3>
-      <div class="nav">
-        <span class="active">用户数据</span>
-        <span>身份数据</span>
-        <span>api接口权限</span>
-        <span>身份和api接口关系</span>
-        <span>视图接口权限</span>
-        <span>身份和视图权限关系</span>
-      </div>
+      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+        <el-tab-pane label="用户管理" name="first" style="font-size:26px; font-weight:normal; padding:10px 20px;">用户管理</el-tab-pane>
+        <el-tab-pane label="身份数据" name="second" style="font-size:26px; font-weight:normal; padding:10px 20px;">身份数据</el-tab-pane>
+        <el-tab-pane label="api接口权限" name="third" style="font-size:26px; font-weight:normal; padding:10px 20px;">api接口权限</el-tab-pane>
+        <el-tab-pane label="身份和api接口关系" name="fourth" style="font-size:26px; font-weight:normal; padding:10px 20px;">身份和api接口关系</el-tab-pane>
+        <el-tab-pane label="视图接口权限" name="fifth" style="font-size:26px; font-weight:normal; padding:10px 20px;">视图接口权限</el-tab-pane>
+        <el-tab-pane label="身份和视图权限关系" name="six" style="font-size:26px; font-weight:normal; padding:10px 20px;">身份和视图权限关系</el-tab-pane>
+      </el-tabs>
     </div>
     <div class="content">
-      <h2>用户数据</h2>
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="date" label="日期" width="380" />
-        <el-table-column prop="name" label="姓名" width="380" />
-        <el-table-column prop="address" label="地址" />
+      <!-- <h2>用户数据</h2> -->
+      <el-table :data="date" style="width: 100%">
+        <el-table-column prop="user_name" label="用户名" width="380" />
+        <el-table-column prop="user_pwd" label="密码" width="380" />
+        <el-table-column prop="identity_text" label="身份" />
       </el-table>
-      <el-pagination background layout="prev, pager, next" :total="tableData.length" />
     </div>
+    <el-pagination background layout="prev, pager, next" style="float:right;margin:20px 0;" :total="date.length" />
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      activeName: 'first'
+    }
+  },
+  computed: {
+    ...mapState({
+      date: state => state.showUsers.dateList
+    })
+  },
+  created() {
+    console.log(this.date)
+  },
+  async mounted() {
+    await this.dateList()
+  },
+
+  methods: {
+    ...mapActions({
+      dateList: 'showUsers/dateList',
+      identity: 'showUsers/identity'
+    }),
+    async handleClick(tab, event) {
+      console.log(tab, event)
+      await this.identity()
     }
   }
 }
 </script>
-<style>
+<style scoped>
 .wrap .head h3 {
   width:100%;
   height:50px;
@@ -192,27 +63,12 @@ export default {
   font-weight: normal;
   line-height: 50px;
 }
-.head .nav {
-  box-sizing: border-box;
-  padding-left: 30px;
-}
-.head .nav span {
-  display: inline-block;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 10px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-}
-.head .nav .active {
-  color: #295eff;
-  border: 1px solid #295eff;
-}
 .content {
   padding: 0 30px;
   box-sizing: border-box;
 }
-.content h2 {
+.content #pane_first {
+  font-size: 30px;
   font-weight: normal;
 }
 .content .table {

@@ -45,6 +45,7 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
+
 // 注册全局过滤器
 // register global utility filters.
 Object.keys(filters).forEach(key => {

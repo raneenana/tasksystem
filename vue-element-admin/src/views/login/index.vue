@@ -67,7 +67,7 @@ export default {
   name: 'Login',
   components: { LangSelect, SocialSign },
   data() {
-    //	用户名的自定义检测
+    // 用户名的自定义检测
     const validateUsername = (rule, value, callback) => {
       if (!value) {
         callback(new Error('Please enter the correct user name'))
@@ -84,17 +84,12 @@ export default {
     }
     return {
       loginForm: {
-        username: 'alan',
-        password: '!Ml00162'
+        username: 'wangqingsong',
+        password: 'Wangqingsong123!'
       },
       loginRules: {
-        username: [
-          { required: true, trigger: 'blur' },
-          { trigger: 'blur', validator: validateUsername }
-        ],
-        password: [
-          { required: true, trigger: 'blur', validator: validatePassword }
-        ]
+        username: [{ required: true, trigger: 'blur' }, { trigger: 'blur', validator: validateUsername }],
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -148,7 +143,7 @@ export default {
             await this.generateRoutes([])
             this.$router.push({ path: this.redirect || '/' })
           }
-          this.login = false
+          this.loading = false
         } else {
           console.log('error submit!!')
           return false
