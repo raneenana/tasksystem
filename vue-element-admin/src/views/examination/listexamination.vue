@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -174,6 +175,20 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapState({
+      allExamListData: state => state.examination
+    })
+  },
+  created() {
+    this.allData()
+    console.log(this.allData)
+  },
+  methods: {
+    ...mapActions({
+      allData: 'examination/allExamList'
+    })
   }
 }
 </script>
@@ -206,16 +221,16 @@ h2 {
   margin: 0px 0px 20px;
   border-radius: 10px;
 }
-.add-layout-title{
+.add-layout-title {
   display: flex;
   justify-content: space-between;
-  h4{
+  h4 {
     color: rgba(0, 0, 0, 0.85);
     font-weight: 500;
   }
-  .add-layout-button{
+  .add-layout-button {
     // display: flex;
-    button{
+    button {
       flex-shrink: 0;
       margin: 0;
     }

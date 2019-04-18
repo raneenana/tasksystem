@@ -3,143 +3,109 @@
     <h2>添加考试</h2>
     <div class="add-layout-content">
       <div class="add-layout-content">
-        <form class="add-form">
-          <div class="add-form-item">
-            <div class="add-form-item-label">
-              <label for="title" class="add-form-item-required" title="试卷名称">试卷名称:</label>
-            </div>
-            <div class="add-form-item-control-wrapper">
-              <el-input
-                style="width:45%"
-                size="medium"
-                placeholder="请输入内容"
+        <el-form ref="formData" :rules="rules" class="add-form" :model="formData">
+          <el-form-item class="add-form-item" label="试卷名称:" prop="title" required>
+            <br>
+            <el-input v-model="formData.title" size="medium" style="width:60%" class="add-form-item-control-wrapper" />
+          </el-form-item>
+          <el-form-item class="add-form-item" label="选择考试类型:" prop="typeId" required>
+            <br>
+            <el-select v-model="formData.typeId" placeholder="请选择" class="add-form-item-control-wrapper">
+              <el-option
+                v-for="(item,index) in typeList"
+                :key="index"
+                :label="item.exam_name"
+                :value="item.exam_id"
               />
-            </div>
-          </div>
-          <div class="add-form-item">
-            <div class="add-form-item-label">
-              <label for="title" class="add-form-item-required" title="选择考试类型">选择考试类型：</label>
-            </div>
-            <div class="add-form-item-control-wrapper">
-              <el-select v-model="examoptions.value" placeholder="请选择">
-                <el-option
-                  v-for="item in examoptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </div>
-          </div>
-          <div class="add-form-item">
-            <div class="add-form-item-label">
-              <label for="title" class="add-form-item-required" title="选择课程">选择课程：</label>
-            </div>
-            <div class="add-form-item-control-wrapper">
-              <el-select v-model="typeoptions.value" placeholder="请选择">
-                <el-option
-                  v-for="item in typeoptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </div>
-          </div>
-          <div class="add-form-item">
-            <div class="add-form-item-label">
-              <label for="title" class="add-form-item-required" title="设置题量">设置题量：</label>
-            </div>
-            <div class="add-form-item-control-wrapper">
-              <el-input-number v-model="num" controls-position="right" :min="0" :max="10" />
-            </div>
-          </div>
-          <div class="add-form-item">
-            <div class="add-form-item-label">
-              <label for="title" class="add-form-item-required" title="考试时间">考试时间：</label>
-            </div>
-            <div class="add-form-item-control-wrapper">
-              <el-date-picker v-model="startTime" type="date" placeholder="选择开始日期" /> —
-              <el-date-picker v-model="endTime" type="date" placeholder="选择结束日期" />
-            </div>
-          </div>
-        </form>
+            </el-select>
+          </el-form-item>
+          <el-form-item class="add-form-item" label="选择课程:" prop="classId" required>
+            <br>
+            <el-select v-model="formData.classId" placeholder="请选择" class="add-form-item-control-wrapper">
+              <el-option
+                v-for="item in curriculumList"
+                :key="item.subject_id"
+                :label="item.subject_text"
+                :value="item.subject_id"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item class="add-form-item" label="设置题量:" prop="num" required>
+            <br>
+            <el-input-number v-model="formData.num" controls-position="right" :min="0" :max="10" class="add-form-item-control-wrapper" />
+          </el-form-item>
+          <el-form-item label="考试时间:">
+            <br>
+            <el-col :span="14" class="item">
+              <el-form-item prop="startTime">
+                <el-date-picker v-model="formData.startTime" type="datetime" style="width:200px;" default-time="12:00:00" />
+              </el-form-item>
+            </el-col>
+            <el-col class="line" :span="2">——</el-col>
+            <el-col :span="14" class="item">
+              <el-form-item prop="endTime">
+                <el-date-picker v-model="formData.endTime" type="datetime" style="width:200px;" default-time="12:00:00" />
+              </el-form-item>
+            </el-col>
+          </el-form-item>
+        </el-form>
       </div>
-      <router-link :to="{path:'add'}">
-        <el-button type="primary">创建试卷</el-button>
-      </router-link>
+      <el-button type="primary" @click="submitForm('formData')">创建试卷</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      num: 0,
-      startTime: '',
-      endTime: '',
-      examoptions: [
-        {
-          value: '0',
-          label: '周考1'
-        },
-        {
-          value: '1',
-          label: '周考2'
-        },
-        {
-          value: '2',
-          label: '周考3'
-        },
-        {
-          value: '3',
-          label: '月考'
+      formData: {
+        title: '',
+        typeId: '',
+        classId: '',
+        num: 0,
+        startTime: '',
+        endTime: ''
+      },
+      rules: {
+        // 校验标题
+        title: [{ required: true, trigger: 'blur', message: '请输入试卷名称' }],
+        // 试卷名称
+        typeId: [{ required: true, trigger: 'change', message: '请选择考试类型' }],
+        // 课程名称
+        classId: [{ required: true, trigger: 'change', message: '请选择课程' }],
+        // 题量
+        num: [{ required: true, trigger: 'change', message: '请选择题量' }],
+        // 开始时间
+        startTime: [{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }],
+        // 结束时间
+        endTime: [{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }]
+      }
+    }
+  },
+  computed: {
+    ...mapState({
+      typeList: state => state.examination.examType,
+      curriculumList: state => state.examination.curriculum
+    })
+  },
+  created() {
+    this.typeData()
+    this.curriculumData()
+  },
+  methods: {
+    ...mapActions({
+      typeData: 'examination/getExamType',
+      curriculumData: 'examination/getCurriculums'
+    }),
+    submitForm(formData) {
+      this.$refs[formData].validate((valid) => {
+        if (valid) {
+          console.log(this.formData.startTime * 1)
+          console.log(this.formData.endTime * 1)
         }
-      ],
-      value: '',
-      typeoptions: [
-        {
-          value: '0',
-          label: 'javaScript上'
-        },
-        {
-          value: '1',
-          label: 'javaScript下'
-        },
-        {
-          value: '2',
-          label: '模块化开发'
-        },
-        {
-          value: '3',
-          label: '移动端开发'
-        },
-        {
-          value: '4',
-          label: 'node基础'
-        },
-        {
-          value: '5',
-          label: '组件化开发(vue)'
-        },
-        {
-          value: '6',
-          label: '渐进式开发(react)'
-        },
-        {
-          value: '7',
-          label: '项目实战'
-        },
-        {
-          value: '8',
-          label: 'javaScript高级'
-        },
-        {
-          value: '9',
-          label: 'node高级'
-        }
-      ]
+      })
     }
   }
 }
@@ -199,21 +165,16 @@ h2 {
   margin-bottom: 24px;
   vertical-align: top;
 }
-.add-form-item-label {
-  text-align: right;
-  vertical-align: middle;
-  line-height: 39.9999px;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  ::before {
-    display: inline-block;
-    margin-right: 4px;
-    content: "*";
-    font-family: SimSun;
-    line-height: 1;
-    font-size: 14px;
-    color: #f5222d;
-  }
+.item {
+  width: 185px;
+  margin-top: 10px;
+}
+
+.line {
+  margin-top: 10px;
+  width: 50px;
+  text-align: center;
+  height: 32px;
+  margin-left: 10px;
 }
 </style>

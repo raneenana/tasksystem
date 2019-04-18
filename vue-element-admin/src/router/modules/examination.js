@@ -27,6 +27,7 @@ const examination = {
   },
   {
     path: 'add',
+    hidden: true,
     component: () =>
         import('@/views/examination/add'),
     name: 'add',
@@ -34,6 +35,7 @@ const examination = {
   },
   {
     path: 'detail',
+    hidden: true,
     component: () =>
         import('@/views/examination/detail'),
     name: 'detail',
