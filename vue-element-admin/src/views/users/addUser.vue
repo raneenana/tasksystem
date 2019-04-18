@@ -87,7 +87,7 @@
                 :value="item.identity_text"
                 style="margin-left:5px;"
               />
-            </el-select>
+            </el-select><br>
             <el-select v-model="setApi.apiMsg" placeholder="请选择api接口权限" style="margin-top:10px;">
               <el-option
                 v-for="item in apiOpt"
@@ -191,6 +191,7 @@ export default {
     // }
     await this.getAllIndetity()
     await this.getApiAuth()
+    console.log(this.allIden, this.apiOpt)
   },
   methods: {
     ...mapActions({
@@ -271,6 +272,25 @@ export default {
       if (!this.setApi.idMsg) {
         alert('身份id不能为空')
         return false
+      }
+      if (!this.setApi.apiMsg) {
+        alert('接口权限不能为空')
+        return false
+      }
+      const item = this.allIden.filter((item) => {
+        return item.identity_text === this.setApi.idMsg
+      })
+      const array = this.apiOpt.filter((item) => {
+        return item.api_authority_text === this.setApi.apiMsg
+      })
+      const idNum = item[0].identity_id
+      const apiNum = array[0].api_authority_id
+      var res = await this.setApiAuth({
+        identity_id: idNum,
+        api_authority_id: apiNum
+      })
+      if (res.code === 1) {
+        alert(res.msg)
       }
     },
     reset() {
