@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <h2>添加试题</h2>
+    <h2>{{ defaultHead }}</h2>
     <div class="content">
       <div>
         <form action="">
@@ -10,118 +10,77 @@
               <label class="" title="题干">题干</label>
             </div>
             <div class="title">
-              <input class="ipt" placeholder="请输入题目标题，不超过20个字" type="text" value="">
+              <input v-model="tvalue" class="ipt" placeholder="请输入题目标题，不超过20个字" type="text" value="">
             </div>
           </div>
           <div class="form-item">
             <div class="item">
               <label class="" title="题目主题">题目主题</label>
             </div>
-            <Tinymce />
+            <markdown-editor ref="markdownEditor" v-model="content" height="300px" />
             <div class="f-item">
               <label for="title" class="add-form-item-required" title="试卷名称">请选择考试类型:</label>
-              <el-select v-model="examoptions.value" placeholder="请选择">
-                <el-option v-for="item in examoptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-select v-model="evalue" placeholder="请选择">
+                <el-option v-for="item in examType" :key="item.exam_id" :label="item.exam_name" :value="item.exam_id" />
               </el-select>
             </div>
             <div class="f-item">
               <label for="title" class="add-form-item-required" title="试卷名称">请选择课程类型:</label>
-              <el-select v-model="typeoptions.value" placeholder="请选择">
-                <el-option v-for="item in typeoptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-select v-model="svalue" placeholder="请选择">
+                <el-option v-for="item in subjectType" :key="item.subject_id" :label="item.subject_text" :value="item.subject_id" />
               </el-select>
             </div>
             <div class="f-item">
               <label for="title" class="add-form-item-required" title="试卷名称">请选择题目类型:</label>
-              <el-select v-model="typeoptions.value" placeholder="请选择">
-                <el-option v-for="item in typeoptions" :key="item.value" :label="item.label" :value="item.value" />
+              <el-select v-model="qvalue" placeholder="请选择">
+                <el-option v-for="item in questionsType" :key="item.questions_type_id" :label="item.questions_type_text" :value="item.questions_type_id" />
               </el-select>
             </div>
-            <Tinymce />
-            <button class="sbmit" type="primary" @click="sbmit">提交</button>
-            <el-button type="text" @click="dialogVisible = true">提交</el-button>
-            <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-              <span>这是一段信息</span>
-              <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-              </span>
-            </el-dialog>
+            <div class="item">
+              <label class="" title="答案信息">答案信息</label>
+            </div>
+            <markdown-editor ref="markdownEditor" v-model="content1" height="300px" />
           </div>
         </form>
+        <button class="sbmit" type="primary" @click="dialogVisible = true">提交</button>
+        <el-dialog :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+          <span>{{ question }}</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="sure">确 定</el-button>
+          </span>
+        </el-dialog>
+        <el-dialog :visible.sync="dialogVisible1" width="30%" :before-close="handleClose">
+          <span>{{ msg }}</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible1 = false">知道了</el-button>
+          </span>
+        </el-dialog>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Tinymce from '@/components/Tinymce'
+import MarkdownEditor from '@/components/MarkdownEditor'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'TinymceDemo',
-  components: { Tinymce },
+  components: { MarkdownEditor },
   data() {
     return {
+      defaultHead: '添加试题',
+      question: '你确定要添加这道试题吗?真的要添加吗？',
+      content: '',
+      content1: '',
       dialogVisible: false,
-      examoptions: [
-        {
-          value: '0',
-          label: '周考1'
-        },
-        {
-          value: '1',
-          label: '周考2'
-        },
-        {
-          value: '2',
-          label: '周考3'
-        },
-        {
-          value: '3',
-          label: '月考'
-        }
-      ],
+      dialogVisible1: false,
+      msg: '添加试题失败',
       value: '',
-      typeoptions: [
-        {
-          value: '0',
-          label: 'javaScript上'
-        },
-        {
-          value: '1',
-          label: 'javaScript下'
-        },
-        {
-          value: '2',
-          label: '模块化开发'
-        },
-        {
-          value: '3',
-          label: '移动端开发'
-        },
-        {
-          value: '4',
-          label: 'node基础'
-        },
-        {
-          value: '5',
-          label: '组件化开发(vue)'
-        },
-        {
-          value: '6',
-          label: '渐进式开发(react)'
-        },
-        {
-          value: '7',
-          label: '项目实战'
-        },
-        {
-          value: '8',
-          label: 'javaScript高级'
-        },
-        {
-          value: '9',
-          label: 'node高级'
-        }
-      ],
+      tvalue: '',
+      svalue: '',
+      evalue: '',
+      qvalue: '',
       tableData: [{
         information: 'Nodejs开发第二周摸底考试',
         class: '1608',
@@ -145,17 +104,69 @@ export default {
       }]
     }
   },
-  methods: {
-    sbmit() {
+  computed: {
+    ...mapState({
+      detail: state => state.addQuestion.detail,
+      userInfo: state => state.addQuestion.userInfo,
+      examType: state => state.addQuestion.examType,
+      subjectType: state => state.addQuestion.subjectType,
+      questionsType: state => state.addQuestion.questionsType
+    })
+  },
 
+  methods: {
+    ...mapMutations({
+      updataState: 'addQuestion/updataState'
+    }),
+    ...mapActions({
+      getUser: 'addQuestion/getUser',
+      getExamType: 'addQuestion/getExamType',
+      addQuestions: 'addQuestion/addQuestions',
+      getSubjectType: 'addQuestion/getSubjectType',
+      getQuestionsTpe: 'addQuestion/getQuestionsTpe'
+    }),
+    async sure() {
+      var obj = {
+        questions_type_id: this.qvalue,
+        questions_answer: this.content1,
+        questions_stem: this.tvalue,
+        subject_id: this.svalue,
+        exam_id: this.evalue,
+        user_id: this.userInfo.user_id,
+        title: this.content
+      }
+      this.dialogVisible = false
+      this.dialogVisible1 = true
+      var res = await this.addQuestions(obj)
+      if (res.msg) {
+        this.msg = res.msg
+      }
     },
-    addQuestion() {},
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
           done()
         })
         .catch(_ => {})
+    }
+  },
+  created() {
+    this.getUser()
+    this.getExamType()
+    this.getSubjectType()
+    this.getQuestionsTpe()
+  },
+  mounted() {
+    console.log(this.detail.exam_id)
+    if (this.detail) {
+      this.tvalue = this.detail.title
+      this.evalue = this.detail.exam_id
+      this.svalue = this.detail.subject_id
+      this.qvalue = this.detail.questions_type_id
+      this.content = this.detail.questions_stem
+      this.content1 = this.detail.questions_answer
+      this.defaultHead = '编辑试题'
+      this.question = '您要修改吗，确定要修改这道题吗'
     }
   }
 }
@@ -245,7 +256,7 @@ export default {
   border:none;
   outline: none;
   border-radius: 5px;
-  background: #00f;
+  background: linear-gradient(-90deg,#4e75ff,#0139fd);
   color:#fff;
   margin-top:35px;
   box-sizing: border-box;
