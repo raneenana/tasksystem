@@ -35,6 +35,14 @@ export function addQuestion(data) {
     data
   })
 }
+// 更新试题
+export function updataQuestion(data) {
+  return request({
+    url: '/exam/questions/update',
+    method: 'put',
+    data
+  })
+}
 // 获取所有的试题
 export function allExam(params) {
   return request({

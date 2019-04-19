@@ -81,6 +81,7 @@ export default {
       svalue: '',
       evalue: '',
       qvalue: '',
+      questions_id: '',
       tableData: [{
         information: 'Nodejs开发第二周摸底考试',
         class: '1608',
@@ -122,6 +123,7 @@ export default {
       getUser: 'addQuestion/getUser',
       getExamType: 'addQuestion/getExamType',
       addQuestions: 'addQuestion/addQuestions',
+      upQuestions: 'addQuestion/upQuestions',
       getSubjectType: 'addQuestion/getSubjectType',
       getQuestionsTpe: 'addQuestion/getQuestionsTpe'
     }),
@@ -135,9 +137,26 @@ export default {
         user_id: this.userInfo.user_id,
         title: this.content
       }
+      var obj1 = {
+        // questions_type_id: this.qvalue,
+        // questions_answer: this.content1,
+        questions_stem: this.tvalue,
+        user_id: this.userInfo.user_id,
+        // subject_id: this.svalue,
+        // exam_id: this.evalue,
+        questions_id: this.questions_id,
+        title: this.content
+      }
       this.dialogVisible = false
       this.dialogVisible1 = true
-      var res = await this.addQuestions(obj)
+      var res = null
+      console.log(this.question)
+      if (this.question === '您要修改吗，确定要修改这道题吗') {
+        console.log(obj)
+        res = await this.upQuestions(obj1)
+      } else {
+        res = await this.addQuestions(obj)
+      }
       if (res.msg) {
         this.msg = res.msg
       }
@@ -155,10 +174,9 @@ export default {
     this.getExamType()
     this.getSubjectType()
     this.getQuestionsTpe()
-  },
-  mounted() {
-    console.log(this.detail.exam_id)
     if (this.detail) {
+      console.log(this.detail)
+      this.questions_id = this.detail.questions_id
       this.tvalue = this.detail.title
       this.evalue = this.detail.exam_id
       this.svalue = this.detail.subject_id
