@@ -5,24 +5,50 @@
       <div class="top">
         <div class="border">
           <p>
-            <span class="active">添加用户</span>
-            <span>更新用户</span>
+            <span :class="showClass ? '' : 'active'" @click="changeShow">添加用户</span>
+            <span :class="showClass ? 'active' : ''" @click="changeShow">更新用户</span>
           </p>
-          <div class="mainForm">
-            <el-input v-model="input" placeholder="请输入内容" style="width:90%; margin:10px 0" />
-            <el-input v-model="password" type="password" placeholder="请输入密码" autocomplete="off" style="width:90%; margin:10px 0" />
-            <el-select v-model="value" placeholder="请选择" style="margin-top:10px;">
+          <div :id="showClass ? '' : 'active'" class="mainForm">
+            <el-input v-model="add.name" placeholder="请输入姓名" style="width:90%; margin:10px 0" />
+            <el-input v-model="add.pwd" type="password" placeholder="请输入密码" autocomplete="off" style="width:90%; margin:10px 0" />
+            <el-select v-model="add.idText" placeholder="请选择身份id" style="margin-top:10px;">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in allIden"
+                :key="item.identity_id"
+                :label="item.identity_text"
+                :value="item.identity_text"
                 style="margin-left:5px;"
               />
-            </el-select>
+            </el-select><br>
+            <p>
+              <el-button type="primary" @click="addUser">确定</el-button>
+              <el-button @click="reset(1)">重置</el-button>
+            </p>
+          </div>
+          <div :id="showClass ? 'active' : ''" class="mainForm">
+            <el-select v-model="setApi.idMsg" placeholder="请选择身份id" style="margin-top:10px;">
+              <el-option
+                v-for="item in allIden"
+                :key="item.identity_id"
+                :label="item.identity_text"
+                :value="item.identity_text"
+                style="margin-left:5px;"
+              />
+            </el-select><br>
+            <el-input v-model="input" placeholder="请输入内容" style="width:90%; margin:10px 0" />
+            <el-input v-model="password" type="password" placeholder="请输入密码" autocomplete="off" style="width:90%; margin:10px 0" />
+            <el-select v-model="setApi.idMsg" placeholder="请选择身份id" style="margin-top:10px;">
+              <el-option
+                v-for="item in allIden"
+                :key="item.identity_id"
+                :label="item.identity_text"
+                :value="item.identity_text"
+                style="margin-left:5px;"
+              />
+            </el-select><br>
             <p>
               <el-button type="primary">确定</el-button>
-              <el-button @click="reset">重置</el-button>
+              <el-button @click="reset(1)">重置</el-button>
             </p>
           </div>
         </div>
@@ -34,7 +60,7 @@
             <el-input v-model="idValue" placeholder="请输入身份" style="width:90%; margin:10px 0" />
             <p>
               <el-button type="primary" @click="addIden">确定</el-button>
-              <el-button @click="reset">重置</el-button>
+              <el-button @click="reset(2)">重置</el-button>
             </p>
           </div>
         </div>
@@ -48,7 +74,7 @@
             <el-input v-model="apiMsg.method" placeholder="请输入api接口权限方法" style="width:90%; margin:10px 0" />
             <p>
               <el-button type="primary" @click="addApi">确定</el-button>
-              <el-button @click="reset">重置</el-button>
+              <el-button @click="reset(3)">重置</el-button>
             </p>
           </div>
         </div>
@@ -70,7 +96,7 @@
             </el-select>
             <p>
               <el-button type="primary" @click="addView">确定</el-button>
-              <el-button @click="reset">重置</el-button>
+              <el-button @click="reset(4)">重置</el-button>
             </p>
           </div>
         </div>
@@ -99,7 +125,7 @@
             </el-select>
             <p>
               <el-button type="primary" @click="idAuth">确定</el-button>
-              <el-button @click="reset">重置</el-button>
+              <el-button @click="reset(5)">重置</el-button>
             </p>
           </div>
         </div>
@@ -128,7 +154,7 @@
             </el-select>
             <p>
               <el-button type="primary" @click="viewAuth">确定</el-button>
-              <el-button @click="reset">重置</el-button>
+              <el-button @click="reset(6)">重置</el-button>
             </p>
           </div>
         </div>
@@ -146,10 +172,15 @@ import {
 export default {
   data() {
     return {
+      showClass: 0,
       isShow: false,
       input: '',
       password: '',
-      value: '',
+      add: {
+        name: '',
+        pwd: '',
+        idText: ''
+      },
       idValue: '',
       viewMsg: '',
       setApi: {
@@ -189,6 +220,7 @@ export default {
   },
   methods: {
     ...mapActions({
+      addPeo: 'adduser/addPeo',
       addIndentity: 'adduser/addIdentity',
       addApiAuth: 'adduser/addApiAuth',
       allViewList: 'adduser/allViewList',
@@ -198,6 +230,61 @@ export default {
       setApiAuth: 'adduser/setApiAuth',
       setViewAuth: 'adduser/setViewAuth'
     }),
+    // 添加用户
+    async addUser() {
+      if (!this.add.name) {
+        Message({
+          message: '姓名不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return false
+      } else {
+        var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
+        if (!uPattern.test(this.add.name)) {
+          Message({
+            message: '用户名为4-6位的字符',
+            type: 'error',
+            duration: 5 * 1000
+          })
+          return false
+        }
+      }
+      if (!this.add.pwd) {
+        Message({
+          message: '密码不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return false
+      } else {
+        var Reg = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/
+        if (!Reg.test(this.add.pwd)) {
+          Message({
+            message: '密码由大写字母，小写字母，数字，特殊符号组成，至少8位',
+            type: 'error',
+            duration: 5 * 1000
+          })
+          return false
+        }
+      }
+      var item = this.allIden.filter((item) => {
+        return item.identity_text === this.add.idText
+      })
+      console.log(item)
+      var res = await this.addPeo({
+        user_name: this.add.name,
+        user_pwd: this.add.pwd,
+        id: item[0].identity_id
+      })
+      if (res.code === 1) {
+        Message({
+          message: res.msg,
+          type: 'success',
+          duration: 5 * 1000
+        })
+      }
+    },
     // 添加身份
     async addIden() {
       if (!this.idValue) {
@@ -337,7 +424,6 @@ export default {
     },
     // 身份设置视图权限
     async viewAuth() {
-      console.log(this.viewAuthor)
       if (!this.viewAuthor.idAuth) {
         Message({
           message: '身份id不能为空',
@@ -366,7 +452,7 @@ export default {
         identity_id: idNum,
         view_authority_id: apiNum
       })
-      if(!res){
+      if (!res) {
         Message({
           message: '视图权限重复',
           type: 'error',
@@ -382,8 +468,54 @@ export default {
         }
       }
     },
-    reset() {
+    reset(num) {
+      switch (num) {
+        case 0: {
+          break
+        }
+        case 1: {
+          this.add = {
+            name: '',
+            pwd: '',
+            id: ''
+          }
+          break
+        }
+        case 2: {
+          this.idValue = ''
+          break
+        }
+        case 3: {
+          this.apiMsg = {
+            name: '',
+            url: '',
+            method: ''
+          }
+          break
+        }
+        case 4: {
+          this.viewMsg = ''
+          break
+        }
+        case 5: {
+          this.setApi = {
+            idMsg: '',
+            apiMsg: ''
+          }
+          break
+        }
+        case 6: {
+          this.viewAuthor = {
+            idAuth: '',
+            viewAuth: ''
+          }
+          break
+        }
+      }
       this.idValue = ''
+    },
+    changeShow() {
+      this.showClass = !this.showClass
     }
   }
 }
@@ -419,6 +551,12 @@ export default {
   box-sizing: border-box;
   padding-bottom: 20px;
   border-right: 1px solid #ccc;
+}
+.wrap .top .border:first-child>.mainForm {
+  display: none
+}
+.wrap .border #active {
+  display: block
 }
 .wrap .border:last-child {
   border: none;
