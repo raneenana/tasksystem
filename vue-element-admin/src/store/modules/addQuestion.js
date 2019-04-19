@@ -49,8 +49,9 @@ const actions = {
     var result = await updataQuestion(paylod)
     if (!result) {
       return { msg: '更新试题失败' }
+    } else {
+      return result
     }
-    return result
   },
   // 获取所有的试题
   async getAllExam({ commit }, payload) {

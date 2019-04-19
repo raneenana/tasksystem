@@ -75,6 +75,7 @@ export default {
       content1: '',
       dialogVisible: false,
       dialogVisible1: false,
+      id: '',
       msg: '添加试题失败',
       value: '',
       tvalue: '',
@@ -111,6 +112,7 @@ export default {
       userInfo: state => state.addQuestion.userInfo,
       examType: state => state.addQuestion.examType,
       subjectType: state => state.addQuestion.subjectType,
+      allQuestion: state => state.addQuestion.allQuestion,
       questionsType: state => state.addQuestion.questionsType
     })
   },
@@ -121,6 +123,7 @@ export default {
     }),
     ...mapActions({
       getUser: 'addQuestion/getUser',
+      getAllExam: 'addQuestion/getAllExam',
       getExamType: 'addQuestion/getExamType',
       addQuestions: 'addQuestion/addQuestions',
       upQuestions: 'addQuestion/upQuestions',
@@ -138,12 +141,12 @@ export default {
         title: this.content
       }
       var obj1 = {
-        // questions_type_id: this.qvalue,
-        // questions_answer: this.content1,
+        questions_type_id: this.qvalue,
+        questions_answer: this.content1,
         questions_stem: this.tvalue,
-        user_id: this.userInfo.user_id,
-        // subject_id: this.svalue,
-        // exam_id: this.evalue,
+        // user_id: this.userInfo.user_id,
+        subject_id: this.svalue,
+        exam_id: this.evalue,
         questions_id: this.questions_id,
         title: this.content
       }
@@ -152,7 +155,7 @@ export default {
       var res = null
       console.log(this.question)
       if (this.question === '您要修改吗，确定要修改这道题吗') {
-        console.log(obj)
+        console.log(obj, '123123131')
         res = await this.upQuestions(obj1)
       } else {
         res = await this.addQuestions(obj)
@@ -169,23 +172,26 @@ export default {
         .catch(_ => {})
     }
   },
-  created() {
+  async created() {
     this.getUser()
     this.getExamType()
     this.getSubjectType()
     this.getQuestionsTpe()
-    if (this.detail) {
-      console.log(this.detail)
-      this.questions_id = this.detail.questions_id
-      this.tvalue = this.detail.title
-      this.evalue = this.detail.exam_id
-      this.svalue = this.detail.subject_id
-      this.qvalue = this.detail.questions_type_id
-      this.content = this.detail.questions_stem
-      this.content1 = this.detail.questions_answer
-      this.defaultHead = '编辑试题'
-      this.question = '您要修改吗，确定要修改这道题吗'
-    }
+    await this.getAllExam()
+    this.id = this.$route.query.id
+    this.allQuestion.forEach(item => {
+      if (this.id === item.questions_id) {
+        this.questions_id = item.questions_id
+        this.tvalue = item.title
+        this.evalue = item.exam_id
+        this.svalue = item.subject_id
+        this.qvalue = item.questions_type_id
+        this.content = item.questions_stem
+        this.content1 = item.questions_answer
+        this.defaultHead = '编辑试题'
+        this.question = '您要修改吗，确定要修改这道题吗'
+      }
+    })
   }
 }
 </script>
