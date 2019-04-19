@@ -22,12 +22,17 @@ export function CreateExam(params) {
     data: params
   })
 }
-
-export function getExamList(data) {
+// 获取试卷列表
+export function getExamList() {
   return request({
     url: '/exam/exam',
-    method: 'get',
-    data
+    method: 'get'
   })
 }
-
+// 获取试卷列表详情
+export function getExamDetail(data) {
+  return request({
+    url: '/exam/exam/' + data,
+    method: 'get'
+  })
+}
