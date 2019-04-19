@@ -4,7 +4,7 @@
 // import store from './store'
 // // 引入ele提示组件
 // import { Message } from 'element-ui'
-// // 页面加载进度条哦
+// // 页面加载进度条
 // import NProgress from 'nprogress' // progress bar
 // import 'nprogress/nprogress.css' // progress bar style
 // import { getToken } from '@/utils/auth' // get token from cookie
@@ -12,17 +12,17 @@
 // // 配置进度条是否需要Spinner
 // NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-// // 白名单，防止无限跳一个页面
+// // 白名单,要去的是这个路由不需要跳转,防止无限循环跳转
 // const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
-// router.beforeEach(async (to, from, next) => {
+// router.beforeEach(async(to, from, next) => {
 //   // start progress bar
 //   NProgress.start()
 
 //   // determine whether the user has logged in
 //   const hasToken = getToken()
-
-//   if (hasToken) {//是否有登录态
+//   // 是否有登录态
+//   if (hasToken) {
 //     if (to.path === '/login') {
 //       // if is logged in, redirect to the home page
 //       next({ path: '/' })
@@ -59,13 +59,13 @@
 //     }
 //   } else {
 //     /* has no token*/
-//     //判断要去的页面是否在白名单内，在的话就不重定向到登录页
+//     // 判断要去的页面是否在白名单内，在的话就不重定向到登录页面直接跳过去，不在就重定向到登录页面
 //     if (whiteList.indexOf(to.path) !== -1) {
 //       // in the free login whitelist, go directly
 //       next()
 //     } else {
 //       // other pages that do not have permission to access are redirected to the login page.
-//       //从哪儿来到哪儿去
+//       // 第二个参数记录从哪儿来到哪儿去
 //       next(`/login?redirect=${to.path}`)
 //       NProgress.done()
 //     }

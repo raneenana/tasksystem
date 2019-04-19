@@ -36,3 +36,10 @@ export function getExamDetail(data) {
     method: 'get'
   })
 }
+// 获取所有的试题
+export function getTest() {
+  return request({
+    url: '/exam/questions/new',
+    method: 'get'
+  })
+}

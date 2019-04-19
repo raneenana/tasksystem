@@ -110,7 +110,7 @@ export default {
             subject_id: this.formData.classId,
             start_time: this.formData.startTime.getTime(),
             end_time: this.formData.endTime.getTime(),
-            number: this.formData.num === 0 ? 4 : this.formData.num * 1
+            number: this.formData.num * 1
           }
           const res = await this.createExam(formData)
           window.localStorage.setItem('exam', JSON.stringify(res))

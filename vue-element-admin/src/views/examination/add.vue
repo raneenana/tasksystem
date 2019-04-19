@@ -22,10 +22,11 @@
     <div v-show="flag" class="add-drawer">
       <div class="mask" />
       <div class="add-drawer-right">
-        <p>所有试题</p>
-        <ul>
+        <p class="fix-top"><span style="margin-right:20px;font-size:20px;color:#f00;cursor:pointer;" @click="close">X</span>所有试题</p>
+        <ul v-for="(item,index) in alltest" :key="index" class="allPaper">
           <li>
-            aaaaa
+            <p>类型:{{ item.questions_type_text }}</p>
+            <p>题目:{{ item.title }}</p>
           </li>
         </ul>
       </div>
@@ -34,11 +35,13 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data() {
     return {
       flag: false,
-      questionList: []
+      questionList: [],
+      alltest: []
     }
   },
   created() {
@@ -46,8 +49,16 @@ export default {
     this.questionList = data.questions
   },
   methods: {
-    showDialog() {
+    ...mapActions({
+      testData: 'examination/getTestList'
+    }),
+    async showDialog() {
+      const result = await this.testData()
+      this.alltest = result
       this.flag = true
+    },
+    close() {
+      this.flag = false
     },
     open(ind) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -94,13 +105,24 @@ export default {
 }
 .add-drawer-right {
   width: 40%;
-  height: 100%;
   position: relative;
   float: right;
   background-color: #fff;
   border: 0;
   background-clip: padding-box;
   z-index: 1;
+  height: 100%;
+  overflow-y: scroll;
+  .fix-top{
+    width: 100%;
+    height: 30px;
+    position: fixed;
+    top: 0;
+    background: #fff;
+  }
+}
+.allPaper{
+  margin-top: 50px;
 }
 .add-layout {
   box-sizing: border-box;
