@@ -42,8 +42,8 @@ const mutations = {
 
 const actions = {
   // 添加用户
-  async addPeo({ commit }, payload){
-    let res = await adduser(payload)
+  async addPeo({ commit }, payload) {
+    const res = await adduser(payload)
     return res
   },
   // 用户信息
