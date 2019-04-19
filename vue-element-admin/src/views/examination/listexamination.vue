@@ -5,23 +5,23 @@
       <form class="add-form">
         <div class="add-form-item">
           <label for="title" class="add-form-item-required" title="考试类型">考试类型:</label>
-          <el-select v-model="examoptions.value" placeholder="请选择">
+          <el-select v-model="type" placeholder="请选择">
             <el-option
-              v-for="item in examoptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="(item,index) in typeList"
+              :key="index"
+              :label="item.exam_name"
+              :value="item.exam_id"
             />
           </el-select>
         </div>
         <div class="add-form-item">
           <label for="title" class="add-form-item-required" title="课程">课程:</label>
-          <el-select v-model="typeoptions.value" placeholder="请选择">
+          <el-select v-model="subject" placeholder="请选择">
             <el-option
-              v-for="item in typeoptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in curriculumList"
+              :key="item.subject_id"
+              :label="item.subject_text"
+              :value="item.subject_id"
             />
           </el-select>
         </div>
@@ -37,48 +37,38 @@
           <el-button plain>已结束</el-button>
         </el-button-group>
       </div>
-      <el-table
-        :data="tableData"
-        style="width: 100%;font-size:12px"
-      >
-        <el-table-column
-          prop="information"
-          label="试卷信息"
-          width="300"
-        />
-        <el-table-column
-          prop="class"
-          label="班级"
-          width="220"
-        />
-        <el-table-column
-          prop="creator"
-          label="创建人"
-          width="150"
-        />
-        <el-table-column
-          prop="startTime"
-          label="开始时间"
-          width="200"
-        />
-        <el-table-column
-          prop="endTime"
-          label="结束时间"
-          width="200"
-        />
-        <el-table-column
-          prop="operation"
-          label="操作"
-          width="160"
-        >
-          <router-link :to="{path:'detail'}">
-            <el-button
-              type="text"
-              size="small"
-            >
-              详情
-            </el-button>
-          </router-link>
+      <el-table :data="paperLists" :header-cell-style="tableHeaderColor" style="width: 100%">
+        <el-table-column label="试卷信息">
+          <template slot-scope="scope">
+            <p>{{ scope.row.title }}</p>
+            <p>考试时间：{{ scope.row.number }}道题作弊{{ scope.row.status }}分</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="班级">
+          <template slot-scope="scope">
+            <p>考试班级</p>
+            <p><span v-for="(item,index) in scope.row.grade_name" :key="index" style="margin-right:3px">{{ item }}</span></p>
+          </template>
+        </el-table-column>
+        <el-table-column label="创建人">
+          <template slot-scope="scope" :width="flexColumnWidth(column)">
+            <span>{{ scope.row.user_name }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="开始时间">
+          <template slot-scope="scope">
+            <span>{{ scope.row.start_time }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="结束时间">
+          <template slot-scope="scope">
+            <span>{{ scope.row.end_time }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="87">
+          <template slot-scope="scope">
+            <span class="detail" @click="jumpDetail(scope.row.exam_exam_id)">详情</span>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -90,105 +80,37 @@ import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      examoptions: [
-        {
-          value: '0',
-          label: '周考1'
-        },
-        {
-          value: '1',
-          label: '周考2'
-        },
-        {
-          value: '2',
-          label: '周考3'
-        },
-        {
-          value: '3',
-          label: '月考'
-        }
-      ],
+      type: '',
       value: '',
-      typeoptions: [
-        {
-          value: '0',
-          label: 'javaScript上'
-        },
-        {
-          value: '1',
-          label: 'javaScript下'
-        },
-        {
-          value: '2',
-          label: '模块化开发'
-        },
-        {
-          value: '3',
-          label: '移动端开发'
-        },
-        {
-          value: '4',
-          label: 'node基础'
-        },
-        {
-          value: '5',
-          label: '组件化开发(vue)'
-        },
-        {
-          value: '6',
-          label: '渐进式开发(react)'
-        },
-        {
-          value: '7',
-          label: '项目实战'
-        },
-        {
-          value: '8',
-          label: 'javaScript高级'
-        },
-        {
-          value: '9',
-          label: 'node高级'
-        }
-      ],
-      tableData: [
-        {
-          information: 'Nodejs开发第二周摸底考试',
-          class: '1608',
-          creator: '陈',
-          startTime: '2019-3-10',
-          endTime: '2019-3-17'
-        },
-        {
-          information: '渐进式',
-          class: '1609',
-          creator: '王',
-          startTime: '2019-3-10',
-          endTime: '2019-3-17'
-        },
-        {
-          information: '组件式',
-          class: '1610',
-          creator: '任',
-          startTime: '2019-3-10',
-          endTime: '2019-3-17'
-        }
-      ]
+      subject: ''
     }
   },
   computed: {
     ...mapState({
-      allExamListData: state => state.examination
+      typeList: state => state.examination.examType,
+      curriculumList: state => state.examination.curriculum,
+      paperLists: state => state.examination.paperList
     })
   },
   created() {
-    this.allData()
-    console.log(this.allData)
+    this.typeData()
+    this.curriculumData()
+    this.paperData()
   },
   methods: {
     ...mapActions({
-      allData: 'examination/allExamList'
-    })
+      typeData: 'examination/getExamType',
+      curriculumData: 'examination/getCurriculums',
+      paperData: 'examination/getPaperList'
+    }),
+    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return 'background-color: #f4f7f9;color: #000;font-weight: 500;width:100%; height: 53px;'
+      }
+    },
+    jumpDetail(id) {
+      this.$router.push({ path: 'detail', query: { id: id }})
+    }
   }
 }
 </script>
@@ -253,6 +175,14 @@ h2 {
 }
 .add-form-item {
   margin-right: 60px;
+}
+.detail {
+  color: #0139FD;
+  background-color: transparent;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: color 0.3s;
 }
 </style>
 

@@ -6,7 +6,7 @@
         <el-form ref="formData" :rules="rules" class="add-form" :model="formData">
           <el-form-item class="add-form-item" label="试卷名称:" prop="title" required>
             <br>
-            <el-input v-model="formData.title" size="medium" style="width:60%" class="add-form-item-control-wrapper" />
+            <el-input v-model="formData.title" size="medium" style="width:45%" class="add-form-item-control-wrapper" />
           </el-form-item>
           <el-form-item class="add-form-item" label="选择考试类型:" prop="typeId" required>
             <br>
