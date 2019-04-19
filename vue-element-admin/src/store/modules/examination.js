@@ -3,7 +3,8 @@ import {
   getCurriculum,
   CreateExam,
   getExamList,
-  getExamDetail
+  getExamDetail,
+  getTest
 } from '@/api/examination'
 
 const state = {
@@ -60,6 +61,11 @@ const actions = {
   async getPaperDetail({ commit }, payload) {
     const detail = await getExamDetail(payload)
     return detail.data.questions
+  },
+  // 获取所有的试题
+  async getTestList({ commit }) {
+    const alltest = await getTest()
+    return alltest.data
   }
 }
 
