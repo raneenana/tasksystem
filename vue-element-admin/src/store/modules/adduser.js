@@ -1,4 +1,5 @@
 import {
+  adduser,
   addIdent,
   addApi,
   allView,
@@ -33,7 +34,6 @@ const mutations = {
   },
   CHANGE_DATELIST: (state, token) => {
     state.dateList = token.data
-    state.dateList = token.data
   },
   CHANGE_DATALIST: (state, token) => {
     state.dateList = token.data
@@ -41,6 +41,11 @@ const mutations = {
 }
 
 const actions = {
+  // 添加用户
+  async addPeo({ commit }, payload){
+    let res = await adduser(payload)
+    return res
+  },
   // 用户信息
   async dateList({ commit }, payload) {
     var res = await showUser()
@@ -75,7 +80,6 @@ const actions = {
   async getApiAuth({ commit }, payload) {
     var res = await apiAuth()
     commit('CHANGE_APIOPT', res)
-    console.log('api接口数据', res)
   },
   // 设置身份api接口权限
   async setApiAuth({ commit }, payload) {
@@ -90,6 +94,7 @@ const actions = {
   // 展示身份与api接口权限
   async showApiAuth({ commit }, payload) {
     var data = await showApi()
+    // console.log(data)
     commit('CHANGE_DATALIST', data)
   },
   // 展示身份与视图接口

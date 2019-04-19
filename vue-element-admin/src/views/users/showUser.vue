@@ -13,13 +13,11 @@
     </div>
     <div class="content">
       <!-- <h2>用户数据</h2> -->
-      <el-table :data="date" style="width: 100%">
-        <el-table-column prop="user_name" label="用户名" width="380" />
-        <el-table-column prop="user_pwd" label="密码" width="380" />
-        <el-table-column prop="identity_text" label="身份" />
+      <el-table :data="arr" style="width: 100%">
+        <el-table-column v-for="(item, i) in apiList[index].tit" :key="i" :prop="item.prop" :label="item.label" />
       </el-table>
     </div>
-    <el-pagination background layout="prev, pager, next" style="float:right;margin:20px 0;" :total="date.length" />
+    <el-pagination background layout="prev, pager, next" style="float:right;margin:20px 0;" :page-size="10" :total="date.length" @current-change="handleCurrentChange" />
   </div>
 </template>
 <script>
@@ -28,19 +26,116 @@ export default {
   data() {
     return {
       activeName: 'first',
-      apiList: []
+      index: 0,
+      apiList: [
+        {
+          name: '展示用户',
+          id: 0,
+          tit: [
+            {
+              prop: 'user_name',
+              label: '用户名'
+            },
+            {
+              prop: 'user_pwd',
+              label: '密码'
+            },
+            {
+              prop: 'identity_text',
+              label: '用户名'
+            }
+          ]
+        }, {
+          name: '身份数据',
+          id: 1,
+          tit: [
+            {
+              prop: 'identity_text',
+              label: '身份名称'
+            }
+          ]
+        }, {
+          name: 'api接口权限',
+          id: 2,
+          tit: [
+            {
+              prop: 'api_authority_text',
+              label: 'api权限接口'
+            },
+            {
+              prop: 'api_authority_url',
+              label: 'api权限url'
+            },
+            {
+              prop: 'api_authority_method',
+              label: 'api权限方法'
+            }
+          ]
+        }, {
+          name: '身份和api接口关系',
+          id: 3,
+          tit: [
+            {
+              prop: 'identity_text',
+              label: '身份名称'
+            },
+            {
+              prop: 'api_authority_text',
+              label: 'api权限名称'
+            },
+            {
+              prop: 'api_authority_url',
+              label: 'api权限url'
+            }, {
+              prop: 'api_authority_method',
+              label: 'api权限方法'
+            }
+          ]
+        }, {
+          name: '视图接口权限',
+          id: 4,
+          tit: [
+            {
+              prop: 'view_authority_text',
+              label: '视图权限名称'
+            },
+            {
+              prop: 'view_id',
+              label: '视图id'
+            }
+          ]
+        }, {
+          name: '身份和视图权限关系',
+          id: 5,
+          tit: [
+            {
+              prop: 'identity_text',
+              label: '身份名称'
+            },
+            {
+              prop: 'view_authority_text',
+              label: '视图权限名称'
+            },
+            {
+              prop: 'view_id',
+              label: '视图id'
+            }
+          ]
+        }
+      ],
+      currentPage: 1,
+      arr: []
     }
   },
   computed: {
     ...mapState({
-      date: state => state.adduser.dateList
+      date: state => [...state.adduser.dateList]
     })
   },
-  created() {
-    this.apiList = ['dateList', 'showViewAuth', 'allViewList', 'showApiAuth', 'getApiAuth', 'getAllIndetity']
-  },
+  async created() {},
   async mounted() {
     await this.dateList()
+    this.arr = this.date.slice(0, 10)
   },
 
   methods: {
@@ -52,10 +147,39 @@ export default {
       getApiAuth: 'adduser/getApiAuth', // api接口信息
       getAllIndetity: 'adduser/getAllIndetity' // 身份信息
     }),
+    handleCurrentChange(val) {
+      this.currentPage = val
+      this.arr = this.date.slice((this.currentPage - 1) * 10, this.currentPage * 10)
+    },
     async handleClick(tab, event) {
-      console.log(tab, event)
-      await this.showViewAuth()
-      console.log(this.date)
+      switch (tab.index) {
+        case '0': {
+          await this.dateList()
+          break
+        }
+        case '1': {
+          await this.getAllIndetity()
+          break
+        }
+        case '2': {
+          await this.getApiAuth()
+          break
+        }
+        case '3': {
+          await this.showApiAuth()
+          break
+        }
+        case '4': {
+          await this.allViewList()
+          break
+        }
+        case '5': {
+          await this.showViewAuth()
+          break
+        }
+      }
+      this.index = tab.index
+      this.arr = this.date.slice(0, 10)
     }
   }
 }

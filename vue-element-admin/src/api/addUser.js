@@ -1,5 +1,13 @@
 import request from '@/utils/request'
 
+// 添加用户
+export function adduser(params) {
+  return request({
+    url: '/user',
+    method: 'post',
+    data: params
+  })
+}
 // 添加身份信息
 export function addIdent(params) {
   return request({
