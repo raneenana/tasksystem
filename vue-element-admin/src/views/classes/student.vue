@@ -6,25 +6,25 @@
         <el-input v-model="input" style="width: 165px; margin-right: 15px;" placeholder="请输入学生姓名" />
         <el-select v-model="value" style="width: 165px; margin-right: 15px;" placeholder="请选择教室号">
           <el-option
-            v-for="item in allStud.studentarr"
-            :key="item.student_id"
-            :label="item.room_text"
-            :value="item.value"
+            v-for="item in roomArr"
+            :key="item"
+            :label="item"
+            :value="item"
           />
         </el-select>
         <el-select v-model="valueclass" style="width: 165px; margin-right: 15px;" placeholder="班级名">
           <el-option
-            v-for="item in allStud.studentarr"
-            :key="item.student_id"
-            :label="item.grade_name"
-            :value="item.value"
+            v-for="item in classArr"
+            :key="item"
+            :label="item"
+            :value="item"
           />
         </el-select>
-        <el-button type="primary" class="button">搜索</el-button>
+        <el-button type="primary" class="button" @click="search">搜索</el-button>
         <el-button type="primary" class="button">重置</el-button>
       </div>
       <el-table
-        :data="allData"
+        :data="arrClass.length>0?arrClass:allStud.studentarr.slice((currentpage-1)*pagesize,currentpage*pagesize)"
         style="width: 100%"
       >
         <el-table-column
@@ -83,6 +83,8 @@
           :page-size="10"
           layout="total, sizes, prev, pager, next, jumper"
           :total="allStud.studentarr.length"
+          @size-change="changeSize"
+          @current-change="changeYe"
         />
       </div>
     </div>
@@ -94,10 +96,15 @@ import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
+      arrClass: [],
       input: '',
       value: '',
       valueclass: '',
-      allData: []
+      allData: [],
+      currentpage: 1,
+      pagesize: 10,
+      roomArr: [],
+      classArr: []
     }
   },
   computed: {
@@ -107,18 +114,42 @@ export default {
   },
   created() {
     this.student()
-    this.allData = this.allStud.studentarr.slice(0, 10)
-    console.log(this)
-    // console.log('student', this.allStud.studentarr)
+    const roomarr = []
+    const classarr = []
+    this.allStud.studentarr.forEach((item, ind) => {
+      if (roomarr.indexOf(item.room_text) === -1) {
+        roomarr.push(item.room_text)
+      }
+      if (classarr.indexOf(item.grade_name) === -1) {
+        classarr.push(item.grade_name)
+      }
+    })
+    this.roomArr = roomarr
+    this.classArr = classarr
   },
   methods: {
     ...mapActions({
       student: 'classes/allStudent',
       deletestudent: 'classes/deletestudent'
     }),
-    async deleteRow(id) {
-      await this.deletestudent({ student_id: id })
-      await this.student()
+    deleteRow(id) {
+      this.deletestudent(id)
+      this.student()
+    },
+    changeYe(val) {
+      this.currentpage = val
+    },
+    changeSize(val) {
+      this.pagesize = val
+    },
+    search() {
+      console.log(this.input)
+      const arr = this.allStud.studentarr.filter((item, ind) => {
+        console.log('item', item)
+        return this.input === item.student_name
+      })
+      console.log('arr', arr)
+      this.arrClass = arr
     }
   }
 }

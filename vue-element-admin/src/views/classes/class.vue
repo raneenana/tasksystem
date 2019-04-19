@@ -3,39 +3,21 @@
     <h2 style="padding: 20px 0px; margin-top: 10px;">班级管理</h2>
     <div class="layout-content">
       <el-button type="primary" class="button" @click="dialogFormVisible = true">+添加班级</el-button>
-      <el-table
-        :data="allArr.arr"
-        style="width: 100%"
-      >
-        <el-table-column
-          label="班级名"
-          width="311"
-        >
-          <template slot-scope="scope">
-            {{ scope.row.grade_name }}
-          </template>
+      <el-table :data="allArr.arr" style="width: 100%">
+        <el-table-column label="班级名" width="311">
+          <template slot-scope="scope">{{ scope.row.grade_name }}</template>
         </el-table-column>
-        <el-table-column
-          label="课程名"
-          width="460"
-        >
-          <template slot-scope="scope">
-            {{ scope.row.subject_text }}
-          </template>
+        <el-table-column label="课程名" width="460">
+          <template slot-scope="scope">{{ scope.row.subject_text }}</template>
         </el-table-column>
-        <el-table-column
-          label="教室号"
-          width="315"
-        >
-          <template slot-scope="scope">
-            {{ scope.row.room_text }}
-          </template>
+        <el-table-column label="教室号" width="315">
+          <template slot-scope="scope">{{ scope.row.room_text }}</template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="editRow(scope.row.grade_name,scope.row.subject_text,scope.row.room_text)"
+              @click="editRow(scope.row)"
             >编辑</el-button>
             <el-button
               size="mini"
@@ -46,6 +28,7 @@
         </el-table-column>
       </el-table>
     </div>
+    <!-- 添加班级 -->
     <el-dialog title="添加班级" :visible.sync="dialogFormVisible" width="520px" height="317px">
       <el-form :model="form">
         <el-form-item label="班级名" :label-width="formLabelWidth">
@@ -53,22 +36,12 @@
         </el-form-item>
         <el-form-item label="教室号" :label-width="formLabelWidth">
           <el-select v-model="form.roomid" placeholder="请选择">
-            <el-option
-              v-for="item in allArr.arr"
-              :key="item.room_id"
-              :label="roomText||item.room_text"
-              :value="item.room_id"
-            />
+            <el-option v-for="(item,index) in allArr.arr" :key="index" :label="item.room_text" :value="item.room_id" />
           </el-select>
         </el-form-item>
         <el-form-item label="课程名" :label-width="formLabelWidth">
           <el-select v-model="form.subjectid" placeholder="请选择">
-            <el-option
-              v-for="item in allArr.arr"
-              :key="item.room_id"
-              :label="subjectText||item.subject_text"
-              :value="item.subject_id"
-            />
+            <el-option v-for="(item,index) in allArr.arr" :key="index" :label="item.subject_text" :value="item.subject_id" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -77,23 +50,51 @@
         <el-button type="primary" @click="addClasses">提 交</el-button>
       </div>
     </el-dialog>
+    <!-- 修改班级 -->
+    <el-dialog title="修改班级" :visible.sync="mark" width="520px" height="317px">
+      <el-form :model="edit">
+        <el-form-item label="班级名" :label-width="formLabelWidth">
+          <el-input v-model="edit.name" autocomplete="off" placeholder="班级名" props="edit.gradeid" disabled="disabled" />
+        </el-form-item>
+        <el-form-item label="教室号" :label-width="formLabelWidth">
+          <el-select v-model="edit.roomText" placeholder="请选择" props="edit.roomid">
+            <el-option v-for="(item,index) in allArr.arr" :key="index" :label="item.room_text" :value="item.room_id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="课程名" :label-width="formLabelWidth">
+          <el-select v-model="edit.subjectText" placeholder="请选择" props="edit.subjectid">
+            <el-option v-for="(item,index) in allArr.arr" :key="index" :label="item.subject_text" :value="item.subject_id" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="mark = false">取 消</el-button>
+        <el-button type="primary" @click="editClass(edit)">提 交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-// scope.row.grade_id,  scope.row.grade_name,scope.row.subject_id,scope.row.room_id,scope.row.subject_text,scope.row.room_text
 import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
+      mark: false,
       dialogFormVisible: false,
       form: {
         name: '',
         roomid: '',
         subjectid: ''
       },
-      roomText: '',
-      subjectText: '',
+      edit: {
+        name: '',
+        roomText: '',
+        subjectText: '',
+        roomid: '',
+        subjectid: '',
+        gradeid: ''
+      },
       formLabelWidth: '120px'
     }
   },
@@ -109,25 +110,33 @@ export default {
     ...mapActions({
       allClass: 'classes/allClass',
       addgrade: 'classes/addgrade',
-      deletegrade: 'classes/deletegrade'
+      deletegrade: 'classes/deletegrade',
+      updategrade: 'classes/updategrade'
     }),
     async addClasses() {
       this.dialogFormVisible = false
       const obj = this.form
-      await this.addgrade({ grade_name: obj.name, subject_id: obj.subjectid })
+      await this.addgrade({ grade_name: obj.name, room_id: obj.roomid, subject_id: obj.subjectid })
       await this.allClass()
     },
     deleteRow(id) {
       this.deletegrade({ grade_id: id })
       this.allClass()
     },
-    editRow(gradeName, roomName, subjectName) {
-      this.dialogFormVisible = true
-      this.form.name = gradeName
-      this.roomText = roomName
-      this.subjectText = subjectName
-      // console.log(gradeName,roomName,subjectName)
-      // this.form =
+    editRow(value) {
+      this.mark = true
+      this.edit.name = value.grade_name
+      this.edit.roomText = value.room_text
+      this.edit.subjectText = value.subject_text
+      this.edit.gradeid = value.grade_id
+      this.edit.roomid = value.room_id
+      this.edit.subjectid = value.subject_id
+    },
+    async editClass(value) {
+      this.mark = false
+      console.log(value)
+      await this.updategrade({ grade_id: value.gradeid, grade_name: value.name, subject_id: value.subjectid, room_id: value.roomid })
+      await this.allClass()
     }
   }
 }
