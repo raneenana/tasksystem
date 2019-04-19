@@ -139,6 +139,10 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import {
+  // MessageBox,
+  Message
+} from 'element-ui'
 export default {
   data() {
     return {
@@ -197,27 +201,47 @@ export default {
     // 添加身份
     async addIden() {
       if (!this.idValue) {
-        alert('身份信息不能为空')
+        Message({
+          message: '身份信息不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
         return false
       }
       var res = await this.addIndentity({ identity_text: this.idValue })
       if (res.code === 1) {
-        alert(res.msg)
+        Message({
+          message: res.msg,
+          type: 'success',
+          duration: 5 * 1000
+        })
         this.idValue = ''
       }
     },
     // 添加接口权限信息
     async addApi() {
       if (!this.apiMsg.name) {
-        alert('api接口名不能为空')
+        Message({
+          message: 'api名字不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
         return false
       }
       if (!this.apiMsg.url) {
-        alert('api路径不能为空')
+        Message({
+          message: 'api路径不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
         return false
       }
       if (!this.apiMsg.method) {
-        alert('api接口方法不能为空')
+        Message({
+          message: 'api接口方法不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
         return false
       }
       var res = await this.addApiAuth({
@@ -226,7 +250,11 @@ export default {
         api_authority_method: this.apiMsg.method
       })
       if (res.code === 1) {
-        alert(res.msg)
+        Message({
+          message: res.msg,
+          type: 'success',
+          duration: 5 * 1000
+        })
         this.apiMsg = {
           name: '',
           url: '',
@@ -238,7 +266,11 @@ export default {
     async addView() {
       // console.log(this.viewMsg)
       if (!this.viewMsg) {
-        alert('视图信息不能为空')
+        Message({
+          message: '视图信息不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
         return false
       }
       var item = this.viewOpt.filter((item) => {
@@ -248,11 +280,19 @@ export default {
       var text = item[0].view_authority_text
       const res = await this.addViewAuth({ view_authority_text: text, view_id: id })
       if (!res) {
-        alert('视图接口重复')
+        Message({
+          message: '视图接口重复',
+          type: 'error',
+          duration: 5 * 1000
+        })
         this.viewMsg = ''
       } else {
         if (res.code === 1) {
-          alert(res.msg)
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 5 * 1000
+          })
           this.viewMsg = ''
         }
       }
@@ -260,11 +300,19 @@ export default {
     // 身份设置api接口权限
     async idAuth() {
       if (!this.setApi.idMsg) {
-        alert('身份id不能为空')
+        Message({
+          message: '身份id不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
         return false
       }
       if (!this.setApi.apiMsg) {
-        alert('接口权限不能为空')
+        Message({
+          message: '接口权限不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
         return false
       }
       const item = this.allIden.filter((item) => {
@@ -280,18 +328,30 @@ export default {
         api_authority_id: apiNum
       })
       if (res.code === 1) {
-        alert(res.msg)
+        Message({
+          message: res.msg,
+          type: 'success',
+          duration: 5 * 1000
+        })
       }
     },
     // 身份设置视图权限
     async viewAuth() {
       console.log(this.viewAuthor)
       if (!this.viewAuthor.idAuth) {
-        alert('身份id不能为空')
+        Message({
+          message: '身份id不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
         return false
       }
       if (!this.viewAuthor.viewAuth) {
-        alert('视图权限不能为空')
+        Message({
+          message: '视图权限不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
         return false
       }
       const item = this.allIden.filter((item) => {
@@ -306,8 +366,20 @@ export default {
         identity_id: idNum,
         view_authority_id: apiNum
       })
-      if (res.code === 1) {
-        alert(res.msg)
+      if(!res){
+        Message({
+          message: '视图权限重复',
+          type: 'error',
+          duration: 5 * 1000
+        })
+      } else {
+        if (res.code === 1) {
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 5 * 1000
+          })
+        }
       }
     },
     reset() {
