@@ -22,7 +22,7 @@
     <div v-show="flag" class="add-drawer">
       <div class="mask" />
       <div class="add-drawer-right">
-        <p class="fix-top"><span style="margin-right:20px;font-size:20px;color:#f00" @click="close">X</span>所有试题</p>
+        <p class="fix-top"><span style="margin-right:20px;font-size:20px;color:#f00;cursor:pointer;" @click="close">X</span>所有试题</p>
         <ul v-for="(item,index) in alltest" :key="index" class="allPaper">
           <li>
             <p>类型:{{ item.questions_type_text }}</p>
@@ -115,7 +115,10 @@ export default {
   overflow-y: scroll;
   .fix-top{
     width: 100%;
+    height: 30px;
     position: fixed;
+    top: 0;
+    background: #fff;
   }
 }
 .allPaper{
