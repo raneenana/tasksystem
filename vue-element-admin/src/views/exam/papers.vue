@@ -103,14 +103,14 @@ export default {
       getRightExam: 'addQuestion/getRightExam', // 按条件获取试题
       getDetail: 'addQuestion/getDetail' // 获取详情信息
     }),
-    async detail(e, item) {
-      await this.getDetail(item)
+    detail(e, item) {
+      this.getDetail(item)
       console.log(item)
       var str = ''
       if (e.target.tagName === 'SPAN') {
-        str = 'addQuestion'
+        str = 'addQuestion?id=' + item.questions_id
       } else {
-        str = 'detail'
+        str = 'detail?id=' + item.questions_id
       }
       this.$router.push({ path: str })
     },

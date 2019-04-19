@@ -75,35 +75,35 @@ export default {
       content1: '',
       dialogVisible: false,
       dialogVisible1: false,
+      id: '',
       msg: '添加试题失败',
       value: '',
       tvalue: '',
       svalue: '',
       evalue: '',
       qvalue: '',
-      tableData: [
-        {
-          information: 'Nodejs开发第二周摸底考试',
-          class: '1608',
-          creator: '陈',
-          startTime: '2019-3-10',
-          endTime: '2019-3-17'
-        },
-        {
-          information: '渐进式',
-          class: '1609',
-          creator: '王',
-          startTime: '2019-3-10',
-          endTime: '2019-3-17'
-        },
-        {
-          information: '组件式',
-          class: '1610',
-          creator: '任',
-          startTime: '2019-3-10',
-          endTime: '2019-3-17'
-        }
-      ]
+      questions_id: '',
+      tableData: [{
+        information: 'Nodejs开发第二周摸底考试',
+        class: '1608',
+        creator: '陈',
+        startTime: '2019-3-10',
+        endTime: '2019-3-17'
+      },
+      {
+        information: '渐进式',
+        class: '1609',
+        creator: '王',
+        startTime: '2019-3-10',
+        endTime: '2019-3-17'
+      },
+      {
+        information: '组件式',
+        class: '1610',
+        creator: '任',
+        startTime: '2019-3-10',
+        endTime: '2019-3-17'
+      }]
     }
   },
   computed: {
@@ -112,6 +112,7 @@ export default {
       userInfo: state => state.addQuestion.userInfo,
       examType: state => state.addQuestion.examType,
       subjectType: state => state.addQuestion.subjectType,
+      allQuestion: state => state.addQuestion.allQuestion,
       questionsType: state => state.addQuestion.questionsType
     })
   },
@@ -128,11 +129,26 @@ export default {
       this.question = '您要修改吗，确定要修改这道题吗'
     }
   },
-  created() {
+  async created() {
     this.getUser()
     this.getExamType()
     this.getSubjectType()
     this.getQuestionsTpe()
+    await this.getAllExam()
+    this.id = this.$route.query.id
+    this.allQuestion.forEach(item => {
+      if (this.id === item.questions_id) {
+        this.questions_id = item.questions_id
+        this.tvalue = item.title
+        this.evalue = item.exam_id
+        this.svalue = item.subject_id
+        this.qvalue = item.questions_type_id
+        this.content = item.questions_stem
+        this.content1 = item.questions_answer
+        this.defaultHead = '编辑试题'
+        this.question = '您要修改吗，确定要修改这道题吗'
+      }
+    })
   },
   methods: {
     ...mapMutations({
@@ -140,8 +156,10 @@ export default {
     }),
     ...mapActions({
       getUser: 'addQuestion/getUser',
+      getAllExam: 'addQuestion/getAllExam',
       getExamType: 'addQuestion/getExamType',
       addQuestions: 'addQuestion/addQuestions',
+      upQuestions: 'addQuestion/upQuestions',
       getSubjectType: 'addQuestion/getSubjectType',
       getQuestionsTpe: 'addQuestion/getQuestionsTpe'
     }),
@@ -155,9 +173,26 @@ export default {
         user_id: this.userInfo.user_id,
         title: this.content
       }
+      var obj1 = {
+        questions_type_id: this.qvalue,
+        questions_answer: this.content1,
+        questions_stem: this.tvalue,
+        // user_id: this.userInfo.user_id,
+        subject_id: this.svalue,
+        exam_id: this.evalue,
+        questions_id: this.questions_id,
+        title: this.content
+      }
       this.dialogVisible = false
       this.dialogVisible1 = true
-      var res = await this.addQuestions(obj)
+      var res = null
+      console.log(this.question)
+      if (this.question === '您要修改吗，确定要修改这道题吗') {
+        console.log(obj, '123123131')
+        res = await this.upQuestions(obj1)
+      } else {
+        res = await this.addQuestions(obj)
+      }
       if (res.msg) {
         this.msg = res.msg
       }

@@ -1,4 +1,4 @@
-import { getUserInfo, getType, getSubject, getQuestionsType, addQuestion, allExam, searchExam } from '@/api/addQuestion'
+import { getUserInfo, getType, getSubject, getQuestionsType, addQuestion, updataQuestion, allExam, searchExam } from '@/api/addQuestion'
 const state = {
   userInfo: [],
   allQuestion: [],
@@ -39,30 +39,36 @@ const actions = {
     commit('updataState', { questionsType: result.data })
     console.log(result, 'snf')
   },
-  // 更新试题 ,
+  // 添加试题 ,
   async addQuestions({ commit }, paylod) {
-    console.log(paylod, 'saddsad')
     var result = await addQuestion(paylod)
-    console.log(result, 'results')
-    // commit('updataState', { questionsType: result.data })
     return result
+  },
+  // 更新试题 ,
+  async upQuestions({ commit }, paylod) {
+    var result = await updataQuestion(paylod)
+    if (!result) {
+      return { msg: '更新试题失败' }
+    } else {
+      return result
+    }
   },
   // 获取所有的试题
   async getAllExam({ commit }, payload) {
     var result = await allExam()
     commit('updataState', { allQuestion: result.data })
-    console.log(result, 'alllll/...')
+    console.log(result, 'allExam/...')
   },
   // 按条件获取试题
   async getRightExam({ commit }, payload) {
     var result = await searchExam(payload)
     commit('updataState', { allQuestion: result.data })
-    console.log(result, 'alllll/...')
+    console.log(result, 'searchExam/...')
   },
   // 获取详情信息
   async getDetail({ commit }, payload) {
     commit('updataState', { detail: payload })
-    console.log(payload, 'alllll/...')
+    console.log(payload, 'detail/...')
   }
 }
 
