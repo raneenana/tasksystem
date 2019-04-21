@@ -40,12 +40,6 @@ export default {
       allQuestion: state => state.addQuestion.allQuestion
     })
   },
-  methods: {
-    ...mapActions({
-      getUser: 'addQuestion/getUser',
-      getAllExam: 'addQuestion/getAllExam'
-    })
-  },
   async created() {
     await this.getAllExam()
     this.id = this.$route.query.id
@@ -58,6 +52,12 @@ export default {
         this.add = item.questions_stem
         this.questions_answer = item.questions_answer
       }
+    })
+  },
+  methods: {
+    ...mapActions({
+      getUser: 'addQuestion/getUser',
+      getAllExam: 'addQuestion/getAllExam'
     })
   }
 }
@@ -77,7 +77,7 @@ export default {
 }
 
 .messtitle {
-  width:60%;
+  width: 60%;
   background: white;
   border-radius: 10px;
   margin-left: 20px;
@@ -128,9 +128,9 @@ export default {
   border: 1px solid #ffd591;
   font-size: 12px;
 }
-.valu{
+.valu {
   font-size: 14px;
   width: 70%;
-  margin:50px;
-  }
+  margin: 50px;
+}
 </style>
