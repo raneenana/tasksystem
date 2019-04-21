@@ -22,13 +22,15 @@
     <div v-show="flag" class="add-drawer">
       <div class="mask" />
       <div class="add-drawer-right">
-        <p class="fix-top"><span style="margin-right:20px;font-size:20px;color:#f00;cursor:pointer;" @click="close">X</span>所有试题</p>
-        <ul v-for="(item,index) in alltest" :key="index" class="allPaper">
-          <li>
-            <p>类型:{{ item.questions_type_text }}</p>
-            <p>题目:{{ item.title }}</p>
-          </li>
-        </ul>
+        <div>
+          <p class="fix-top"><span style="margin-right:20px;font-size:20px;color:#f00;cursor:pointer;" @click="close">X</span>所有试题</p>
+          <ul v-for="(item,index) in alltest" :key="index" class="allPaper">
+            <li>
+              <p>类型:{{ item.questions_type_text }}</p>
+              <p>题目:{{ item.title }}</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -103,6 +105,20 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
 }
+@keyframes fade-in {
+  0% {
+    width: 0;
+  }
+  40% {
+    width: 20%;
+  }
+  60%{
+    width: 10%;
+  }
+  100% {
+    width: 40%;
+  }
+}
 .add-drawer-right {
   width: 40%;
   position: relative;
@@ -113,7 +129,10 @@ export default {
   z-index: 1;
   height: 100%;
   overflow-y: scroll;
-  .fix-top{
+  animation: fade-in;
+  animation-duration: 2s;
+
+  .fix-top {
     width: 100%;
     height: 30px;
     position: fixed;
@@ -121,7 +140,7 @@ export default {
     background: #fff;
   }
 }
-.allPaper{
+.allPaper {
   margin-top: 50px;
 }
 .add-layout {
