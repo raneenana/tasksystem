@@ -17,7 +17,7 @@
         <el-table-column v-for="(item, i) in apiList[index].tit" :key="i" :prop="item.prop" :label="item.label" />
       </el-table>
     </div>
-    <el-pagination background layout="prev, pager, next" style="float:right;margin:20px 0;" :page-size="10" :total="date.length" @current-change="handleCurrentChange" />
+    <el-pagination background layout="prev, pager, next" style="float:right;margin:20px 0;margin-right:20px 0;" :page-size="10" :total="date.length" @current-change="handleCurrentChange" />
   </div>
 </template>
 <script>
@@ -132,7 +132,6 @@ export default {
       date: state => [...state.adduser.dateList]
     })
   },
-  async created() {},
   async mounted() {
     await this.dateList()
     this.arr = this.date.slice(0, 10)
