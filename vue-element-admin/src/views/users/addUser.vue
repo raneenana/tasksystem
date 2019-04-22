@@ -280,14 +280,19 @@ export default {
           return false
         }
       }
-      var item = this.allIden.filter((item) => {
-        return item.identity_text === this.add.idText
-      })
-      console.log(item[0])
+      var num = ''
+      if (!this.add.idText) {
+        num = 'zi0gu7-v7dy08'
+      } else {
+        var item = this.allIden.filter((item) => {
+          return item.identity_text === this.add.idText
+        })
+        num = item[0].identity_id
+      }
       var res = await this.addPeo({
         user_name: this.add.name,
         user_pwd: this.add.pwd,
-        id: item[0].identity_id
+        identity_id: num
       })
       if (res.code === 1) {
         Message({
@@ -306,10 +311,16 @@ export default {
         })
         return
       }
+      // 身份id
       var item = this.allIden.filter((item) => {
         return item.identity_text === this.changeUser.indet
       })
-      console.log(item)
+      // user_id
+      var arr = this.users.filter((item) => {
+        return item.user_id === this.changeUser.id
+      })
+      this.changeUser.name = arr[0].user_name
+      this.changeUser.pwd = arr[0].user_pwd
       var res = await this.changeMes({
         user_id: this.changeUser.id,
         user_name: this.changeUser.name,
@@ -322,6 +333,12 @@ export default {
           type: 'success',
           duration: 5 * 1000
         })
+        this.changeUser = {
+          id: '',
+          name: '',
+          pwd: '',
+          indet: ''
+        }
       } else {
         Message({
           message: '添加失败',
