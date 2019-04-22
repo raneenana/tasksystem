@@ -116,7 +116,6 @@ export default {
       questionsType: state => state.addQuestion.questionsType
     })
   },
-
   methods: {
     ...mapMutations({
       updataState: 'addQuestion/updataState'

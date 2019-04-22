@@ -10,18 +10,18 @@
           </button>
         </div>
         <div class="style_lists">
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="date" label="类型ID" width="280" />
-            <el-table-column prop="name" label="类型名称" width="280" />
+          <el-table :data="questionsType" style="width: 100%">
+            <el-table-column prop="questions_type_id" label="类型ID" width="280" />
+            <el-table-column prop="questions_type_text" label="类型名称" width="280" />
             <el-table-column prop="address" label="操作" />
           </el-table>
         </div>
         <el-dialog title="创建新类型" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
           <div class="title">
-            <input class="ipt" placeholder="请输入类型名称" type="text" value="">
+            <input v-model="ivalue" class="ipt" placeholder="请输入类型名称" type="text">
           </div>
           <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            <el-button type="primary" @click="sbmit">确 定</el-button>
             <el-button @click="dialogVisible = false">取 消</el-button>
           </span>
         </el-dialog>
@@ -30,30 +30,51 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
-      dialogVisible: false
+      dialogVisible: false,
+      code: '',
+      ivalue: ''
     }
   },
+  computed: {
+    ...mapState({
+      questionsType: state => state.addQuestion.questionsType
+    })
+  },
+  created() {
+    this.getQuestionsTpe()
+  },
   methods: {
+    createCode() {
+      const codeArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+      const length = 12
+      this.code = ''
+      for (let i = 0; i < length; i++) {
+        var randomI = Math.floor(Math.random() * 36)
+        this.code += codeArr[randomI]
+      }
+    },
+    ...mapActions({
+      getUser: 'addQuestion/getUser',
+      getAllExam: 'addQuestion/getAllExam',
+      getExamType: 'addQuestion/getExamType',
+      addQuestions: 'addQuestion/addQuestions',
+      upQuestions: 'addQuestion/upQuestions',
+      getSubjectType: 'addQuestion/getSubjectType',
+      getQuestionsTpe: 'addQuestion/getQuestionsTpe',
+      addType: 'addQuestion/addType'
+    }),
+    async sbmit() {
+      await this.createCode()
+      this.dialogVisible = false
+      await this.addType({
+        text: this.ivalue,
+        sort: this.code
+      })
+    },
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
