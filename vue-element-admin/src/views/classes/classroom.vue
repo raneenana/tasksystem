@@ -3,14 +3,8 @@
     <h2 style="padding: 20px 0px; margin-top: 10px;">教室管理</h2>
     <div class="layout-content">
       <el-button type="primary" class="button" @click="dialogFormVisible = true">+添加教室</el-button>
-      <el-table
-        :data="allRoom.roomarr"
-        style="width: 100%"
-      >
-        <el-table-column
-          label="姓名"
-          width="695"
-        >
+      <el-table :data="allRoom.roomarr" style="width: 100%">
+        <el-table-column label="姓名" width="695">
           <template slot-scope="scope">
             {{ scope.row.room_text }}
           </template>

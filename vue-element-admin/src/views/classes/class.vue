@@ -134,7 +134,6 @@ export default {
     },
     async editClass(value) {
       this.mark = false
-      console.log(value)
       await this.updategrade({ grade_id: value.gradeid, grade_name: value.name, subject_id: value.subjectid, room_id: value.roomid })
       await this.allClass()
     }
