@@ -226,7 +226,6 @@ export default {
     await this.getAllIndetity()
     await this.getApiAuth()
     await this.showUsers()
-    console.log(this.users)
   },
   methods: {
     ...mapActions({
@@ -314,6 +313,10 @@ export default {
       // 身份id
       var item = this.allIden.filter((item) => {
         return item.identity_text === this.changeUser.indet
+      })
+      // user_id
+      var arr = this.users.filter((item) => {
+        return item.user_id === this.changeUser.id
       })
       this.changeUser.name = arr[0].user_name
       this.changeUser.pwd = arr[0].user_pwd
