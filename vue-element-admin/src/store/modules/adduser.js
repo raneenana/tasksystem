@@ -9,14 +9,17 @@ import {
   setApi,
   setView,
   showApi,
-  showView
+  showView,
+  showPeo,
+  change
 } from '@/api/addUser'
 import { showUser } from '@/api/showUser'
 const state = {
   viewOpt: [],
   allIden: [],
   apiOpt: [],
-  dateList: []
+  dateList: [],
+  users: []
 }
 
 const mutations = {
@@ -37,6 +40,9 @@ const mutations = {
   },
   CHANGE_DATALIST: (state, token) => {
     state.dateList = token.data
+  },
+  CHANGE_SHOW: (state, payload) => {
+    state.users = payload.data
   }
 }
 
@@ -101,6 +107,15 @@ const actions = {
   async showViewAuth({ commit }, payload) {
     var data = await showView()
     commit('CHANGE_DATALIST', data)
+  },
+  // 获取所有的用户信息
+  async showUsers({ commit }, payload) {
+    var res = await showPeo()
+    commit('CHANGE_SHOW', res)
+  },
+  async changeMes({ commit }, payload) {
+    var res = await change(payload)
+    return res
   }
 }
 
