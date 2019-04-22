@@ -41,9 +41,11 @@ const actions = {
   },
   // 添加试题类型 addQuestion,
   async addType({ commit }, paylod) {
+    console.log(paylod, 'addd....')
     var result = await getAddType(paylod)
+    return result
     // commit('updataState', { questionsType: result.data })
-    console.log(result, 'addd....')
+    // console.log(result, 'addd....')
   },
   // 添加试题
   async addQuestions({ commit }, paylod) {
