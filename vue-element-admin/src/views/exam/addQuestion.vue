@@ -116,40 +116,6 @@ export default {
       questionsType: state => state.addQuestion.questionsType
     })
   },
-  mounted() {
-    console.log(this.detail.exam_id)
-    if (this.detail) {
-      this.tvalue = this.detail.title
-      this.evalue = this.detail.exam_id
-      this.svalue = this.detail.subject_id
-      this.qvalue = this.detail.questions_type_id
-      this.content = this.detail.questions_stem
-      this.content1 = this.detail.questions_answer
-      this.defaultHead = '编辑试题'
-      this.question = '您要修改吗，确定要修改这道题吗'
-    }
-  },
-  async created() {
-    this.getUser()
-    this.getExamType()
-    this.getSubjectType()
-    this.getQuestionsTpe()
-    await this.getAllExam()
-    this.id = this.$route.query.id
-    this.allQuestion.forEach(item => {
-      if (this.id === item.questions_id) {
-        this.questions_id = item.questions_id
-        this.tvalue = item.title
-        this.evalue = item.exam_id
-        this.svalue = item.subject_id
-        this.qvalue = item.questions_type_id
-        this.content = item.questions_stem
-        this.content1 = item.questions_answer
-        this.defaultHead = '编辑试题'
-        this.question = '您要修改吗，确定要修改这道题吗'
-      }
-    })
-  },
   methods: {
     ...mapMutations({
       updataState: 'addQuestion/updataState'
@@ -204,43 +170,64 @@ export default {
         })
         .catch(_ => {})
     }
+  },
+  async created() {
+    this.getUser()
+    this.getExamType()
+    this.getSubjectType()
+    this.getQuestionsTpe()
+    await this.getAllExam()
+    this.id = this.$route.query.id
+    this.allQuestion.forEach(item => {
+      if (this.id === item.questions_id) {
+        this.questions_id = item.questions_id
+        this.tvalue = item.title
+        this.evalue = item.exam_id
+        this.svalue = item.subject_id
+        this.qvalue = item.questions_type_id
+        this.content = item.questions_stem
+        this.content1 = item.questions_answer
+        this.defaultHead = '编辑试题'
+        this.question = '您要修改吗，确定要修改这道题吗'
+      }
+    })
   }
 }
 </script>
 
 <style>
-.wrap {
+.wrap{
   padding: 0px 24px 24px;
   background: #f0f2f5;
   display: flex;
   flex-direction: column;
 }
-.wrap h2 {
+.wrap h2{
   padding: 20px 0px;
   margin-top: 10px;
   margin-bottom: 0.5em;
   color: rgba(0, 0, 0, 0.85);
   font-weight: 500;
 }
-.content {
+.content{
   flex: auto;
   line-height: 1.5;
-  font-size: 14px;
+  font-size:14px;
   color: rgba(0, 0, 0, 0.65);
 }
-.content h3 {
+.content h3{
   margin-top: 0;
   margin-bottom: 0.5em;
   color: rgba(0, 0, 0, 0.85);
   font-weight: 500;
 }
-.content > div {
-  background: rgb(255, 255, 255);
-  padding: 24px;
-  margin: 0px 0px 20px;
-  border-radius: 10px;
+.content>div{
+    background: rgb(255, 255, 255);
+    padding: 24px;
+    margin: 0px 0px 20px;
+    border-radius: 10px;
 }
-.content .form-item {
+.content .form-item{
   position: relative;
   margin-left: 0;
   margin-right: 0;
@@ -253,7 +240,7 @@ export default {
   font-weight: 400;
   box-sizing: border-box;
 }
-.content .form-item .item {
+.content .form-item .item{
   padding: 0 0 8px;
   margin: 0;
   display: block;
@@ -261,40 +248,40 @@ export default {
   line-height: 1.5;
   white-space: initial;
 }
-.title {
-  width: 90%;
-  height: 40px;
+.title{
+  width:90%;
+  height:40px;
 }
-.title .ipt {
-  width: 65%;
-  height: 100%;
+.title .ipt{
+  width:65%;
+  height:100%;
   border-radius: 2px;
-  border: none;
+  border:none;
   border: 1px solid #ccc;
-  padding-left: 10px;
+  padding-left:10px;
   font-size: 16px;
   box-sizing: border-box;
 }
-.f-item {
-  width: 15%;
-  margin: 30px 0;
+.f-item{
+  width:15%;
+  margin:30px 0;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
-.f-item label {
-  padding-bottom: 10px;
+.f-item label{
+  padding-bottom:10px;
   box-sizing: border-box;
 }
-.sbmit {
-  width: 10%;
-  height: 40px;
-  border: none;
+.sbmit{
+  width:10%;
+  height:40px;
+  border:none;
   outline: none;
   border-radius: 5px;
-  background: linear-gradient(-90deg, #4e75ff, #0139fd);
-  color: #fff;
-  margin-top: 35px;
+  background: linear-gradient(-90deg,#4e75ff,#0139fd);
+  color:#fff;
+  margin-top:35px;
   box-sizing: border-box;
 }
 </style>
