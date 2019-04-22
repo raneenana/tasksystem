@@ -40,12 +40,6 @@ export default {
       allQuestion: state => state.addQuestion.allQuestion
     })
   },
-  methods: {
-    ...mapActions({
-      getUser: 'addQuestion/getUser',
-      getAllExam: 'addQuestion/getAllExam'
-    })
-  },
   async created() {
     await this.getAllExam()
     this.id = this.$route.query.id
@@ -58,6 +52,12 @@ export default {
         this.add = item.questions_stem
         this.questions_answer = item.questions_answer
       }
+    })
+  },
+  methods: {
+    ...mapActions({
+      getUser: 'addQuestion/getUser',
+      getAllExam: 'addQuestion/getAllExam'
     })
   }
 }
