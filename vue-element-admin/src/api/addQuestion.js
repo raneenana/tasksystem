@@ -27,6 +27,14 @@ export function getQuestionsType() {
     method: 'get'
   })
 }
+// 添加试题类型
+export function getAddType(params) {
+  return request({
+    url: '/exam/insertQuestionsType',
+    method: 'get',
+    params
+  })
+}
 // 添加试题
 export function addQuestion(data) {
   return request({

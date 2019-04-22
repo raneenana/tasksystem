@@ -7,7 +7,8 @@
           <div class="add-form-top">
             <label for="title" class="add-form-item-required" title="试卷名称">课程类型:</label>
             <div class="add-item-every">
-              <div v-for="(item,index) in subjectType" :key="index" @click="every(item.subject_id)">{{ item.subject_text }}</div>
+              <div :class=" flag ? 'active':''" @click="every1">all</div>
+              <div v-for="(item,index) in subjectType" :key="index" :class="(index===idx)||(idx===99)?'active':''" @click="every(item.subject_id,index)">{{ item.subject_text }}</div>
             </div>
           </div>
           <div class="add-form-bottom">
@@ -52,8 +53,10 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   data() {
     return {
+      idx: '',
       value: '',
       value1: '',
+      flag: false,
       subject_id: '',
       isShow: false,
       tableData: [{
@@ -114,8 +117,17 @@ export default {
       }
       this.$router.push({ path: str })
     },
-    every(sid) {
+    every(sid, index) {
       this.subject_id = sid
+      this.idx = index
+    },
+    every1() {
+      this.flag = !this.flag
+      if (this.flag) {
+        this.idx = 99
+      } else {
+        this.idx = ''
+      }
     },
     async search() {
       await this.getRightExam({
@@ -200,6 +212,9 @@ export default {
   margin-bottom: 20px;
   cursor: pointer;
 }
+.add-form-top .add-item-every div:hover {
+  color:#00f;
+}
 .content div .add-form-bottom {
   display: flex;
 }
@@ -256,5 +271,9 @@ export default {
 .edit{
   padding-right:10px;
   box-sizing: border-box;
+}
+.active{
+  background: #0139FD!important;
+  color:#fff;
 }
 </style>
