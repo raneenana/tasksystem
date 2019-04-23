@@ -67,7 +67,7 @@ export default {
     toClass(ind, name) {
       console.log(ind)
       console.log(this.data)
-      window.localStorage.setItem('classMsg', JSON.stringify({
+      window.localStorage.setItem('classMsg',JSON.stringify({
         id: ind,
         name: name
       }))
