@@ -18,6 +18,13 @@ const readRouter = {
     }
   },
   {
+    path: 'classmate',
+    component: () => import('@/views/readPapers/classmate'), // Parent router-view
+    name: 'classmate',
+    meta: { title: 'classmate' },
+    hidden: true
+  },
+  {
     path: 'wait',
     component: () => import('@/views/charts/keyboard'),
     name: 'wait',

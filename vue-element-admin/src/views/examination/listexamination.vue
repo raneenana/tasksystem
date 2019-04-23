@@ -57,12 +57,12 @@
         </el-table-column>
         <el-table-column label="开始时间">
           <template slot-scope="scope">
-            <span>{{ scope.row.start_time }}</span>
+            <span>{{ new Date(scope.row.start_time * 1).toLocaleString() }}</span>
           </template>
         </el-table-column>
         <el-table-column label="结束时间">
           <template slot-scope="scope">
-            <span>{{ scope.row.end_time }}</span>
+            <span>{{ new Date(scope.row.end_time * 1).toLocaleString() }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="87">
@@ -177,7 +177,7 @@ h2 {
   margin-right: 60px;
 }
 .detail {
-  color: #0139FD;
+  color: #0139fd;
   background-color: transparent;
   text-decoration: none;
   outline: none;

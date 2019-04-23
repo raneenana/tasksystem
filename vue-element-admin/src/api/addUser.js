@@ -89,3 +89,18 @@ export function showView() {
     method: 'get'
   })
 }
+// 展示所有用户的身份信息
+export function showPeo() {
+  return request({
+    url: '/user/user',
+    method: 'get'
+  })
+}
+// 更新用户
+export function change(params) {
+  return request({
+    url: '/user/user',
+    method: 'put',
+    data: params
+  })
+}

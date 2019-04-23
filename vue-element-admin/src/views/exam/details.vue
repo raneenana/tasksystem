@@ -3,30 +3,61 @@
     <h2 class="tittle">试题详情</h2>
     <div class="messtitle">
       <p class="username">
-        <span>出题人: </span>{{ detail.user_name }}</p>
+        <span>出题人: </span>{{ user_name }}</p>
       <p class="message">题目信息</p>
       <div class="text">
-        <span class="type_text">{{ detail.questions_type_text }}</span>
-        <span class="subject_text">{{ detail.subject_text }}</span>
-        <span class="exam_name">{{ detail.exam_name }}</span>
+        <span class="type_text">{{ questions_type_text }}</span>
+        <span class="subject_text">{{ subject_text }}</span>
+        <span class="exam_name">{{ exam_name }}</span>
       </div>
-      <p class="value">
-        {{ detail.questions_stem }}
+      <p class="valu">
+        {{ add }}
       </p>
     </div>
     <div class="Answer">
       <p class="message">答案信息</p>
-      <div classs="messagevalue" />
+      <div classs="messagevalue">{{ questions_answer }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
+  data() {
+    return {
+      id: '',
+      user_name: '',
+      questions_type_text: '',
+      add: '',
+      questions_answer: '',
+      subject_text: '',
+      exam_name: ''
+    }
+  },
   computed: {
     ...mapState({
-      detail: state => state.addQuestion.detail
+      allQuestion: state => state.addQuestion.allQuestion
+    })
+  },
+  async created() {
+    await this.getAllExam()
+    this.id = this.$route.query.id
+    this.allQuestion.forEach(item => {
+      if (this.id === item.questions_id) {
+        this.user_name = item.user_name
+        this.exam_name = item.exam_name
+        this.subject_text = item.subject_text
+        this.questions_type_text = item.questions_type_text
+        this.add = item.questions_stem
+        this.questions_answer = item.questions_answer
+      }
+    })
+  },
+  methods: {
+    ...mapActions({
+      getUser: 'addQuestion/getUser',
+      getAllExam: 'addQuestion/getAllExam'
     })
   }
 }
@@ -97,7 +128,7 @@ export default {
   border: 1px solid #ffd591;
   font-size: 12px;
 }
-.value{
+.valu{
   font-size: 14px;
   width: 70%;
   margin:50px;

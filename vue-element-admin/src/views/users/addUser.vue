@@ -26,18 +26,18 @@
             </p>
           </div>
           <div :id="showClass ? 'active' : ''" class="mainForm">
-            <el-select v-model="setApi.idMsg" placeholder="请选择身份id" style="margin-top:10px;">
+            <el-select v-model="changeUser.id" placeholder="请选择用户id" style="margin-top:10px;">
               <el-option
-                v-for="item in allIden"
-                :key="item.identity_id"
-                :label="item.identity_text"
-                :value="item.identity_text"
+                v-for="item in users"
+                :key="item.user_id"
+                :label="item.user_name"
+                :value="item.user_id"
                 style="margin-left:5px;"
               />
             </el-select><br>
-            <el-input v-model="input" placeholder="请输入内容" style="width:90%; margin:10px 0" />
-            <el-input v-model="password" type="password" placeholder="请输入密码" autocomplete="off" style="width:90%; margin:10px 0" />
-            <el-select v-model="setApi.idMsg" placeholder="请选择身份id" style="margin-top:10px;">
+            <el-input v-model="changeUser.name" placeholder="请输入用户名" style="width:90%; margin:10px 0" />
+            <el-input v-model="changeUser.pwd" type="password" placeholder="请输入密码" autocomplete="off" style="width:90%; margin:10px 0" />
+            <el-select v-model="changeUser.indet" placeholder="请选择身份id" style="margin-top:10px;">
               <el-option
                 v-for="item in allIden"
                 :key="item.identity_id"
@@ -47,7 +47,7 @@
               />
             </el-select><br>
             <p>
-              <el-button type="primary">确定</el-button>
+              <el-button type="primary" @click="changes">确定</el-button>
               <el-button @click="reset(1)">重置</el-button>
             </p>
           </div>
@@ -176,6 +176,13 @@ export default {
       isShow: false,
       input: '',
       password: '',
+      user: '',
+      changeUser: {
+        id: '',
+        name: '',
+        pwd: '',
+        indet: ''
+      },
       add: {
         name: '',
         pwd: '',
@@ -207,7 +214,8 @@ export default {
     ...mapState({
       viewOpt: state => state.adduser.viewOpt,
       allIden: state => state.adduser.allIden,
-      apiOpt: state => state.adduser.apiOpt
+      apiOpt: state => state.adduser.apiOpt,
+      users: state => state.adduser.users
     })
   },
   async created() {
@@ -217,6 +225,7 @@ export default {
     // }
     await this.getAllIndetity()
     await this.getApiAuth()
+    await this.showUsers()
   },
   methods: {
     ...mapActions({
@@ -228,7 +237,9 @@ export default {
       getAllIndetity: 'adduser/getAllIndetity',
       getApiAuth: 'adduser/getApiAuth',
       setApiAuth: 'adduser/setApiAuth',
-      setViewAuth: 'adduser/setViewAuth'
+      setViewAuth: 'adduser/setViewAuth',
+      showUsers: 'adduser/showUsers',
+      changeMes: 'adduser/changeMes'
     }),
     // 添加用户
     async addUser() {
@@ -268,18 +279,68 @@ export default {
           return false
         }
       }
-      var item = this.allIden.filter((item) => {
-        return item.identity_text === this.add.idText
-      })
-      console.log(item)
+      var num = ''
+      if (!this.add.idText) {
+        num = 'zi0gu7-v7dy08'
+      } else {
+        var item = this.allIden.filter((item) => {
+          return item.identity_text === this.add.idText
+        })
+        num = item[0].identity_id
+      }
       var res = await this.addPeo({
         user_name: this.add.name,
         user_pwd: this.add.pwd,
-        id: item[0].identity_id
+        identity_id: num
       })
       if (res.code === 1) {
         Message({
           message: res.msg,
+          type: 'success',
+          duration: 5 * 1000
+        })
+      }
+    },
+    async changes() {
+      if (!this.changeUser.id) {
+        Message({
+          message: '身份id不能为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return
+      }
+      // 身份id
+      var item = this.allIden.filter((item) => {
+        return item.identity_text === this.changeUser.indet
+      })
+      // user_id
+      var arr = this.users.filter((item) => {
+        return item.user_id === this.changeUser.id
+      })
+      this.changeUser.name = arr[0].user_name
+      this.changeUser.pwd = arr[0].user_pwd
+      var res = await this.changeMes({
+        user_id: this.changeUser.id,
+        user_name: this.changeUser.name,
+        user_pwd: this.changeUser.pwd,
+        identity_id: item[0].identity_id
+      })
+      if (res.code === 1) {
+        Message({
+          message: res.msg,
+          type: 'success',
+          duration: 5 * 1000
+        })
+        this.changeUser = {
+          id: '',
+          name: '',
+          pwd: '',
+          indet: ''
+        }
+      } else {
+        Message({
+          message: '添加失败',
           type: 'success',
           duration: 5 * 1000
         })

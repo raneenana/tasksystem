@@ -26,16 +26,17 @@
         <h4>试卷列表</h4>
       </div>
       <el-table
-        :data="tableData"
+        :data="studentData"
         style="width: 100%;font-size:12px"
       >
         <el-table-column
-          prop="class"
           label="班级"
           width="160"
-        />
+        >
+          {{ room }}
+        </el-table-column>
         <el-table-column
-          prop="name"
+          prop="student_name"
           label="姓名"
           width="160"
         />
@@ -45,12 +46,12 @@
           width="160"
         />
         <el-table-column
-          prop="startTime"
+          prop="start_time"
           label="开始时间"
           width="210"
         />
         <el-table-column
-          prop="endTime"
+          prop="end_time"
           label="结束时间"
           width="210"
         />
@@ -86,9 +87,12 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
+      id: '',
+      room: '',
       classList: [
         {
           value: '0',
@@ -118,6 +122,27 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapState({
+      studentData: state => state.readPapers.studentData
+    })
+  },
+  async created() {
+    this.id = this.$route.query.id
+    this.room = this.$route.query.name
+    console.log(this.studentData)
+  },
+  async mounted() {
+    console.log(this.id, this.room)
+    await this.getStudent({
+      grade_id: this.id
+    })
+  },
+  methods: {
+    ...mapActions({
+      getStudent: 'readPapers/getStudentList'
+    })
   }
 }
 </script>
