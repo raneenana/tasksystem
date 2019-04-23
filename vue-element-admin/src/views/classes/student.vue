@@ -143,12 +143,9 @@ export default {
       this.pagesize = val
     },
     search() {
-      console.log(this.input)
       const arr = this.allStud.studentarr.filter((item, ind) => {
-        console.log('item', item)
         return this.input === item.student_name
       })
-      console.log('arr', arr)
       this.arrClass = arr
     }
   }
