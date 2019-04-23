@@ -14,7 +14,6 @@ const mutations = {
     state.classArr = payload.data
   },
   CHANGE_DATA(state, payload) {
-    console.log('payload......', payload)
     if (!payload) {
       state.studentData = []
     } else {
@@ -43,7 +42,6 @@ const actions = {
   async getStudentList({ commit }, payload) {
     const studentData = await getStudent(payload)
     commit('CHANGE_DATA', studentData)
-    // console.log(studentData)
   },
   async getExamMsg({ commit }, payload) {
     const message = await getExam(payload)

@@ -4,7 +4,8 @@ import {
   CreateExam,
   getExamList,
   getExamDetail,
-  getTest
+  getTest,
+  renewal
 } from '@/api/examination'
 
 const state = {
@@ -14,8 +15,6 @@ const state = {
   curriculum: [],
   // 获取试卷列表
   paperList: []
-  // 获取试卷列表详情
-  // detailList: []
 }
 const mutations = {
   // 考试类型
@@ -30,11 +29,6 @@ const mutations = {
   updatePaperList(state, payload) {
     state.paperList = payload
   }
-  // 获取试卷列表详情
-  // updateDetailList(state, payload) {
-  //   console.log(payload)
-  //   state.detailList = payload
-  // }
 }
 const actions = {
   // 考试类型
@@ -66,6 +60,11 @@ const actions = {
   async getTestList({ commit }) {
     const alltest = await getTest()
     return alltest.data
+  },
+  // 更新试卷
+  async getRenewal({ commit }, payload) {
+    const res = await renewal(payload.header, payload.data)
+    return res
   }
 }
 

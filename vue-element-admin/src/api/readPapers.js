@@ -9,7 +9,6 @@ export function classInfo() {
 }
 // 获取学生试卷列表
 export function getStudent(params) {
-  console.log(params)
   return request({
     url: '/exam/student',
     method: 'get',
