@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, getViewAuthority } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 const state = {
@@ -6,7 +6,9 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  userInfo: {}, // 用户信息
+  viewAuthority: [] // 用户路由权限
 }
 
 const mutations = {
@@ -24,6 +26,12 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_USERINFO: (state, userInfo) => {
+    state.userInfo = userInfo
+  },
+  SET_VIEWAUTHORITY: (state, viewAuthority) => {
+    state.viewAuthority = viewAuthority
   }
 }
 
@@ -35,32 +43,24 @@ const actions = {
     setToken(res.token)
     return res
   },
+
   // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
+  async getInfo({ commit }) {
+    const data = await getInfo()
+    console.log('data...', data)
+    commit('SET_USERINFO', data.data)
+    return data.data
+  },
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
-
-        const { roles, name, avatar, introduction } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
+  // get user view_authority
+  async getViewAuthority({ commit }, payload) {
+    const userAuthority = await getViewAuthority()
+    console.log('userAuthority...', userAuthority)
+    if (userAuthority.code === 1) {
+      commit('SET_VIEWAUTHORITY', userAuthority.data)
+      return userAuthority.data
+    }
+    return []
   },
 
   // user logout

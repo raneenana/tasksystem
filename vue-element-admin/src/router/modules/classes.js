@@ -6,7 +6,7 @@ const examRouter = {
   path: '/classes',
   component: Layout,
   redirect: 'noredirect',
-  name: 'Charts',
+  name: 'Classes',
   meta: {
     title: 'classes',
     icon: 'table'

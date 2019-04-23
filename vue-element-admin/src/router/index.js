@@ -11,6 +11,7 @@ import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
+// 引入考试路由
 import examRouter from './modules/classes'
 import examination from './modules/examination'
 import user from './modules/user'
@@ -48,7 +49,6 @@ export const constantRoutes = [
   examsRouter,
   user,
   examination,
-  examRouter,
   readRouter,
   {
     path: '/redirect',
@@ -127,6 +127,7 @@ export const constantRoutes = [
  */
 // 需要授权的路由
 export const asyncRoutes = [
+  examRouter,
   {
     path: '/permission',
     component: Layout,
@@ -187,6 +188,7 @@ export const asyncRoutes = [
   chartsRouter,
   nestedRouter,
   tableRouter,
+
   {
     path: '/example',
     component: Layout,
