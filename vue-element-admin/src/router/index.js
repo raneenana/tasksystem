@@ -17,6 +17,8 @@ import examination from './modules/examination'
 import user from './modules/user'
 import examsRouter from './modules/exam'
 import readRouter from './modules/readPapers'
+// 头像上传
+import headImageRouter from './modules/headImage'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -128,6 +130,7 @@ export const constantRoutes = [
 // 需要授权的路由
 export const asyncRoutes = [
   examRouter,
+  headImageRouter,
   {
     path: '/permission',
     component: Layout,
