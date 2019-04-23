@@ -1,11 +1,13 @@
 import {
   classInfo,
-  getStudent
+  getStudent,
+  getExam
 } from '@/api/readPapers'
 
 const state = {
   classArr: [],
-  studentData: []
+  studentData: [],
+  message: {}
 }
 const mutations = {
   CHANGE_CLASS(state, payload) {
@@ -18,6 +20,15 @@ const mutations = {
     } else {
       if (payload.code === 1) {
         state.studentData = payload.exam
+      }
+    }
+  },
+  CHNAGE_MES(state, payload) {
+    if (!payload) {
+      state.message = {}
+    } else {
+      if (payload.code === 1) {
+        state.message = payload.data
       }
     }
   }
@@ -33,6 +44,10 @@ const actions = {
     const studentData = await getStudent(payload)
     commit('CHANGE_DATA', studentData)
     // console.log(studentData)
+  },
+  async getExamMsg({ commit }, payload) {
+    const message = await getExam(payload)
+    commit('CHNAGE_MES', message)
   }
 }
 

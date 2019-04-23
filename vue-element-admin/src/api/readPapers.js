@@ -16,3 +16,10 @@ export function getStudent(params) {
     params
   })
 }
+// 获取学生试卷
+export function getExam(data) {
+  return request({
+    url: '/exam/student/' + data.id,
+    method: 'get'
+  })
+}
