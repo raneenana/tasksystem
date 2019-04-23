@@ -67,13 +67,18 @@ export default {
     toClass(ind, name) {
       console.log(ind)
       console.log(this.data)
-      this.$router.push({
-        path: 'classmate',
-        query: {
-          id: ind,
-          name: name
-        }
-      })
+      window.localStorage.setItem('classMsg', JSON.stringify({
+        id: ind,
+        name: name
+      }))
+      // this.$router.push({
+      //   path: 'classmate',
+      //   query: {
+      //     id: ind,
+      //     name: name
+      //   }
+      // })
+      this.$router.push('classmate')
     }
   }
 }

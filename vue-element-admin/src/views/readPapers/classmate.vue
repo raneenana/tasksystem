@@ -25,8 +25,9 @@
       <div class="add-layout-title">
         <h4>试卷列表</h4>
       </div>
+
       <el-table
-        :data="studentData"
+        :data="arr"
         style="width: 100%;font-size:12px"
       >
         <el-table-column
@@ -41,10 +42,12 @@
           width="160"
         />
         <el-table-column
-          prop="status"
           label="阅卷状态"
-          width="160"
-        />
+          width="100"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.status ? '已阅' : '未阅' }}
+          </template></el-table-column>
         <el-table-column
           prop="start_time"
           label="开始时间"
@@ -58,7 +61,7 @@
         <el-table-column
           prop="yield"
           label="成材率"
-          width="160"
+          width="100"
         />
         <el-table-column
           prop="operation"
@@ -75,11 +78,13 @@
       </el-table>
       <div class="block" style="float:right;margin-top:10px">
         <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
           background
           :page-sizes="[5, 10, 15, 20]"
-          :page-size="100"
+          :page-size="10"
           layout="sizes, prev, pager, next, jumper"
-          :total="10"
+          :total="studentData.length"
         />
       </div>
     </div>
@@ -93,6 +98,9 @@ export default {
     return {
       id: '',
       room: '',
+      arr: [],
+      size: 10,
+      page: 1,
       classList: [
         {
           value: '0',
@@ -129,20 +137,37 @@ export default {
     })
   },
   async created() {
-    this.id = this.$route.query.id
-    this.room = this.$route.query.name
-    console.log(this.studentData)
+    var obj = JSON.parse(window.localStorage.getItem('classMsg'))
+    this.id = obj.id
+    this.room = obj.name
+    // console.log(this.studentData)
   },
   async mounted() {
-    console.log(this.id, this.room)
+    console.log(this.ize)
     await this.getStudent({
       grade_id: this.id
     })
+    this.arr = this.studentData.slice(0, this.size * 1)
+    console.log(this.arr)
   },
   methods: {
     ...mapActions({
       getStudent: 'readPapers/getStudentList'
-    })
+    }),
+    async handleSizeChange(val) {
+      // console.log(val)
+      this.size = val
+      await this.getStudent({
+        grade_id: this.id
+      })
+      this.arr = this.studentData.slice(0, this.size * 1)
+      console.log(this.arr)
+    },
+    async handleCurrentChange(tab) {
+      this.page = tab
+      this.arr = this.studentData.slice((this.page - 1) * this.size, this.page * this.size)
+      console.log(tab)
+    }
   }
 }
 </script>
