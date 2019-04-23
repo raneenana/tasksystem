@@ -10,14 +10,7 @@ export function classInfo() {
 // 获取学生试卷列表
 export function getStudent(data) {
   return request({
-    url: '/exam/student/' + data,
-    method: 'get'
-  })
-}
-// 获取学生试卷详情
-export function getStudentDetail(data) {
-  return request({
-    url: '/exam/student/' + data,
+    url: '/exam/student?grade_id=' + data,
     method: 'get'
   })
 }
