@@ -11,6 +11,7 @@ import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
+// 引入考试路由
 import examRouter from './modules/classes'
 
 /**
@@ -40,7 +41,6 @@ import examRouter from './modules/classes'
  * all roles can be accessed
  */
 export const constantRoutes = [
-  examRouter,
   {
     path: '/redirect',
     component: Layout,
@@ -117,6 +117,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  examRouter,
   {
     path: '/permission',
     component: Layout,
@@ -176,6 +177,7 @@ export const asyncRoutes = [
   chartsRouter,
   nestedRouter,
   tableRouter,
+
   {
     path: '/example',
     component: Layout,

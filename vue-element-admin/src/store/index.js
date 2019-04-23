@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'
-import classes from './modules/classes'
+
+// import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex)
 
@@ -20,8 +21,9 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 
 const store = new Vuex.Store({
   modules,
-  getters,
-  classes
+  getters
+
+  // plugins: [createLogger()]
 })
 
 export default store
