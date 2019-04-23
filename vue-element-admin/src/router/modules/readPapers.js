@@ -25,6 +25,13 @@ const readRouter = {
     hidden: true
   },
   {
+    path: 'getscore',
+    component: () => import('@/views/readPapers/getscore'), // Parent router-view
+    name: 'getscore',
+    meta: { title: 'getscore' },
+    hidden: true
+  },
+  {
     path: 'wait',
     component: () => import('@/views/charts/keyboard'),
     name: 'wait',
