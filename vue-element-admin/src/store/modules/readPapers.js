@@ -12,7 +12,14 @@ const mutations = {
     state.classArr = payload.data
   },
   CHANGE_DATA(state, payload) {
-    state.studentData = payload.exam
+    console.log('payload......', payload)
+    if (!payload) {
+      state.studentData = []
+    } else {
+      if (payload.code === 1) {
+        state.studentData = payload.exam
+      }
+    }
   }
 }
 const actions = {
