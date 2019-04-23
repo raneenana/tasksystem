@@ -19,14 +19,14 @@ export default {
   async mounted() {
     var obj = JSON.parse(window.localStorage.getItem('examIds'))
     await this.getExamMsg({
-      id: obj.nid	
+      id: obj.nid
     })
     console.log(this.message)
   },
   methods: {
     ...mapActions({
       getExamMsg: 'readPapers/getExamMsg'
-    }),
+    })
   }
 }
 </script>

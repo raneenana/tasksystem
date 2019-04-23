@@ -144,7 +144,7 @@ export default {
     },
     getScore(eid, nid) {
       console.log(eid, nid)
-      window.localStorage.setItem('examIds',JSON.stringify({
+      window.localStorage.setItem('examIds', JSON.stringify({
         eid: eid,
         nid: nid
       }))
