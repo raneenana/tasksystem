@@ -15,19 +15,19 @@ const examRouter = {
     {
       path: 'class',
       component: () => import('@/views/classes/class'),
-      name: 'KeyboardChart',
+      name: 'class',
       meta: { title: 'class', noCache: true }
     },
     {
       path: 'classroom',
       component: () => import('@/views/classes/classroom'),
-      name: 'LineChart',
+      name: 'classroom',
       meta: { title: 'classroom', noCache: true }
     },
     {
       path: 'student',
       component: () => import('@/views/classes/student'),
-      name: 'MixChart',
+      name: 'student',
       meta: { title: 'student', noCache: true }
     }
   ]

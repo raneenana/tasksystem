@@ -15,7 +15,7 @@ const headImageRouter = {
     {
       path: 'index',
       component: () => import('@/views/headImage'),
-      name: 'KeyboardChart',
+      name: 'headImages',
       meta: { title: '头像上传', noCache: true }
     }
   ]
