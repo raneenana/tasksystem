@@ -1,7 +1,8 @@
 import {
   classInfo,
   getStudent,
-  getExam
+  getExam,
+  getScroll
 } from '@/api/readPapers'
 
 const state = {
@@ -43,9 +44,15 @@ const actions = {
     const studentData = await getStudent(payload)
     commit('CHANGE_DATA', studentData)
   },
+  // 获取学生试卷信息
   async getExamMsg({ commit }, payload) {
     const message = await getExam(payload)
     commit('CHNAGE_MES', message)
+  },
+  // 提交分数
+  async subScroll({ commit }, payload) {
+    var res = await getScroll(payload)
+    return res
   }
 }
 

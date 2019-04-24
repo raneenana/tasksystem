@@ -69,13 +69,6 @@ export default {
         id: ind,
         name: name
       }))
-      // this.$router.push({
-      //   path: 'classmate',
-      //   query: {
-      //     id: ind,
-      //     name: name
-      //   }
-      // })
       this.$router.push('classmate')
     }
   }

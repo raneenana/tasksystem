@@ -58,16 +58,19 @@
           width="210"
         />
         <el-table-column
-          prop="yield"
           label="成材率"
           width="100"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.score ? scope.row.score : '-' }}
+          </template>
+        </el-table-column>
         <el-table-column
           label="操作"
           width="160"
         >
           <template slot-scope="scope">
-            <span @click="getScore(scope.row.exam_exam_id,scope.row.exam_student_id)">批卷</span>
+            <span @click="getScore(scope.row.exam_exam_id,scope.row.exam_student_id,scope.row.student_name)">批卷</span>
           </template>
         </el-table-column>
       </el-table>
@@ -126,7 +129,6 @@ export default {
       getExamType: 'readPapers/getExamType'
     }),
     async handleSizeChange(val) {
-      // console.log(val)
       this.size = val
       await this.getStudent({
         grade_id: this.id
@@ -136,12 +138,13 @@ export default {
     async handleCurrentChange(tab) {
       this.page = tab
       this.arr = this.studentData.slice((this.page - 1) * this.size, this.page * this.size)
-      console.log(tab)
     },
-    getScore(eid, nid) {
+    getScore(eid, nid, name) {
+      console.log(this.arr)
       window.localStorage.setItem('examIds', JSON.stringify({
         eid: eid,
-        nid: nid
+        nid: nid,
+        name: name
       }))
       this.$router.push('getscore')
     }
