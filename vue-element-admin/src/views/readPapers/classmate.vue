@@ -112,16 +112,13 @@ export default {
     var obj = JSON.parse(window.localStorage.getItem('classMsg'))
     this.id = obj.id
     this.room = obj.name
-    // console.log(this.studentData)
   },
   async mounted() {
-    console.log(this.ize)
     await this.getExamType()
     await this.getStudent({
       grade_id: this.id
     })
     this.arr = this.studentData.slice(0, this.size * 1)
-    console.log(this.data)
   },
   methods: {
     ...mapActions({
@@ -135,7 +132,6 @@ export default {
         grade_id: this.id
       })
       this.arr = this.studentData.slice(0, this.size * 1)
-      console.log(this.arr)
     },
     async handleCurrentChange(tab) {
       this.page = tab
@@ -143,7 +139,6 @@ export default {
       console.log(tab)
     },
     getScore(eid, nid) {
-      console.log(eid, nid)
       window.localStorage.setItem('examIds', JSON.stringify({
         eid: eid,
         nid: nid

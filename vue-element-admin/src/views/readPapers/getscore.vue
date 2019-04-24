@@ -21,7 +21,6 @@ export default {
     await this.getExamMsg({
       id: obj.nid
     })
-    console.log(this.message)
   },
   methods: {
     ...mapActions({

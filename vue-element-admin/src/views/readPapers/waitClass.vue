@@ -65,8 +65,6 @@ export default {
       getExamType: 'readPapers/getExamType'
     }),
     toClass(ind, name) {
-      console.log(ind)
-      console.log(this.data)
       window.localStorage.setItem('classMsg', JSON.stringify({
         id: ind,
         name: name
@@ -100,5 +98,6 @@ export default {
 }
 .detail {
   color: #0139fd;
+  cursor: pointer;
 }
 </style>
