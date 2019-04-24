@@ -16,6 +16,7 @@ const mutations = {
 const actions = {
   async allClass({ commit }) { // 获取所有班级
     const all = await getAllClass()
+    console
     commit('updata', { arr: all.data })
   },
   async allRoom({ commit }) { // 获取所有教室
@@ -44,9 +45,8 @@ const actions = {
     console.log(obj)
   },
   async updategrade({ commit }, payload) { // 更新班级
-    console.log(payload)
     const obj = await updateGrade(payload)
-    console.log(obj)
+    return obj
   },
   async deletestudent({ commit }, payload) { // 删除学生
     console.log('删除学生', payload)
