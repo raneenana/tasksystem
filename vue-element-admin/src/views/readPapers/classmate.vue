@@ -5,16 +5,16 @@
       <form class="add-form">
         <div class="add-form-item">
           <label for="title" class="add-form-item-required" title="状态">状态:</label>
-          <el-select v-model="classList.value" placeholder="请选择" />
+          <el-select v-model="classList.status" placeholder="请选择" />
         </div>
         <div class="add-form-item">
           <label for="title" class="add-form-item-required" title="班级">班级:</label>
           <el-select v-model="classList.value" placeholder="请选择">
             <el-option
-              v-for="item in classList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in data"
+              :key="item.grade_id"
+              :label="item.grade_name"
+              :value="item.grade_id"
             />
           </el-select>
         </div>
@@ -25,7 +25,6 @@
       <div class="add-layout-title">
         <h4>试卷列表</h4>
       </div>
-
       <el-table
         :data="arr"
         style="width: 100%;font-size:12px"
@@ -64,27 +63,23 @@
           width="100"
         />
         <el-table-column
-          prop="operation"
           label="操作"
           width="160"
         >
-          <el-button
-            type="text"
-            size="small"
-          >
-            批卷
-          </el-button>
+          <template slot-scope="scope">
+            <span @click="getScore(scope.row.exam_exam_id,scope.row.exam_student_id)">批卷</span>
+          </template>
         </el-table-column>
       </el-table>
       <div class="block" style="float:right;margin-top:10px">
         <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
           background
           :page-sizes="[5, 10, 15, 20]"
           :page-size="10"
           layout="sizes, prev, pager, next, jumper"
           :total="studentData.length"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
         />
       </div>
     </div>
@@ -101,58 +96,34 @@ export default {
       arr: [],
       size: 10,
       page: 1,
-      classList: [
-        {
-          value: '0',
-          label: '1608A'
-        },
-        {
-          value: '1',
-          label: '1608B'
-        },
-        {
-          value: '2',
-          label: '1909A'
-        },
-        {
-          value: '3',
-          label: '1609B'
-        }
-      ],
-      tableData: [
-        {
-          class: '1608',
-          name: 'AA',
-          status: '--',
-          startTime: '2019-3-10',
-          endTime: '2019-3-17',
-          yield: '---'
-        }
-      ]
+      classList: {
+        status: 0,
+        value: ''
+      }
     }
   },
   computed: {
     ...mapState({
-      studentData: state => state.readPapers.studentData
+      studentData: state => state.readPapers.studentData,
+      data: state => state.readPapers.classArr
     })
   },
   async created() {
     var obj = JSON.parse(window.localStorage.getItem('classMsg'))
     this.id = obj.id
     this.room = obj.name
-    // console.log(this.studentData)
   },
   async mounted() {
-    console.log(this.ize)
+    await this.getExamType()
     await this.getStudent({
       grade_id: this.id
     })
     this.arr = this.studentData.slice(0, this.size * 1)
-    console.log(this.arr)
   },
   methods: {
     ...mapActions({
-      getStudent: 'readPapers/getStudentList'
+      getStudent: 'readPapers/getStudentList',
+      getExamType: 'readPapers/getExamType'
     }),
     async handleSizeChange(val) {
       // console.log(val)
@@ -161,12 +132,18 @@ export default {
         grade_id: this.id
       })
       this.arr = this.studentData.slice(0, this.size * 1)
-      console.log(this.arr)
     },
     async handleCurrentChange(tab) {
       this.page = tab
       this.arr = this.studentData.slice((this.page - 1) * this.size, this.page * this.size)
       console.log(tab)
+    },
+    getScore(eid, nid) {
+      window.localStorage.setItem('examIds', JSON.stringify({
+        eid: eid,
+        nid: nid
+      }))
+      this.$router.push('getscore')
     }
   }
 }
@@ -232,6 +209,10 @@ h2 {
 }
 .add-form-item {
   margin-right: 60px;
+}
+span {
+  color: blue;
+  cursor: pointer;
 }
 </style>
 

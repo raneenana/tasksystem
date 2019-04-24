@@ -8,9 +8,9 @@
           <h3>报考院校</h3>
           <p>考试时间：1小时30分钟 监考人：刘于 开始考试时间：2018.9.10 10:00 阅卷人：刘于</p>
         </div>
-        <div v-for="(item,index) in questionList" :key="index" class="list">
+        <div v-for="(item,index) in questionList.questions" :key="index" class="list">
           <div class="style_questionitem__3ETlC">
-            <h4>{{ index+1 }}：{{ item.title }} <a href="javascript:;" style="float: right;" @click="open(index)">删除</a></h4>
+            <h4>{{ index+1 }}：{{ item.title }} <a href="javascript:;" style="float: right;" @click="del(index)">删除</a></h4>
             <div class="markdown">
               <pre>{{ item.questions_stem }}</pre>
             </div>
@@ -24,7 +24,7 @@
       <div class="add-drawer-right">
         <div>
           <p class="fix-top"><span style="margin-right:20px;font-size:20px;color:#f00;cursor:pointer;" @click="close">X</span>所有试题</p>
-          <ul v-for="(item,index) in alltest" :key="index" class="allPaper">
+          <ul v-for="(item,index) in alltest" :key="index" class="allPaper" @click="changeExam(item)">
             <li>
               <p>类型:{{ item.questions_type_text }}</p>
               <p>题目:{{ item.title }}</p>
@@ -47,22 +47,28 @@ export default {
     }
   },
   created() {
-    const data = JSON.parse(window.localStorage.getItem('exam'))
-    this.questionList = data.questions
+    this.questionList = JSON.parse(window.localStorage.getItem('exam'))
   },
   methods: {
     ...mapActions({
-      testData: 'examination/getTestList'
+      testData: 'examination/getTestList',
+      renewal: 'examination/getRenewal'
     }),
     async showDialog() {
-      const result = await this.testData()
-      this.alltest = result
-      this.flag = true
+      if (this.questionList.questions.length < this.questionList.number * 1) {
+        this.flag = true
+        const result = await this.testData()
+        this.alltest = result
+      } else {
+        this.$alert('请先删除再添加！', '提示', {
+          confirmButtonText: '确定'
+        })
+      }
     },
     close() {
       this.flag = false
     },
-    open(ind) {
+    del(ind) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -74,7 +80,8 @@ export default {
             type: 'success',
             message: '删除成功!'
           })
-          this.questionList.splice(ind, 1)
+          this.questionList.questions.splice(ind, 1)
+          window.localStorage.setItem('exam', JSON.stringify(this.questionList))
         })
         .catch(() => {
           this.$message({
@@ -83,7 +90,19 @@ export default {
           })
         })
     },
-    jump() {
+    changeExam(item) {
+      this.questionList.questions.push(item)
+      window.localStorage.setItem('exam', JSON.stringify(this.questionList))
+      this.flag = false
+    },
+    async jump() {
+      const arr = []
+      this.questionList.questions.forEach(item => {
+        arr.push(item.questions_id)
+      })
+      const str = JSON.stringify(arr)
+      const data = { question_ids: str }
+      await this.renewal({ header: this.questionList.exam_exam_id, data })
       this.$router.push({ path: 'listexamination' })
     }
   }

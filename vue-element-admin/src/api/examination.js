@@ -43,3 +43,11 @@ export function getTest() {
     method: 'get'
   })
 }
+// 更新试卷
+export function renewal(str, data) {
+  return request({
+    url: '/exam/exam/' + str,
+    method: 'put',
+    data
+  })
+}

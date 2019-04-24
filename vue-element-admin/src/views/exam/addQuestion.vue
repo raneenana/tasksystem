@@ -116,6 +116,27 @@ export default {
       questionsType: state => state.addQuestion.questionsType
     })
   },
+  async created() {
+    this.getUser()
+    this.getExamType()
+    this.getSubjectType()
+    this.getQuestionsTpe()
+    await this.getAllExam()
+    this.id = this.$route.query.id
+    this.allQuestion.forEach(item => {
+      if (this.id === item.questions_id) {
+        this.questions_id = item.questions_id
+        this.tvalue = item.title
+        this.evalue = item.exam_id
+        this.svalue = item.subject_id
+        this.qvalue = item.questions_type_id
+        this.content = item.questions_stem
+        this.content1 = item.questions_answer
+        this.defaultHead = '编辑试题'
+        this.question = '您要修改吗，确定要修改这道题吗'
+      }
+    })
+  },
   methods: {
     ...mapMutations({
       updataState: 'addQuestion/updataState'
@@ -170,27 +191,6 @@ export default {
         })
         .catch(_ => {})
     }
-  },
-  async created() {
-    this.getUser()
-    this.getExamType()
-    this.getSubjectType()
-    this.getQuestionsTpe()
-    await this.getAllExam()
-    this.id = this.$route.query.id
-    this.allQuestion.forEach(item => {
-      if (this.id === item.questions_id) {
-        this.questions_id = item.questions_id
-        this.tvalue = item.title
-        this.evalue = item.exam_id
-        this.svalue = item.subject_id
-        this.qvalue = item.questions_type_id
-        this.content = item.questions_stem
-        this.content1 = item.questions_answer
-        this.defaultHead = '编辑试题'
-        this.question = '您要修改吗，确定要修改这道题吗'
-      }
-    })
   }
 }
 </script>
