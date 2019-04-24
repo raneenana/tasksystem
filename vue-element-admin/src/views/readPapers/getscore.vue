@@ -34,10 +34,6 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import VueMarkdown from 'vue-markdown'
-import {
-  // MessageBox,
-  Message
-} from 'element-ui'
 
 export default {
   components: {
@@ -47,7 +43,7 @@ export default {
     return {
       data: [],
       name: '',
-      val: 0,
+      val: 0
     }
   },
   computed: {
@@ -76,7 +72,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
         center: true
-      }).then(async () => {
+      }).then(async() => {
         await this.subScroll({
           id: id,
           score: this.val
@@ -86,12 +82,12 @@ export default {
       }).catch(() => {})
     },
     opens() {
-        this.$confirm('分数为'+this.val, '提示', {
-          confirmButtonText: '知道了',
-          type: 'success',
-          center: true
-        }).then(() => {}).catch(() => {})
-      }
+      this.$confirm('分数为' + this.val, '提示', {
+        confirmButtonText: '知道了',
+        type: 'success',
+        center: true
+      }).then(() => {}).catch(() => {})
+    }
   }
 }
 </script>
