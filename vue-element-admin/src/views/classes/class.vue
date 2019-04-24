@@ -91,9 +91,7 @@ export default {
         name: '',
         roomText: '',
         subjectText: '',
-        roomid: '',
-        subjectid: '',
-        gradeid: ''
+        roomid: ''
       },
       formLabelWidth: '120px'
     }
@@ -126,15 +124,13 @@ export default {
     editRow(value) {
       this.mark = true
       this.edit.name = value.grade_name
-      this.edit.roomText = value.room_text
-      this.edit.subjectText = value.subject_text
+      this.edit.roomText = value.room_id
+      this.edit.subjectText = value.subject_id
       this.edit.gradeid = value.grade_id
-      this.edit.roomid = value.room_id
-      this.edit.subjectid = value.subject_id
     },
     async editClass(value) {
       this.mark = false
-      await this.updategrade({ grade_id: value.gradeid, grade_name: value.name, subject_id: value.subjectid, room_id: value.roomid })
+      await this.updategrade({ grade_id: value.gradeid, grade_name: value.name, subject_id: value.subjectText, room_id: value.roomText })
       await this.allClass()
     }
   }
