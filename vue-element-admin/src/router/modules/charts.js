@@ -13,12 +13,6 @@ const chartsRouter = {
   },
   children: [
     {
-      path: 'keyboard',
-      component: () => import('@/views/charts/keyboard'),
-      name: 'KeyboardChart',
-      meta: { title: 'keyboardChart', noCache: true }
-    },
-    {
       path: 'line',
       component: () => import('@/views/charts/line'),
       name: 'LineChart',
