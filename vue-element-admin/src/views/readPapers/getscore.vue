@@ -77,19 +77,21 @@ export default {
         type: 'warning',
         center: true
       }).then(async () => {
-        var res = await this.subScroll({
+        await this.subScroll({
           id: id,
           score: this.val
         })
-        if (res.code === 1) {
-          Message({
-            type: 'success',
-            message: '提交成功!'
-          })
-          this.$router.push('classmate')
-        }
+        this.$router.push('classmate')
+        this.opens()
       }).catch(() => {})
-    }
+    },
+    opens() {
+        this.$confirm('分数为'+this.val, '提示', {
+          confirmButtonText: '知道了',
+          type: 'success',
+          center: true
+        }).then(() => {}).catch(() => {})
+      }
   }
 }
 </script>
