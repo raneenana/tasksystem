@@ -22,3 +22,11 @@ export function getExam(data) {
     method: 'get'
   })
 }
+// 批阅试卷
+export function getScroll(data) {
+  return request({
+    url: '/exam/student/' + data.id,
+    method: 'put',
+    data: data
+  })
+}
