@@ -33,6 +33,7 @@ export default {
   },
   methods: {
     cropSuccess(e) {
+      console.log(e, 'e')
       this.image = e[0].path
       this.imagecropperShow = false
     },

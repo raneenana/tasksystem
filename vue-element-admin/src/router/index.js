@@ -51,6 +51,8 @@ export const constantRoutes = [
   examsRouter,
   user,
   examination,
+  examRouter,
+  headImageRouter,
   readRouter,
   {
     path: '/redirect',
@@ -129,8 +131,6 @@ export const constantRoutes = [
  */
 // 需要授权的路由
 export const asyncRoutes = [
-  examRouter,
-  headImageRouter,
   {
     path: '/permission',
     component: Layout,
