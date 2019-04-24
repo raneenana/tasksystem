@@ -20,10 +20,10 @@
         </div>
       </div>
       <div class="right">
-        <h3>{{name}}</h3>
+        <h3>{{ name }}</h3>
         <div class="block sliders">
-          <span class="demonstration">得分：{{val}}</span>
-          <el-slider v-model="val"></el-slider>
+          <span class="demonstration">得分：{{ val }}</span>
+          <el-slider v-model="val" />
         </div>
         <el-button type="text" @click="open">提交</el-button>
         <!-- <el-button type="primary" @click="score"></el-button> -->
@@ -47,7 +47,7 @@ export default {
     return {
       data: [],
       name: '',
-      val: 0,
+      val: 0
     }
   },
   computed: {
@@ -77,13 +77,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
         center: true
-      }).then(async () => {
-        console.log(id,this.val)
+      }).then(async() => {
         var res = await this.subScroll({
           id: id,
           score: this.val
         })
-        console.log(res)
         if (res.code === 1) {
           Message({
             type: 'success',
