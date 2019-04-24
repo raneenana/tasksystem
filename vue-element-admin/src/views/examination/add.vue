@@ -11,9 +11,10 @@
         <div v-for="(item,index) in questionList.questions" :key="index" class="list">
           <div class="style_questionitem__3ETlC">
             <h4>{{ index+1 }}：{{ item.title }} <a href="javascript:;" style="float: right;" @click="del(index)">删除</a></h4>
-            <div class="markdown">
+            <VueMarkdown>{{ item.questions_stem }}</VueMarkdown>
+            <!-- <div class="markdown">
               <pre>{{ item.questions_stem }}</pre>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -38,7 +39,11 @@
 
 <script>
 import { mapActions } from 'vuex'
+import VueMarkdown from 'vue-markdown'
 export default {
+  components: {
+    VueMarkdown
+  },
   data() {
     return {
       flag: false,

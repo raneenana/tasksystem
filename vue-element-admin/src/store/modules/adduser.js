@@ -113,6 +113,7 @@ const actions = {
     var res = await showPeo()
     commit('CHANGE_SHOW', res)
   },
+  // 更新用户
   async changeMes({ commit }, payload) {
     var res = await change(payload)
     return res

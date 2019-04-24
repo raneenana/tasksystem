@@ -54,15 +54,15 @@
     <el-dialog title="修改班级" :visible.sync="mark" width="520px" height="317px">
       <el-form :model="edit">
         <el-form-item label="班级名" :label-width="formLabelWidth">
-          <el-input v-model="edit.name" autocomplete="off" placeholder="班级名" props="edit.gradeid" disabled="disabled" />
+          <el-input v-model="edit.name" autocomplete="off" placeholder="班级名" disabled="disabled" />
         </el-form-item>
         <el-form-item label="教室号" :label-width="formLabelWidth">
-          <el-select v-model="edit.roomText" placeholder="请选择" props="edit.roomid">
+          <el-select v-model="edit.roomText" placeholder="请选择">
             <el-option v-for="(item,index) in allArr.arr" :key="index" :label="item.room_text" :value="item.room_id" />
           </el-select>
         </el-form-item>
         <el-form-item label="课程名" :label-width="formLabelWidth">
-          <el-select v-model="edit.subjectText" placeholder="请选择" props="edit.subjectid">
+          <el-select v-model="edit.subjectText" placeholder="请选择">
             <el-option v-for="(item,index) in allArr.arr" :key="index" :label="item.subject_text" :value="item.subject_id" />
           </el-select>
         </el-form-item>
@@ -89,11 +89,9 @@ export default {
       },
       edit: {
         name: '',
+        grade_id: '',
         roomText: '',
-        subjectText: '',
-        roomid: '',
-        subjectid: '',
-        gradeid: ''
+        subjectText: ''
       },
       formLabelWidth: '120px'
     }
@@ -128,14 +126,14 @@ export default {
       this.edit.name = value.grade_name
       this.edit.roomText = value.room_text
       this.edit.subjectText = value.subject_text
-      this.edit.gradeid = value.grade_id
-      this.edit.roomid = value.room_id
-      this.edit.subjectid = value.subject_id
+      this.edit.grade_id = value.grade_id
     },
     async editClass(value) {
       this.mark = false
-      await this.updategrade({ grade_id: value.gradeid, grade_name: value.name, subject_id: value.subjectid, room_id: value.roomid })
-      await this.allClass()
+      // console.log('value',value)
+      // console.log('edit',this.edit)
+      // await this.updategrade({ grade_id: value.gradeid, grade_name: value.name, subject_id: value.subjectid, room_id: value.roomid })
+      // await this.allClass()
     }
   }
 }
