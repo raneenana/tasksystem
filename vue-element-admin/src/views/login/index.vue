@@ -207,7 +207,8 @@ $light_gray: #eee;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
-  background: url(../../assets/login_wraper.8ab0d297.jpg) navy;
+  background: url(../../assets/login_wraper.8ab0d297.jpg) no-repeat;
+  background-size: cover;
   .login-form {
     width: 400px;
     padding: 40px 20px;
