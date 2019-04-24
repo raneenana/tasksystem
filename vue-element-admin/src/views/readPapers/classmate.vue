@@ -140,7 +140,6 @@ export default {
       this.arr = this.studentData.slice((this.page - 1) * this.size, this.page * this.size)
     },
     getScore(eid, nid, name) {
-      console.log(this.arr)
       window.localStorage.setItem('examIds', JSON.stringify({
         eid: eid,
         nid: nid,

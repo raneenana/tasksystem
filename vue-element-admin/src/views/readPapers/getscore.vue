@@ -62,7 +62,6 @@ export default {
     })
     this.data = this.message.questions
     this.name = obj.name
-    console.log(this.data)
   },
   methods: {
     ...mapActions({

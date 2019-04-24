@@ -412,7 +412,6 @@ export default {
     },
     // 添加视图接口权限
     async addView() {
-      // console.log(this.viewMsg)
       if (!this.viewMsg) {
         Message({
           message: '视图信息不能为空',
