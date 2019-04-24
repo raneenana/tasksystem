@@ -47,7 +47,7 @@ export default {
     return {
       data: [],
       name: '',
-      val: 0
+      val: 0,
     }
   },
   computed: {
@@ -76,7 +76,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
         center: true
-      }).then(async() => {
+      }).then(async () => {
         var res = await this.subScroll({
           id: id,
           score: this.val
