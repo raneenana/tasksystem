@@ -11,10 +11,7 @@
         <div v-for="(item,index) in questionList.questions" :key="index" class="list">
           <div class="style_questionitem__3ETlC">
             <h4>{{ index+1 }}：{{ item.title }} <a href="javascript:;" style="float: right;" @click="del(index)">删除</a></h4>
-            <VueMarkdown>{{ item.questions_stem }}</VueMarkdown>
-            <!-- <div class="markdown">
-              <pre>{{ item.questions_stem }}</pre>
-            </div> -->
+            <VueMarkdown class="markdown">{{ item.questions_stem }}</VueMarkdown>
           </div>
         </div>
       </div>
@@ -234,13 +231,7 @@ a {
   padding: 20px;
   margin-bottom: 20px;
 }
-.markdown,
-pre,
-code {
-  margin: 0;
-  padding: 0;
-}
-.markdown pre {
+.markdown/deep/code{
   margin-top: 5px;
   height: 100%;
   display: block;
@@ -250,11 +241,13 @@ code {
   color: #657b83;
   background: #f6f6f6;
   background-size: 30px 30px;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
-    monospace;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: 14px;
   white-space: normal;
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+.markdown/deep/img{
+  width: 100%;
 }
 </style>
