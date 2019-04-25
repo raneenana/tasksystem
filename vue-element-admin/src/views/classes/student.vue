@@ -21,7 +21,8 @@
           />
         </el-select>
         <el-button type="primary" class="button" @click="search">搜索</el-button>
-        <el-button type="primary" class="button">重置</el-button>
+        <el-button type="primary" class="button" @click="reset">重置</el-button>
+        <el-button type="primary" class="button" @click="exportExcel">导出学生</el-button>
       </div>
       <el-table
         :data="arrClass.length>0?arrClass.slice((currentpage-1)*pagesize,currentpage*pagesize):allStud.studentarr.slice((currentpage-1)*pagesize,currentpage*pagesize)"
@@ -142,23 +143,43 @@ export default {
     changeSize(val) {
       this.pagesize = val
     },
+    reset() {
+      this.input = ''
+      this.value = ''
+      this.valueclass = ''
+    },
     search() {
       if (this.input && this.value && this.valueclass) {
         const arr = this.allStud.studentarr.filter((item, ind) => {
           return this.input === item.student_name && this.value === item.room_text && this.valueclass === item.grade_name
         })
         this.arrClass = arr
-      } else if ((this.input && this.value) || (this.value && this.valueclass) || (this.input && this.valueclass) || (this.value && this.valueclass)) {
+      } else if ((this.input && this.value) || (this.value && this.valueclass) || (this.input && this.valueclass)) {
         const arr = this.allStud.studentarr.filter((item, ind) => {
           return (this.input === item.student_name && this.value === item.room_text) || (this.value === item.room_text && this.valueclass === item.grade_name) || (this.input === item.student_name && this.valueclass === item.grade_name)
         })
         this.arrClass = arr
       } else {
         const arr = this.allStud.studentarr.filter((item, ind) => {
-          return this.input === item.student_name || this.value === item.rooxm_text || this.valueclass === item.grade_name
+          return this.input === item.student_name || this.value === item.room_text || this.valueclass === item.grade_name
         })
         this.arrClass = arr
       }
+    },
+    exportExcel() {
+      const header = Object.keys(this.allStud.studentarr[0])
+      const list = this.allStud.studentarr.map(item => {
+        const arr = Object.values(item)
+        return arr.map(item => JSON.stringify(item))
+      })
+      import('@/vendor/Export2Excel').then(excel => {
+        excel.export_json_to_excel({
+          header: header,
+          data: list,
+          filename: '',
+          bookType: 'xlsx'
+        })
+      })
     }
   }
 }
