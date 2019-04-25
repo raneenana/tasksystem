@@ -24,7 +24,7 @@
         <el-button type="primary" class="button">重置</el-button>
       </div>
       <el-table
-        :data="arrClass.length>0?arrClass:allStud.studentarr.slice((currentpage-1)*pagesize,currentpage*pagesize)"
+        :data="arrClass.length>0?arrClass.slice((currentpage-1)*pagesize,currentpage*pagesize):allStud.studentarr.slice((currentpage-1)*pagesize,currentpage*pagesize)"
         style="width: 100%"
       >
         <el-table-column
@@ -143,10 +143,22 @@ export default {
       this.pagesize = val
     },
     search() {
-      const arr = this.allStud.studentarr.filter((item, ind) => {
-        return this.input === item.student_name
-      })
-      this.arrClass = arr
+      if (this.input && this.value && this.valueclass) {
+        const arr = this.allStud.studentarr.filter((item, ind) => {
+          return this.input === item.student_name && this.value === item.room_text && this.valueclass === item.grade_name
+        })
+        this.arrClass = arr
+      } else if ((this.input && this.value) || (this.value && this.valueclass) || (this.input && this.valueclass) || (this.value && this.valueclass)) {
+        const arr = this.allStud.studentarr.filter((item, ind) => {
+          return (this.input === item.student_name && this.value === item.room_text) || (this.value === item.room_text && this.valueclass === item.grade_name) || (this.input === item.student_name && this.valueclass === item.grade_name)
+        })
+        this.arrClass = arr
+      } else {
+        const arr = this.allStud.studentarr.filter((item, ind) => {
+          return this.input === item.student_name || this.value === item.rooxm_text || this.valueclass === item.grade_name
+        })
+        this.arrClass = arr
+      }
     }
   }
 }
