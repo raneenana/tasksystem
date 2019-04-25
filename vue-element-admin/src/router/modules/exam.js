@@ -39,6 +39,7 @@ const examRouter = {
     {
       path: 'detail',
       component: () => import('@/views/exam/details'),
+      hidden: true,
       meta: {
         title: 'detail',
         noCache: true
