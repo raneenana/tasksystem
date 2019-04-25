@@ -37,9 +37,6 @@ export default {
       info: state => state.user.userInfo
     })
   },
-  created() {
-    this.getInfo()
-  },
   methods: {
     ...mapActions({
       updateInfo: 'adduser/changeMes',

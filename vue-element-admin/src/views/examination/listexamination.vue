@@ -26,6 +26,7 @@
           </el-select>
         </div>
         <el-button type="primary" @click="submitForm(info)"><i class="el-icon-search" />查询</el-button>
+        <!-- <el-button type="primary" @click="exportExcel"><i class="el-icon-search" />导出列表</el-button> -->
       </el-form>
     </div>
     <div class="add-layout-content">
