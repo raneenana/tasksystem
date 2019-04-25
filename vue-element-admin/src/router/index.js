@@ -11,11 +11,15 @@ import Layout from '@/layout'
 // import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
-// 引入考试路由
-import examRouter from './modules/classes'
-import examination from './modules/examination'
-import user from './modules/user'
+// 引入试题管理路由
 import examsRouter from './modules/exam'
+// 引入用户管理路由
+import user from './modules/user'
+// 引入考试管理路由
+import examination from './modules/examination'
+// 引入班级管理路由
+import examRouter from './modules/classes'
+// 引入阅读管理路由
 import readRouter from './modules/readPapers'
 // 头像上传
 import headImageRouter from './modules/headImage'
