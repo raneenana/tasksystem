@@ -118,7 +118,6 @@ export default {
     this.id = obj.id
     this.room = obj.name
     await this.getExamType()
-    console.log(this.id)
     await this.getStudent({
       grade_id: this.id
     })
