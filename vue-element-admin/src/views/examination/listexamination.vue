@@ -26,7 +26,7 @@
           </el-select>
         </div>
         <el-button type="primary" @click="submitForm(info)"><i class="el-icon-search" />查询</el-button>
-        <!-- <el-button type="primary" @click="exportExcel"><i class="el-icon-search" />导出列表</el-button> -->
+        <el-button type="primary" @click="exportExcel"><i class="el-icon-search" />导出列表</el-button>
       </el-form>
     </div>
     <div class="add-layout-content">
@@ -117,10 +117,25 @@ export default {
     },
     submitForm(formData) {
       for (var i in formData) {
-        this.arr = this.paperLists.filter((item) => {
+        this.arr = this.paperLists.filter(item => {
           return formData[i] === item[i]
         })
       }
+    },
+    exportExcel() {
+      const header = Object.keys(this.paperLists[0])
+      const list = this.paperLists.map(item => {
+        const arr = Object.values(item)
+        return arr.map(item => JSON.stringify(item))
+      })
+      import('@/vendor/Export2Excel').then(excel => {
+        excel.export_json_to_excel({
+          header: header,
+          data: list,
+          filename: '',
+          bookType: 'xlsx'
+        })
+      })
     }
   }
 }
