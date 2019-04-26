@@ -43,7 +43,6 @@ export default {
   async created() {
     // 重新获取一下用户信息
     await this.getUserInfo()
-    console.log('以登陆的用户', this.userinfo)
   },
   methods: {
     ...mapActions({

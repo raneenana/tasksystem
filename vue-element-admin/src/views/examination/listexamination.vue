@@ -41,8 +41,13 @@
       <el-table :data="arr.length>0?arr:paperLists" :header-cell-style="tableHeaderColor" style="width: 100%">
         <el-table-column label="试卷信息">
           <template slot-scope="scope">
-            <p>{{ scope.row.title }}</p>
-            <p>考试时间：{{ scope.row.number }}道题作弊{{ scope.row.status }}分</p>
+            <div>
+              <p>{{ scope.row.title }}</p>
+              <p>
+                <span style="margin-right:4px">考试时间:{{ parseInt((scope.row.end_time - scope.row.start_time)/1000/60/60%24) }}:{{ parseInt((scope.row.end_time - scope.row.start_time)/1000/60%60) }}:{{ parseInt((scope.row.end_time - scope.row.start_time)/1000%60) }}</span>
+                <span>{{ scope.row.number }}道题作弊{{ scope.row.status }}分</span>
+              </p>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="班级">

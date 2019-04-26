@@ -37,6 +37,9 @@ export default {
       info: state => state.user.userInfo
     })
   },
+  created() {
+    this.getInfo()
+  },
   methods: {
     ...mapActions({
       updateInfo: 'adduser/changeMes',
@@ -47,6 +50,7 @@ export default {
       this.imagecropperShow = false
       await this.updateInfo({ user_id: this.info.user_id, avatar: e[0].path })
       this.getInfo()
+      console.log('info', this.info)
     },
     close() {
       this.imagecropperShow = false
