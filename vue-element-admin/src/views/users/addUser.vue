@@ -48,7 +48,7 @@
             </el-select><br>
             <p>
               <el-button type="primary" @click="changes">确定</el-button>
-              <el-button @click="reset(1)">重置</el-button>
+              <el-button @click="reset(0)">重置</el-button>
             </p>
           </div>
         </div>
@@ -226,6 +226,7 @@ export default {
     await this.getAllIndetity()
     await this.getApiAuth()
     await this.showUsers()
+    console.log(this.allIden)
   },
   methods: {
     ...mapActions({
@@ -531,6 +532,12 @@ export default {
     reset(num) {
       switch (num) {
         case 0: {
+          this.changeUser = {
+            id: '',
+            name: '',
+            pwd: '',
+            indet: ''
+          }
           break
         }
         case 1: {
