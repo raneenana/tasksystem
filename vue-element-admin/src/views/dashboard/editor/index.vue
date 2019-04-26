@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 import PanThumb from '@/components/PanThumb'
 import GithubCorner from '@/components/GithubCorner'
 
@@ -38,6 +38,16 @@ export default {
     ]),
     ...mapState({
       userinfo: state => state.user.userInfo
+    })
+  },
+  async created() {
+    // 重新获取一下用户信息
+    await this.getUserInfo()
+    console.log('以登陆的用户', this.userinfo)
+  },
+  methods: {
+    ...mapActions({
+      getUserInfo: 'user/getInfo'
     })
   }
 }

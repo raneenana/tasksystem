@@ -40,7 +40,6 @@ const actions = {
     var result = await getAddType(paylod)
     return result
     // commit('updataState', { questionsType: result.data })
-    // console.log(result, 'addd....')
   },
   // 添加试题
   async addQuestions({ commit }, paylod) {

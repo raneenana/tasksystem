@@ -108,7 +108,6 @@ export default {
     }),
     detail(e, item) {
       this.getDetail(item)
-      console.log(item)
       var str = ''
       if (e.target.tagName === 'SPAN') {
         str = 'addQuestion?id=' + item.questions_id

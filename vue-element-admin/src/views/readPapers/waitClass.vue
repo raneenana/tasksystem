@@ -58,7 +58,6 @@ export default {
   },
   async mounted() {
     await this.getExamType()
-    // console.log(this.data)
   },
   methods: {
     ...mapActions({

@@ -46,7 +46,8 @@
         >
           <template slot-scope="scope">
             {{ scope.row.status ? '已阅' : '未阅' }}
-          </template></el-table-column>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="start_time"
           label="开始时间"
@@ -111,12 +112,11 @@ export default {
       data: state => state.readPapers.classArr
     })
   },
-  async created() {
-    var obj = JSON.parse(window.localStorage.getItem('classMsg'))
+  async created() {},
+  async mounted() {
+    var obj = JSON.parse(localStorage.getItem('classMsg'))
     this.id = obj.id
     this.room = obj.name
-  },
-  async mounted() {
     await this.getExamType()
     await this.getStudent({
       grade_id: this.id

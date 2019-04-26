@@ -116,7 +116,6 @@ export default {
           window.localStorage.setItem('exam', JSON.stringify(res))
           this.$router.push({ path: 'add' })
         } else {
-          console.log('error submit!!')
           return false
         }
       })

@@ -23,6 +23,10 @@
         <el-button type="primary" class="button" @click="search">搜索</el-button>
         <el-button type="primary" class="button" @click="reset">重置</el-button>
         <el-button type="primary" class="button" @click="exportExcel">导出学生</el-button>
+        <!-- <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" /> -->
+        <!-- <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
+          <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
+        </el-table> -->
       </div>
       <el-table
         :data="arrClass.length>0?arrClass.slice((currentpage-1)*pagesize,currentpage*pagesize):allStud.studentarr.slice((currentpage-1)*pagesize,currentpage*pagesize)"
