@@ -188,7 +188,6 @@ export default {
         //   JSON.stringify(item)
         //   return item
         // })
-        // console.log(arrs)
         return arr
       })
       import('@/vendor/Export2Excel').then(excel => {

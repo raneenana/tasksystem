@@ -54,7 +54,6 @@ const actions = {
   // get user view_authority
   async getViewAuthority({ commit }, payload) {
     const userAuthority = await getViewAuthority()
-    console.log('userAuthority...', userAuthority)
     if (userAuthority.code === 1) {
       commit('SET_VIEWAUTHORITY', userAuthority.data)
       return userAuthority.data

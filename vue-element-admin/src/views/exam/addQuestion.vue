@@ -173,9 +173,7 @@ export default {
       this.dialogVisible = false
       this.dialogVisible1 = true
       var res = null
-      console.log(this.question)
       if (this.question === '您要修改吗，确定要修改这道题吗') {
-        console.log(obj, '123123131')
         res = await this.upQuestions(obj1)
       } else {
         res = await this.addQuestions(obj)

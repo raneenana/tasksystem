@@ -226,7 +226,6 @@ export default {
     await this.getAllIndetity()
     await this.getApiAuth()
     await this.showUsers()
-    console.log(this.allIden)
   },
   methods: {
     ...mapActions({
