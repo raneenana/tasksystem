@@ -16,14 +16,14 @@ const examination = {
     component: () =>
         import('@/views/examination/addexamination'),
     name: 'Addexamination',
-    meta: { title: 'Addexamination', noCache: true }
+    meta: { title: 'Addexamination', noCache: true, view_id: 'main-addExam' }
   },
   {
     path: 'listexamination',
     component: () =>
     import('@/views/examination/listexamination'),
     name: 'Listexamination',
-    meta: { title: 'Listexamination', noCache: true }
+    meta: { title: 'Listexamination', noCache: true, view_id: 'main-examList' }
   },
   {
     path: 'add',
@@ -31,7 +31,7 @@ const examination = {
     component: () =>
         import('@/views/examination/add'),
     name: 'add',
-    meta: { title: 'add', noCache: true }
+    meta: { title: 'add', noCache: true, view_id: 'mian-examEdit' }
   },
   {
     path: 'detail',
@@ -39,7 +39,7 @@ const examination = {
     component: () =>
         import('@/views/examination/detail'),
     name: 'detail',
-    meta: { title: 'detail', noCache: true }
+    meta: { title: 'detail', noCache: true, view_id: 'mian-examDetail' }
   }]
 }
 
