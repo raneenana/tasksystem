@@ -40,7 +40,7 @@ const examination = {
     component: () =>
         import('@/views/examination/detail'),
     name: 'detail',
-    meta: { title: 'detail', noCache: true, view_id: 'mian-examDetail' }
+    meta: { title: 'detail', noCache: true, view_id: 'main-examDetail' }
   }]
 }
 

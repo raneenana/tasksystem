@@ -27,7 +27,7 @@ const readRouter = {
     path: 'getscore',
     component: () => import('@/views/readPapers/getscore'), // Parent router-view
     name: 'getscore',
-    meta: { title: 'getscore', noCache: true, view_id: 'wain-examinationPapers' },
+    meta: { title: 'getscore', noCache: true, view_id: 'main-examinationPapers' },
     hidden: true
   },
   {
