@@ -30,7 +30,6 @@ export function filterAsyncRoutes(routes, view_ids) {
       res.push(tmp)
     }
   })
-
   return res
 }
 
@@ -49,10 +48,10 @@ const mutations = {
 const actions = {
   async generateRoutes({ commit }, view_authority) {
     // 获取用户所拥有的view_ids
-    var view_ids = view_authority.map(item => item.view_id)
-    console.log(view_ids, 'view_ids')
+    const view_ids = view_authority.map(item => item.view_id)
     // 在动态路由里过滤一遍，得到用户能访问的路由
-    var accessedRoutes = filterAsyncRoutes(asyncRoutes, view_ids)
+    const accessedRoutes = filterAsyncRoutes(asyncRoutes, view_ids)
+    console.log('可访问的路由', accessedRoutes)
     // 更新路由
     commit('SET_ROUTES', accessedRoutes)
     return accessedRoutes

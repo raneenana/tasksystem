@@ -15,20 +15,11 @@ export function getInfo() {
   })
 }
 
-export function getViewAuthority(params) {
-  return request({
-    url: '/user/new',
-    method: 'get',
-    params
-  })
+export function getViewAuthority(data) {
+  return request.get('/user/new', { params: { user_id: data }})
 }
-
-export function getNew(data) {
-  return request({
-    url: '/user/new',
-    method: 'get',
-    data
-  })
+export function newitem(data) {
+  return request.get('/user/new', { params: { user_id: data.user_id }})
 }
 
 export function logout() {
@@ -37,4 +28,3 @@ export function logout() {
     method: 'post'
   })
 }
-

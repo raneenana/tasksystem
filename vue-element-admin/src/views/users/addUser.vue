@@ -48,7 +48,7 @@
             </el-select><br>
             <p>
               <el-button type="primary" @click="changes">确定</el-button>
-              <el-button @click="reset(1)">重置</el-button>
+              <el-button @click="reset(0)">重置</el-button>
             </p>
           </div>
         </div>
@@ -412,7 +412,6 @@ export default {
     },
     // 添加视图接口权限
     async addView() {
-      // console.log(this.viewMsg)
       if (!this.viewMsg) {
         Message({
           message: '视图信息不能为空',
@@ -532,6 +531,12 @@ export default {
     reset(num) {
       switch (num) {
         case 0: {
+          this.changeUser = {
+            id: '',
+            name: '',
+            pwd: '',
+            indet: ''
+          }
           break
         }
         case 1: {

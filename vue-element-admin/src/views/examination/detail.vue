@@ -6,12 +6,8 @@
         <div class="content-list">
           <div class="list">
             <div class="style_questionitem__3ETlC">
-              <h4>{{ index+1 }}: {{ item.title }} </h4>
-              <div class="markdown">
-                <pre>
-                  {{ item.questions_stem }}
-                </pre>
-              </div>
+              <h4>{{ index+1 }}: {{ item.title }}</h4>
+              <VueMarkdown class="markdown">{{ item.questions_stem }}</VueMarkdown>
             </div>
           </div>
         </div>
@@ -21,11 +17,7 @@
         <div class="content-list">
           <div class="list">
             <div class="style_questionitem__3ETlC">
-              <div class="markdown">
-                <pre>
-                  {{ item.questions_answer }}
-                </pre>
-              </div>
+              <VueMarkdown class="markdown">{{ item.questions_answer }}</VueMarkdown>
             </div>
           </div>
         </div>
@@ -36,7 +28,11 @@
 
 <script>
 import { mapActions } from 'vuex'
+import VueMarkdown from 'vue-markdown'
 export default {
+  components: {
+    VueMarkdown
+  },
   data() {
     return {
       detailList: []
@@ -112,13 +108,7 @@ h2 {
   padding: 20px;
   margin-bottom: 20px;
 }
-.markdown,
-pre,
-code {
-  margin: 0;
-  padding: 0;
-}
-.markdown pre {
+.markdown/deep/code{
   margin-top: 5px;
   height: 100%;
   display: block;
@@ -133,6 +123,9 @@ code {
   white-space: normal;
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+.markdown/deep/img{
+  width: 100%;
 }
 .message {
   font-size: 18px;

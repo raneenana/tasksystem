@@ -6,29 +6,30 @@ const examRouter = {
   path: '/classes',
   component: Layout,
   redirect: 'noredirect',
-  name: 'Charts',
+  name: 'Classes',
   meta: {
     title: 'classes',
     icon: 'table'
+    // view_id: 'main-grade,main-student,main-room'
   },
   children: [
     {
       path: 'class',
       component: () => import('@/views/classes/class'),
-      name: 'KeyboardChart',
-      meta: { title: 'class', noCache: true }
+      name: 'class',
+      meta: { title: 'class', noCache: true, view_id: 'main-grade' }
     },
     {
       path: 'classroom',
       component: () => import('@/views/classes/classroom'),
-      name: 'LineChart',
-      meta: { title: 'classroom', noCache: true }
+      name: 'classroom',
+      meta: { title: 'classroom', noCache: true, view_id: 'main-student' }
     },
     {
       path: 'student',
       component: () => import('@/views/classes/student'),
-      name: 'MixChart',
-      meta: { title: 'student', noCache: true }
+      name: 'student',
+      meta: { title: 'student', noCache: true, view_id: 'main-room' }
     }
   ]
 }

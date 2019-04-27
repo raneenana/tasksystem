@@ -22,7 +22,7 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img :src="infoavatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
@@ -65,13 +65,29 @@ export default {
     LangSelect,
     Search
   },
+  data() {
+    return {
+      infoavatar: ''
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
       'name',
       'avatar',
       'device'
-    ])
+    ]),
+    ...mapState({
+      info: state => state.user.userInfo
+    })
+  },
+  watch: {
+    info() {
+      this.infoavatar = this.info.avatar
+    }
+  },
+  created() {
+    this.infoavatar = this.info.avatar
   },
   methods: {
     toggleSideBar() {

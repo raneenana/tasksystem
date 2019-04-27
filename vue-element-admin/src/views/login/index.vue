@@ -1,13 +1,6 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <div class="title-container">
-        <h3 class="title">
-          {{ $t('login.title') }}
-        </h3>
-        <lang-select class="set-language" />
-      </div>
-
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -43,6 +36,14 @@
         </el-form-item>
       </el-tooltip>
 
+      <el-form-item style="border:0;">
+        <label>
+          <input type="checkbox">
+          <span>记住密码</span>
+        </label>
+        <a href="javasript:void(0)" style="float: right;">忘记密码</a>
+      </el-form-item>
+
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
         {{ $t('login.logIn') }}
       </el-button>
@@ -59,13 +60,11 @@
 </template>
 
 <script>
-// import { validUsername } from '@/utils/validate'
-import LangSelect from '@/components/LangSelect'
 import SocialSign from './socialSignin'
 import { mapActions } from 'vuex'
 export default {
   name: 'Login',
-  components: { LangSelect, SocialSign },
+  components: { SocialSign },
   data() {
     // 用户名的自定义校验
     const validateUsername = (rule, value, callback) => {
@@ -84,12 +83,17 @@ export default {
     }
     return {
       loginForm: {
-        username: 'chenmanjie',
-        password: 'Chenmanjie123!'
+        username: 'alan',
+        password: '!Ml00162'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur' }, { trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: 'blur' },
+          { trigger: 'blur', validator: validateUsername }
+        ],
+        password: [
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -173,12 +177,11 @@ $cursor: #fff;
     height: 47px;
     width: 85%;
     input {
-      background: transparent;
+      color: #454545;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
       height: 47px;
       caret-color: $cursor;
       &:-webkit-autofill {
@@ -188,8 +191,7 @@ $cursor: #fff;
     }
   }
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid #d9d9d9;
     border-radius: 5px;
     color: #454545;
   }
@@ -206,13 +208,18 @@ $light_gray: #eee;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
+  background: url(../../assets/login_wraper.8ab0d297.jpg) no-repeat;
+  background-size: cover;
   .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
+    width: 400px;
+    padding: 40px 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+    position: absolute;
+    right: 15%;
+    top: 25%;
+    box-sizing: border-box;
   }
   .tips {
     font-size: 14px;
@@ -241,7 +248,7 @@ $light_gray: #eee;
       font-weight: bold;
     }
     .set-language {
-      color: #fff;
+      // color: #fff;
       position: absolute;
       top: 3px;
       font-size: 18px;

@@ -88,7 +88,7 @@ export default {
   box-sizing: border-box;
 }
 .messtitle {
-  width: 60%;
+  width:60%;
   background: white;
   border-radius: 10px;
   margin-left: 20px;
@@ -137,7 +137,7 @@ export default {
   border: 1px solid #ffd591;
   font-size: 12px;
 }
-.valu {
+.valu{
   font-size: 14px;
   width: 70%;
   margin: 50px;

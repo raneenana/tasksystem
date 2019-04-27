@@ -5,16 +5,16 @@
       <form class="add-form">
         <div class="add-form-item">
           <label for="title" class="add-form-item-required" title="状态">状态:</label>
-          <el-select v-model="classList.value" placeholder="请选择" />
+          <el-select v-model="classList.status" placeholder="请选择" />
         </div>
         <div class="add-form-item">
           <label for="title" class="add-form-item-required" title="班级">班级:</label>
           <el-select v-model="classList.value" placeholder="请选择">
             <el-option
-              v-for="item in classList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in data"
+              :key="item.grade_id"
+              :label="item.grade_name"
+              :value="item.grade_id"
             />
           </el-select>
         </div>
@@ -26,59 +26,64 @@
         <h4>试卷列表</h4>
       </div>
       <el-table
-        :data="tableData"
+        :data="arr"
         style="width: 100%;font-size:12px"
       >
         <el-table-column
-          prop="class"
           label="班级"
           width="160"
-        />
+        >
+          {{ room }}
+        </el-table-column>
         <el-table-column
-          prop="name"
+          prop="student_name"
           label="姓名"
           width="160"
         />
         <el-table-column
-          prop="status"
           label="阅卷状态"
-          width="160"
-        />
+          width="100"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.status ? '已阅' : '未阅' }}
+          </template>
+        </el-table-column>
         <el-table-column
-          prop="startTime"
+          prop="start_time"
           label="开始时间"
           width="210"
         />
         <el-table-column
-          prop="endTime"
+          prop="end_time"
           label="结束时间"
           width="210"
         />
         <el-table-column
-          prop="yield"
           label="成材率"
-          width="160"
-        />
+          width="100"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.score ? scope.row.score : '-' }}
+          </template>
+        </el-table-column>
         <el-table-column
-          prop="operation"
           label="操作"
           width="160"
         >
-          <el-button
-            type="text"
-            size="small"
-          >
-            批卷
-          </el-button>
+          <template slot-scope="scope">
+            <span @click="getScore(scope.row.exam_exam_id,scope.row.exam_student_id,scope.row.student_name)">批卷</span>
+          </template>
         </el-table-column>
       </el-table>
       <div class="block" style="float:right;margin-top:10px">
         <el-pagination
           background
           :page-sizes="[5, 10, 15, 20]"
-          :page-size="100"
+          :page-size="10"
           layout="sizes, prev, pager, next, jumper"
-          :total="10"
+          :total="studentData.length"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
         />
       </div>
     </div>
@@ -86,37 +91,61 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      classList: [
-        {
-          value: '0',
-          label: '1608A'
-        },
-        {
-          value: '1',
-          label: '1608B'
-        },
-        {
-          value: '2',
-          label: '1909A'
-        },
-        {
-          value: '3',
-          label: '1609B'
-        }
-      ],
-      tableData: [
-        {
-          class: '1608',
-          name: 'AA',
-          status: '--',
-          startTime: '2019-3-10',
-          endTime: '2019-3-17',
-          yield: '---'
-        }
-      ]
+      id: '',
+      room: '',
+      arr: [],
+      size: 10,
+      page: 1,
+      classList: {
+        status: 0,
+        value: ''
+      }
+    }
+  },
+  computed: {
+    ...mapState({
+      studentData: state => state.readPapers.studentData,
+      data: state => state.readPapers.classArr
+    })
+  },
+  async created() {},
+  async mounted() {
+    var obj = JSON.parse(localStorage.getItem('classMsg'))
+    this.id = obj.id
+    this.room = obj.name
+    await this.getExamType()
+    await this.getStudent({
+      grade_id: this.id
+    })
+    this.arr = this.studentData.slice(0, this.size * 1)
+  },
+  methods: {
+    ...mapActions({
+      getStudent: 'readPapers/getStudentList',
+      getExamType: 'readPapers/getExamType'
+    }),
+    async handleSizeChange(val) {
+      this.size = val
+      await this.getStudent({
+        grade_id: this.id
+      })
+      this.arr = this.studentData.slice(0, this.size * 1)
+    },
+    async handleCurrentChange(tab) {
+      this.page = tab
+      this.arr = this.studentData.slice((this.page - 1) * this.size, this.page * this.size)
+    },
+    getScore(eid, nid, name) {
+      window.localStorage.setItem('examIds', JSON.stringify({
+        eid: eid,
+        nid: nid,
+        name: name
+      }))
+      this.$router.push('getscore')
     }
   }
 }
@@ -182,6 +211,10 @@ h2 {
 }
 .add-form-item {
   margin-right: 60px;
+}
+span {
+  color: blue;
+  cursor: pointer;
 }
 </style>
 

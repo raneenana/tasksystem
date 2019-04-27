@@ -2,10 +2,10 @@
   <div class="list-wrap">
     <h2>试卷列表</h2>
     <div class="add-layout-content">
-      <form class="add-form">
+      <el-form v-model="info" class="add-form">
         <div class="add-form-item">
           <label for="title" class="add-form-item-required" title="考试类型">考试类型:</label>
-          <el-select v-model="type" placeholder="请选择">
+          <el-select v-model="info.exam_id" placeholder="请选择">
             <el-option
               v-for="(item,index) in typeList"
               :key="index"
@@ -16,7 +16,7 @@
         </div>
         <div class="add-form-item">
           <label for="title" class="add-form-item-required" title="课程">课程:</label>
-          <el-select v-model="subject" placeholder="请选择">
+          <el-select v-model="info.subject_id" placeholder="请选择">
             <el-option
               v-for="item in curriculumList"
               :key="item.subject_id"
@@ -25,10 +25,9 @@
             />
           </el-select>
         </div>
-        <el-button type="primary"><i class="el-icon-search" />查询</el-button>
-        <el-button type="primary" @click="exportExcel">导出试卷</el-button>
-        <!-- <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" /> -->
-      </form>
+        <el-button type="primary" @click="submitForm(info)"><i class="el-icon-search" />查询</el-button>
+        <el-button type="primary" @click="exportExcel"><i class="el-icon-search" />导出列表</el-button>
+      </el-form>
     </div>
     <div class="add-layout-content">
       <div class="add-layout-title">
@@ -39,11 +38,16 @@
           <el-button plain>已结束</el-button>
         </el-button-group>
       </div>
-      <el-table :data="paperLists" :header-cell-style="tableHeaderColor" style="width: 100%">
+      <el-table :data="arr.length>0?arr:paperLists" :header-cell-style="tableHeaderColor" style="width: 100%">
         <el-table-column label="试卷信息">
           <template slot-scope="scope">
-            <p>{{ scope.row.title }}</p>
-            <p>考试时间：{{ scope.row.number }}道题作弊{{ scope.row.status }}分</p>
+            <div>
+              <p>{{ scope.row.title }}</p>
+              <p>
+                <span style="margin-right:4px">考试时间:{{ parseInt((scope.row.end_time - scope.row.start_time)/1000/60/60%24) }}:{{ parseInt((scope.row.end_time - scope.row.start_time)/1000/60%60) }}:{{ parseInt((scope.row.end_time - scope.row.start_time)/1000%60) }}</span>
+                <span>{{ scope.row.number }}道题作弊{{ scope.row.status }}分</span>
+              </p>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="班级">
@@ -87,11 +91,11 @@ export default {
   // components: { UploadExcelComponent },
   data() {
     return {
-      type: '',
-      value: '',
-      subject: '',
-      tableData: [], // 导入表格
-      tableHeader: []
+      info: {
+        exam_id: '',
+        subject_id: ''
+      },
+      arr: []
     }
   },
   computed: {
@@ -105,6 +109,7 @@ export default {
     this.typeData()
     this.curriculumData()
     this.paperData()
+    // this.arr = this.paperLists
   },
   methods: {
     ...mapActions({
@@ -112,21 +117,6 @@ export default {
       curriculumData: 'examination/getCurriculums',
       paperData: 'examination/getPaperList'
     }),
-    exportExcel() {
-      const header = Object.keys(this.paperLists[0])
-      const arr = this.paperLists.map(item => {
-        const list = Object.values(item)
-        return list.map(item => item)
-      })
-      import('@/vendor/Export2Excel').then(excel => {
-        excel.export_json_to_excel({
-          header: header,
-          data: arr,
-          filename: '',
-          bookType: 'xlsx'
-        })
-      })
-    },
     tableHeaderColor({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
         return 'background-color: #f4f7f9;color: #000;font-weight: 500;width:100%; height: 53px;'
@@ -135,22 +125,27 @@ export default {
     jumpDetail(id) {
       this.$router.push({ path: 'detail', query: { id: id }})
     },
-    beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1
-
-      if (isLt1M) {
-        return true
+    submitForm(formData) {
+      for (var i in formData) {
+        this.arr = this.paperLists.filter(item => {
+          return formData[i] === item[i]
+        })
       }
-
-      this.$message({
-        message: 'Please do not upload files larger than 1m in size.',
-        type: 'warning'
-      })
-      return false
     },
-    handleSuccess({ results, header }) {
-      this.tableData = results
-      this.tableHeader = header
+    exportExcel() {
+      const header = Object.keys(this.paperLists[0])
+      const list = this.paperLists.map(item => {
+        const arr = Object.values(item)
+        return arr.map(item => JSON.stringify(item))
+      })
+      import('@/vendor/Export2Excel').then(excel => {
+        excel.export_json_to_excel({
+          header: header,
+          data: list,
+          filename: '',
+          bookType: 'xlsx'
+        })
+      })
     }
   }
 }

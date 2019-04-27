@@ -7,6 +7,7 @@ const examRouter = {
   meta: {
     title: 'exam',
     icon: 'sliders'
+    // view_id: 'main-addQuestions main-questionsType main-watchQuestions'
   },
   children: [
     {
@@ -15,8 +16,8 @@ const examRouter = {
       name: 'addQuestion',
       meta: {
         title: 'addQuestion',
-        noCache: true, // ['main-addQuestions', 'main-addExam', 'main-editQuestions']
-        view_id: 'main-addExam'
+        noCache: true,
+        view_id: 'main-addQuestions'
       }
     },
     {
@@ -42,12 +43,11 @@ const examRouter = {
     {
       path: 'detail',
       component: () => import('@/views/exam/details'),
+      hidden: true,
       meta: {
         title: 'detail',
         noCache: true,
-        hidden: true
-        // ,
-        // view_id: '12312'
+        view_id: 'main-questionsDetail'
       }
     }
   ]

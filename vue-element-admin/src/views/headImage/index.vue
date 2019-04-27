@@ -1,32 +1,26 @@
 <template>
-  <div class="components-container">
-    <code>This is based on
-      <a class="link-type" href="//github.com/dai-siki/vue-image-crop-upload"> vue-image-crop-upload</a>.
-      {{ $t('components.imageUploadTips') }}
-    </code>
-
-    <pan-thumb :image="image" />
-
+  <div>
+    <pan-thumb :image="info.avatar || image" />
     <el-button type="primary" icon="upload" style="position: absolute;bottom: 15px;margin-left: 40px;" @click="imagecropperShow=true">
-      Change Avatar
+      修改头像
     </el-button>
-
     <image-cropper
       v-show="imagecropperShow"
       :key="imagecropperKey"
       :width="300"
       :height="300"
       url="http://123.206.55.50:11000/upload"
+      method="post"
       lang-type="en"
       @close="close"
       @crop-upload-success="cropSuccess"
     />
   </div>
 </template>
-
 <script>
 import ImageCropper from '@/components/ImageCropper'
 import PanThumb from '@/components/PanThumb'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'AvatarUploadDemo',
@@ -38,12 +32,25 @@ export default {
       image: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191'
     }
   },
+  computed: {
+    ...mapState({
+      info: state => state.user.userInfo
+    })
+  },
+  created() {
+    this.getInfo()
+  },
   methods: {
-    cropSuccess(resData, e) {
-      console.log(e)
+    ...mapActions({
+      updateInfo: 'adduser/changeMes',
+      getInfo: 'user/getInfo'
+    }),
+    async cropSuccess(e) {
+      console.log('e...............', e[0].path)
+      console.log('this.image', this.info)
       this.imagecropperShow = false
-      this.imagecropperKey = this.imagecropperKey + 1
-      this.image = resData.files.avatar
+      await this.updateInfo({ user_id: this.info.user_id, avatar: e[0].path })
+      await this.getInfo()
     },
     close() {
       this.imagecropperShow = false
@@ -51,12 +58,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .avatar{
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-  }
-</style>
-
