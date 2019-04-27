@@ -42,12 +42,16 @@ export default {
     })
   },
   async created() {
+    // 重新获取一下用户信息
     await this.getUserInfo()
+<<<<<<< HEAD
     console.log('以登陆的用户', this.userinfo)
     if (!this.userinfo.avatar) {
       // return this.flag = false
       console.log(this.userinfo.avatar)
     }
+=======
+>>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
   },
   methods: {
     ...mapActions({

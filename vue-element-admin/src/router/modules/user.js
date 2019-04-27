@@ -9,8 +9,13 @@ const userRouter = {
   name: 'User',
   meta: {
     title: 'user',
+<<<<<<< HEAD
     icon: 'user',
     view_id: 'main-addUser,main-showUser'
+=======
+    icon: 'user'
+    // view_id: 'main-addUser,main-showUser'
+>>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
   },
   children: [
     {

@@ -1,4 +1,4 @@
-import { login, logout, getInfo, getViewAuthority } from '@/api/user'
+import { login, logout, getInfo, getViewAuthority, newitem } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 const state = {
@@ -43,6 +43,11 @@ const actions = {
     setToken(res.token)
     return res
   },
+  // 获取当前用户的视图权限
+  async newitems({ commit }, payload) {
+    const res = await newitem(payload)
+    console.log('获取当前用户的视图权限', res)
+  },
 
   // get user info
   async getInfo({ commit }) {
@@ -50,11 +55,14 @@ const actions = {
     commit('SET_USERINFO', data.data)
     return data.data
   },
-
   // get user view_authority
   async getViewAuthority({ commit }, payload) {
+<<<<<<< HEAD
     const userAuthority = await getViewAuthority()
     console.log('userAuthority...', userAuthority)
+=======
+    const userAuthority = await getViewAuthority(payload)
+>>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
     if (userAuthority.code === 1) {
       commit('SET_VIEWAUTHORITY', userAuthority.data)
       return userAuthority.data
@@ -66,8 +74,8 @@ const actions = {
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
+        commit('SET_USERINFO', '')
+        commit('SET_VIEWAUTHORITY', [])
         removeToken()
         resetRouter()
         resolve()
