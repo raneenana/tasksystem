@@ -46,8 +46,6 @@ export default {
       getInfo: 'user/getInfo'
     }),
     async cropSuccess(e) {
-      console.log('e...............', e[0].path)
-      console.log('this.image', this.info)
       this.imagecropperShow = false
       await this.updateInfo({ user_id: this.info.user_id, avatar: e[0].path })
       await this.getInfo()
