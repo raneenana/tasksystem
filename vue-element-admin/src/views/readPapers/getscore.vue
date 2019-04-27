@@ -77,13 +77,15 @@ export default {
           id: id,
           score: this.val
         })
-        this.$router.push('classmate')
         this.opens()
+        this.$router.push('classmate')
       }).catch(() => {})
     },
     opens() {
       this.$confirm('分数为' + this.val, '提示', {
         confirmButtonText: '知道了',
+        showCancelButton: false,
+        showClose: false,
         type: 'success',
         center: true
       }).then(() => {}).catch(() => {})
@@ -95,7 +97,8 @@ export default {
 .wrap {
   width: 100%;
   padding-left: 30px;
-  box-sizing: border-box
+  box-sizing: border-box;
+  background: #f5f5f5;
 }
 h3 {
   width: 100%;
