@@ -23,7 +23,8 @@ const readRouter = {
     name: 'wait',
     meta: {
       title: '',
-      noCache: true
+      noCache: true,
+      hidden: true
     }
   }
   ]

@@ -50,7 +50,7 @@ export default {
   methods: {
     createCode() {
       const codeArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-      const length = 12
+      const length = 16
       this.code = ''
       for (let i = 0; i < length; i++) {
         var randomI = Math.floor(Math.random() * 36)
@@ -58,12 +58,6 @@ export default {
       }
     },
     ...mapActions({
-      getUser: 'addQuestion/getUser',
-      getAllExam: 'addQuestion/getAllExam',
-      getExamType: 'addQuestion/getExamType',
-      addQuestions: 'addQuestion/addQuestions',
-      upQuestions: 'addQuestion/upQuestions',
-      getSubjectType: 'addQuestion/getSubjectType',
       getQuestionsTpe: 'addQuestion/getQuestionsTpe',
       addType: 'addQuestion/addType'
     }),

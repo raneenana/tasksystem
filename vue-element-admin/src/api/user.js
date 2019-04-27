@@ -8,11 +8,26 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: '/user/info',
+    url: '/user/userInfo',
+    method: 'get'
+  })
+}
+
+export function getViewAuthority(params) {
+  return request({
+    url: '/user/new',
     method: 'get',
-    params: { token }
+    params
+  })
+}
+
+export function getNew(data) {
+  return request({
+    url: '/user/new',
+    method: 'get',
+    data
   })
 }
 

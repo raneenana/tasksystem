@@ -79,7 +79,10 @@ export default {
         this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
         return true
       }
-
+      if (parent.children.length <= 0) {
+        parent.hidden = true
+        parent.awayshow = true
+      }
       return false
     },
     resolvePath(routePath) {

@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -58,26 +58,7 @@ export default {
       value1: '',
       flag: false,
       subject_id: '',
-      isShow: false,
-      tableData: [{
-        information: 'Nodejs开发第二周摸底考试',
-        class: '1608',
-        creator: '陈',
-        startTime: '2019-3-10',
-        endTime: '2019-3-17'
-      }, {
-        information: '渐进式',
-        class: '1609',
-        creator: '王',
-        startTime: '2019-3-10',
-        endTime: '2019-3-17'
-      }, {
-        information: '组件式',
-        class: '1610',
-        creator: '任',
-        startTime: '2019-3-10',
-        endTime: '2019-3-17'
-      }]
+      isShow: false
     }
   },
   computed: {
@@ -95,9 +76,6 @@ export default {
     this.getQuestionsTpe()
   },
   methods: {
-    ...mapMutations({
-      updataState: 'addQuestion/updataState'
-    }),
     ...mapActions({
       getExamType: 'addQuestion/getExamType', // 获取所有的考试类型s
       getSubjectType: 'addQuestion/getSubjectType', // 获取所有的课程
@@ -108,7 +86,6 @@ export default {
     }),
     detail(e, item) {
       this.getDetail(item)
-      console.log(item)
       var str = ''
       if (e.target.tagName === 'SPAN') {
         str = 'addQuestion?id=' + item.questions_id
@@ -238,6 +215,7 @@ export default {
   border:none;
 }
 .content div ul li .left{
+  width:90%;
   display: flex;
   flex-direction: column;
 }

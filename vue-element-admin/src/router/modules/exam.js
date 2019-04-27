@@ -15,7 +15,8 @@ const examRouter = {
       name: 'addQuestion',
       meta: {
         title: 'addQuestion',
-        noCache: true
+        noCache: true, // ['main-addQuestions', 'main-addExam', 'main-editQuestions']
+        view_id: 'main-addExam'
       }
     },
     {
@@ -24,7 +25,8 @@ const examRouter = {
       name: 'questionType',
       meta: {
         title: 'questionType',
-        noCache: true
+        noCache: true,
+        view_id: 'main-questionsType'
       }
     },
     {
@@ -33,7 +35,8 @@ const examRouter = {
       name: 'papers',
       meta: {
         title: 'papers',
-        noCache: true
+        noCache: true,
+        view_id: 'main-watchQuestions'
       }
     },
     {
@@ -41,7 +44,10 @@ const examRouter = {
       component: () => import('@/views/exam/details'),
       meta: {
         title: 'detail',
-        noCache: true
+        noCache: true,
+        hidden: true
+        // ,
+        // view_id: '12312'
       }
     }
   ]

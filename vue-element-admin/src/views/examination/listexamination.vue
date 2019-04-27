@@ -26,6 +26,8 @@
           </el-select>
         </div>
         <el-button type="primary"><i class="el-icon-search" />查询</el-button>
+        <el-button type="primary" @click="exportExcel">导出试卷</el-button>
+        <!-- <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" /> -->
       </form>
     </div>
     <div class="add-layout-content">
@@ -71,18 +73,25 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
+        <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
+      </el-table> -->
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+// import UploadExcelComponent from '@/components/UploadExcel/index.vue'
 export default {
+  // components: { UploadExcelComponent },
   data() {
     return {
       type: '',
       value: '',
-      subject: ''
+      subject: '',
+      tableData: [], // 导入表格
+      tableHeader: []
     }
   },
   computed: {
@@ -103,6 +112,21 @@ export default {
       curriculumData: 'examination/getCurriculums',
       paperData: 'examination/getPaperList'
     }),
+    exportExcel() {
+      const header = Object.keys(this.paperLists[0])
+      const arr = this.paperLists.map(item => {
+        const list = Object.values(item)
+        return list.map(item => item)
+      })
+      import('@/vendor/Export2Excel').then(excel => {
+        excel.export_json_to_excel({
+          header: header,
+          data: arr,
+          filename: '',
+          bookType: 'xlsx'
+        })
+      })
+    },
     tableHeaderColor({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
         return 'background-color: #f4f7f9;color: #000;font-weight: 500;width:100%; height: 53px;'
@@ -110,6 +134,23 @@ export default {
     },
     jumpDetail(id) {
       this.$router.push({ path: 'detail', query: { id: id }})
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
+    },
+    handleSuccess({ results, header }) {
+      this.tableData = results
+      this.tableHeader = header
     }
   }
 }
