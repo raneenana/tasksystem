@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     hasOneShowingChild(children = [], parent) {
-      console.log(parent, 'parent...')
       const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false
@@ -72,14 +71,13 @@ export default {
       if (showingChildren.length === 1) {
         return true
       }
-      // if(parent.children <= 0){
-      //   parent.alwaysShow = true;
-      //   parent.hidden = false;
-      // }
-      // console.log(parent.children,'parent')
       // Show parent if there are no child router to display
       if (showingChildren.length === 0) {
         this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
+        if (parent.children) {
+          parent.alwaysShow = false
+          parent.hidden = true
+        }
         return true
       }
       return false
