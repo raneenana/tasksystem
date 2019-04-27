@@ -7,6 +7,7 @@ const readRouter = {
   meta: {
     title: 'readPapers',
     icon: 'project'
+    // view_id: 'main-examPaperClassList'
   },
   children: [{
     path: 'waitClass',

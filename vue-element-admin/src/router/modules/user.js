@@ -10,6 +10,7 @@ const userRouter = {
   meta: {
     title: 'user',
     icon: 'user'
+    // view_id: 'main-addUser,main-showUser'
   },
   children: [
     {
