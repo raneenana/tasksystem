@@ -41,11 +41,11 @@ router.beforeEach(async(to, from, next) => {
           const userInfo = await store.dispatch('user/getInfo')
           console.log(userInfo)
           // 2.通过身份获取权限
-          const viewAuthority = await store.dispatch('user/getViewAuthority')
+          const viewAuthority = await store.dispatch('user/getViewAuthority', userInfo.user_id)
+          // console.log(viewAuthority,'viewAuthority')
 
           // 3.通过权限生成路由
           const accessRoutes = await store.dispatch('permission/generateRoutes', viewAuthority)
-
           // 4.动态添加路由到路由表
           router.addRoutes(accessRoutes)
 

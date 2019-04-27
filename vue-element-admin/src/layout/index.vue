@@ -19,7 +19,7 @@
 import RightPanel from '@/components/RightPanel'
 import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Layout',
@@ -38,7 +38,8 @@ export default {
       device: state => state.app.device,
       showSettings: state => state.settings.showSettings,
       needTagsView: state => state.settings.tagsView,
-      fixedHeader: state => state.settings.fixedHeader
+      fixedHeader: state => state.settings.fixedHeader,
+      userInfo: state => state.user.userInfo
     }),
     classObj() {
       return {
@@ -50,9 +51,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      newitem: 'user/newitems'
+    }),
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
+  },
+  created() {
+    this.newitem({
+      user_id: this.userInfo.user_id
+    })
   }
 }
 </script>
