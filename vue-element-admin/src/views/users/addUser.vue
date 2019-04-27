@@ -148,7 +148,7 @@
                 v-for="item in viewOpt"
                 :key="item.view_id"
                 :label="item.view_authority_text"
-                :value="item.view_authority_text"
+                :value="item.view_authority_id"
                 style="margin-left:5px;"
               />
             </el-select>
@@ -503,14 +503,11 @@ export default {
       const item = this.allIden.filter((item) => {
         return item.identity_text === this.viewAuthor.idAuth
       })
-      const array = this.viewOpt.filter((item) => {
-        return item.view_authority_text === this.viewAuthor.viewAuth
-      })
       const idNum = item[0].identity_id
-      const apiNum = array[0].api_authority_id
+      console.log('hahahahahh', this.viewOpt, this.viewAuthor.viewAuth)
       const res = await this.setViewAuth({
         identity_id: idNum,
-        view_authority_id: apiNum
+        view_authority_id: this.viewAuthor.viewAuth
       })
       if (!res) {
         Message({

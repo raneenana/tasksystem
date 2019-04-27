@@ -1,3 +1,4 @@
+    
 import Layout from '@/layout'
 const readRouter = {
   path: '/readPapers',
@@ -42,7 +43,6 @@ const readRouter = {
       noCache: true,
       view_id: 'main-room'
     }
-  }
-  ]
+  }]
 }
 export default readRouter
