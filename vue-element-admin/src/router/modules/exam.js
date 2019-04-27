@@ -6,13 +6,8 @@ const examRouter = {
   name: 'Exam',
   meta: {
     title: 'exam',
-<<<<<<< HEAD
-    icon: 'sliders',
-    view_id: 'main-watchQuestions,main-editQuestions,main-questionsType,main-addQuestions'
-=======
     icon: 'sliders'
-    // view_id: 'main-addQuestions main-questionsType main-watchQuestions'
->>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
+    // view_id: 'main-watchQuestions,main-editQuestions,main-questionsType,main-addQuestions'
   },
   children: [
     {
@@ -42,11 +37,7 @@ const examRouter = {
       meta: {
         title: 'papers',
         noCache: true,
-<<<<<<< HEAD
         view_id: 'main-watchQuestions,main-editQuestions'
-=======
-        view_id: 'main-watchQuestions'
->>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
       }
     },
     {
@@ -56,11 +47,7 @@ const examRouter = {
       meta: {
         title: 'detail',
         noCache: true,
-<<<<<<< HEAD
-        view_id: 'main-questionDetail'
-=======
         view_id: 'main-questionsDetail'
->>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
       }
     }
   ]

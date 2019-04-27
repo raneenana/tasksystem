@@ -9,13 +9,8 @@ const examRouter = {
   name: 'Classes',
   meta: {
     title: 'classes',
-<<<<<<< HEAD
-    icon: 'table',
-    view_id: 'main-student,main-room,main-grade'
-=======
     icon: 'table'
-    // view_id: 'main-grade,main-student,main-room'
->>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
+    // view_id: 'main-student,main-room,main-grade'
   },
   children: [
     {
@@ -28,21 +23,13 @@ const examRouter = {
       path: 'classroom',
       component: () => import('@/views/classes/classroom'),
       name: 'classroom',
-<<<<<<< HEAD
       meta: { title: 'classroom', noCache: true, view_id: 'main-room' }
-=======
-      meta: { title: 'classroom', noCache: true, view_id: 'main-student' }
->>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
     },
     {
       path: 'student',
       component: () => import('@/views/classes/student'),
       name: 'student',
-<<<<<<< HEAD
       meta: { title: 'student', noCache: true, view_id: 'main-student' }
-=======
-      meta: { title: 'student', noCache: true, view_id: 'main-room' }
->>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
     }
   ]
 }

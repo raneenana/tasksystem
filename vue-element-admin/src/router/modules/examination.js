@@ -9,13 +9,8 @@ const examination = {
   name: 'examination',
   meta: {
     title: 'examination',
-<<<<<<< HEAD
-    icon: 'documentation',
-    view_id: 'main-examList,main-addExam'
-=======
     icon: 'documentation'
-    // view_id: 'main-addExam,main-examList'
->>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
+    // view_id: 'main-examList,main-addExam'
   },
   children: [{
     path: 'addexamination',
@@ -37,11 +32,7 @@ const examination = {
     component: () =>
         import('@/views/examination/add'),
     name: 'add',
-<<<<<<< HEAD
     meta: { title: 'add', noCache: true, view_id: 'main-examEdit' }
-=======
-    meta: { title: 'add', noCache: true, view_id: 'mian-examEdit' }
->>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
   },
   {
     path: 'detail',
@@ -49,11 +40,7 @@ const examination = {
     component: () =>
         import('@/views/examination/detail'),
     name: 'detail',
-<<<<<<< HEAD
     meta: { title: 'detail', noCache: true, view_id: 'main-examDetail' }
-=======
-    meta: { title: 'detail', noCache: true, view_id: 'mian-examDetail' }
->>>>>>> 4387b27472b77ef2d7c1a1656c5d81b5bd128db2
   }]
 }
 
