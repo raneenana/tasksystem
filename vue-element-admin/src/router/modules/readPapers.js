@@ -1,3 +1,4 @@
+    
 import Layout from '@/layout'
 const readRouter = {
   path: '/readPapers',
@@ -39,9 +40,9 @@ const readRouter = {
     name: 'wait',
     meta: {
       title: '',
-      noCache: true
+      noCache: true,
+      view_id: 'aaaaaaaa'
     }
-  }
-  ]
+  }]
 }
 export default readRouter

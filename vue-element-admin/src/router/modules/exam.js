@@ -37,7 +37,7 @@ const examRouter = {
       meta: {
         title: 'papers',
         noCache: true,
-        view_id: 'main-watchQuestions,main-editQuestions'
+        view_id: 'main-watchQuestions'
       }
     },
     {
