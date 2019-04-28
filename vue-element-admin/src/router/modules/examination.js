@@ -32,7 +32,7 @@ const examination = {
     component: () =>
         import('@/views/examination/add'),
     name: 'add',
-    meta: { title: 'add', noCache: true, view_id: 'mian-examEdit' }
+    meta: { title: 'add', noCache: true, view_id: 'main-examEdit' }
   },
   {
     path: 'detail',
@@ -40,7 +40,7 @@ const examination = {
     component: () =>
         import('@/views/examination/detail'),
     name: 'detail',
-    meta: { title: 'detail', noCache: true, view_id: 'mian-examDetail' }
+    meta: { title: 'detail', noCache: true, view_id: 'main-examDetail' }
   }]
 }
 
