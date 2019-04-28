@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     hasOneShowingChild(children = [], parent) {
-      console.log(parent, 'parent...')
       const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false
@@ -77,8 +76,8 @@ export default {
       if (showingChildren.length === 0) {
         this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
         if (parent.children) {
-          parent.alwaysShow = true
-          parent.hidden = false
+          parent.alwaysShow = false
+          parent.hidden = true
         }
         return true
       }
@@ -93,7 +92,6 @@ export default {
       }
       return path.resolve(this.basePath, routePath)
     },
-
     generateTitle
   }
 }

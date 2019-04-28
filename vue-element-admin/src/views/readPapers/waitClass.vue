@@ -88,7 +88,7 @@ export default {
   /* height: 500px; */
   margin: 0 auto;
 }
-.detail {
+span.detail {
   color: #0139fd;
   cursor: pointer;
 }

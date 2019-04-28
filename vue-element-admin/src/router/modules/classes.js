@@ -10,7 +10,7 @@ const examRouter = {
   meta: {
     title: 'classes',
     icon: 'table'
-    // view_id: 'main-grade,main-student,main-room'
+    // view_id: 'main-student,main-room,main-grade'
   },
   children: [
     {
@@ -23,13 +23,13 @@ const examRouter = {
       path: 'classroom',
       component: () => import('@/views/classes/classroom'),
       name: 'classroom',
-      meta: { title: 'classroom', noCache: true, view_id: 'main-student' }
+      meta: { title: 'classroom', noCache: true, view_id: 'main-room' }
     },
     {
       path: 'student',
       component: () => import('@/views/classes/student'),
       name: 'student',
-      meta: { title: 'student', noCache: true, view_id: 'main-room' }
+      meta: { title: 'student', noCache: true, view_id: 'main-student' }
     }
   ]
 }
