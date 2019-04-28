@@ -7,7 +7,6 @@ const examRouter = {
   meta: {
     title: 'exam',
     icon: 'sliders'
-    // view_id: 'main-addQuestions main-questionsType main-watchQuestions'
   },
   children: [
     {
