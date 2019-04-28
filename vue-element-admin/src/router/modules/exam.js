@@ -7,6 +7,7 @@ const examRouter = {
   meta: {
     title: 'exam',
     icon: 'sliders'
+    // view_id: 'main-addQuestions main-questionsType main-watchQuestions'
   },
   children: [
     {
@@ -15,7 +16,8 @@ const examRouter = {
       name: 'addQuestion',
       meta: {
         title: 'addQuestion',
-        noCache: true
+        noCache: true,
+        view_id: 'main-addQuestions'
       }
     },
     {
@@ -24,7 +26,8 @@ const examRouter = {
       name: 'questionType',
       meta: {
         title: 'questionType',
-        noCache: true
+        noCache: true,
+        view_id: 'main-questionsType'
       }
     },
     {
@@ -33,7 +36,8 @@ const examRouter = {
       name: 'papers',
       meta: {
         title: 'papers',
-        noCache: true
+        noCache: true,
+        view_id: 'main-watchQuestions'
       }
     },
     {
@@ -42,7 +46,8 @@ const examRouter = {
       hidden: true,
       meta: {
         title: 'detail',
-        noCache: true
+        noCache: true,
+        view_id: 'main-questionsDetail'
       }
     }
   ]
