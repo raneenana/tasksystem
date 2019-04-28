@@ -30,7 +30,7 @@ const readRouter = {
     path: 'getscore', // 提交批卷分数
     component: () => import('@/views/readPapers/getscore'), // Parent router-view
     name: 'getscore',
-    meta: { title: 'getscore', view_id: 'main-examinationPapers' },
+    meta: { title: 'getscore', noCache: true, view_id: 'main-examinationPapers' },
     hidden: true
   },
   {
@@ -40,7 +40,7 @@ const readRouter = {
     meta: {
       title: '',
       noCache: true,
-      view_id: 'aaaaaaaa'
+      view_id: 'main-room'
     }
   }]
 }

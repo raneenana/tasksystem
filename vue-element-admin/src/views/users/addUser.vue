@@ -474,6 +474,14 @@ export default {
         identity_id: idNum,
         api_authority_id: apiNum
       })
+      if (!res) {
+        Message({
+          message: '视图权限重复',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return false
+      }
       if (res.code === 1) {
         Message({
           message: res.msg,
