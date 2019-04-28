@@ -117,6 +117,9 @@ h3 {
 .main .left {
   width: 73%;
   height: auto;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 30px;
   background: #fff;
 }
 .left div h5 {
