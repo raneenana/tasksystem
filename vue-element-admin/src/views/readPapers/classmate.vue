@@ -44,7 +44,7 @@
           label="阅卷状态"
           width="100"
         >
-        <template slot-scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.status ? '已阅' : '未阅' }}
           </template>
         </el-table-column>
@@ -52,9 +52,9 @@
           label="开始时间"
           width="210"
         >
-        <template slot-scope="scope">
-          <span>{{ new Date(scope.row.start_time * 1).toLocaleString() }}</span>
-        </template>
+          <template slot-scope="scope">
+            <span>{{ new Date(scope.row.start_time * 1).toLocaleString() }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="结束时间"
