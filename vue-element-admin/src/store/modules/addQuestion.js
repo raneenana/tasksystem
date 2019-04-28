@@ -1,4 +1,4 @@
-import { getUserInfo, getType, getSubject, getQuestionsType, getAddType, addQuestion, allExam, searchExam } from '@/api/addQuestion'
+import { getUserInfo, getType, getSubject, getQuestionsType, getAddType, addQuestion, updataQuestion, allExam, searchExam } from '@/api/addQuestion'
 const state = {
   userInfo: [],
   allQuestion: [],
@@ -39,12 +39,18 @@ const actions = {
   async addType({ commit }, paylod) {
     var result = await getAddType(paylod)
     return result
-    // commit('updataState', { questionsType: result.data })
   },
   // 添加试题
   async addQuestions({ commit }, paylod) {
     var result = await addQuestion(paylod)
-    // commit('updataState', { questionsType: result.data })
+    return result
+  },
+  // 更新试题
+  async upQuestions({ commit }, paylod) {
+    var result = await updataQuestion(paylod)
+    if (!result) {
+      return { msg: '更新失败' }
+    }
     return result
   },
   // 获取所有的试题

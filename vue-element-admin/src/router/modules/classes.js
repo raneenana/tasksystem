@@ -10,6 +10,7 @@ const examRouter = {
   meta: {
     title: 'classes',
     icon: 'table'
+    // view_id: 'main-student,main-room,main-grade'
   },
   children: [
     {

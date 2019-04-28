@@ -10,19 +10,20 @@ const userRouter = {
   meta: {
     title: 'user',
     icon: 'user'
+    // view_id: 'main-addUser,main-showUser'
   },
   children: [
     {
       path: 'addUser',
       component: () => import('@/views/users/addUser'),
       name: 'addUser',
-      meta: { title: 'addUser', noCache: true }
+      meta: { title: 'addUser', noCache: true, view_id: 'main-addUser' }
     },
     {
       path: 'showUser',
       component: () => import('@/views/users/showUser'),
       name: 'showUser',
-      meta: { title: 'showUser', noCache: true }
+      meta: { title: 'showUser', noCache: true, view_id: 'main-showUser' }
     }
   ]
 }
