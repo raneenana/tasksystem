@@ -7,10 +7,10 @@ const examination = {
   component: Layout,
   redirect: 'noredirect',
   name: 'examination',
+  alwaysShow: true,
   meta: {
     title: 'examination',
     icon: 'documentation'
-    // view_id: 'main-addExam,main-examList'
   },
   children: [{
     path: 'addexamination',
@@ -32,7 +32,7 @@ const examination = {
     component: () =>
         import('@/views/examination/add'),
     name: 'add',
-    meta: { title: 'add', noCache: true, view_id: 'mian-examEdit' }
+    meta: { title: 'add', noCache: true, view_id: 'main-examEdit' }
   },
   {
     path: 'detail',
