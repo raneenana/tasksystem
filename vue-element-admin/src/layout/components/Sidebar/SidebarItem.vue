@@ -71,6 +71,7 @@ export default {
       if (showingChildren.length === 1) {
         return true
       }
+      // console.log(parent.children,'parent')
       // Show parent if there are no child router to display
       if (showingChildren.length === 0) {
         this.onlyOneChild = { ...parent, path: '', noShowingChildren: true }

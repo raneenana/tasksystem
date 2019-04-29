@@ -1,4 +1,4 @@
-import { getUserInfo, getType, getSubject, getQuestionsType, getAddType, addQuestion, updataQuestion, allExam, searchExam } from '@/api/addQuestion'
+import { getUserInfo, getType, getSubject, getQuestionsType, getAddType, delAddType, addQuestion, updataQuestion, allExam, searchExam } from '@/api/addQuestion'
 const state = {
   userInfo: [],
   allQuestion: [],
@@ -35,9 +35,20 @@ const actions = {
     var result = await getQuestionsType()
     commit('updataState', { questionsType: result.data })
   },
-  // 添加试题类型 addQuestion,
+  // 添加试题类型
   async addType({ commit }, paylod) {
     var result = await getAddType(paylod)
+    if (!result) {
+      return { msg: '试题名称或者排序有重复数据' }
+    }
+    // if (result.code === 0) {
+    //   return { msg: result.msg }
+    // }
+    return result
+  },
+  // 删除指定试题类型 delAddType
+  async delType({ commit }, paylod) {
+    var result = await delAddType(paylod)
     return result
   },
   // 添加试题

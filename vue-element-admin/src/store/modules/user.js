@@ -1,6 +1,7 @@
 import { login, logout, getInfo, getViewAuthority, newitem } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+
 const state = {
   token: getToken(),
   name: '',
@@ -39,7 +40,7 @@ const actions = {
   // user login
   async login({ commit }, userInfo) {
     const { username, password } = userInfo
-    const res = await login({ user_name: username, user_pwd: password })
+    var res = await login({ user_name: username, user_pwd: password })
     setToken(res.token)
     return res
   },
