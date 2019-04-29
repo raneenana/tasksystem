@@ -53,6 +53,20 @@ import headImageRouter from './modules/headImage'
 // 不需要授权的路由
 export const constantRoutes = [
   {
+    path: '',
+    component: Layout,
+    redirect: 'dashboard',
+    hidden: true,
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
+      }
+    ]
+  },
+  {
     path: '/redirect',
     component: Layout,
     hidden: true,
