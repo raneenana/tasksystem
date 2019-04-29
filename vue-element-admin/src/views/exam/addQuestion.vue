@@ -139,14 +139,20 @@ export default {
       }).catch(() => {})
     },
     async sure() {
-      var obj = {
-        questions_type_id: this.qvalue,
-        questions_answer: this.content1,
-        questions_stem: this.tvalue,
-        subject_id: this.svalue,
-        exam_id: this.evalue,
-        user_id: this.userInfo.user_id,
-        title: this.content
+      var obj = {}
+      if (this.qvalue && this.content1 && this.tvalue && this.svalue && this.evalue && this.userInfo.user_id && this.content) {
+        obj = {
+          questions_type_id: this.qvalue,
+          questions_answer: this.content1,
+          questions_stem: this.tvalue,
+          subject_id: this.svalue,
+          exam_id: this.evalue,
+          user_id: this.userInfo.user_id,
+          title: this.content
+        }
+      } else {
+        this.msg = '缺少必填参数'
+        return this.opens()
       }
       var obj1 = {
         questions_type_id: this.qvalue,
@@ -158,16 +164,23 @@ export default {
         questions_id: this.questions_id,
         title: this.content
       }
-      this.opens()
       var res = null
       if (this.question === '您要修改吗，确定要修改这道题吗') {
         res = await this.upQuestions(obj1)
       } else {
         res = await this.addQuestions(obj)
+        this.qvalue = ''
+        this.content1 = ''
+        this.tvalue = ''
+        this.svalue = ''
+        this.evalue = ''
+        this.userInfo.user_id = ''
+        this.content = ''
       }
       if (res.msg) {
         this.msg = res.msg
       }
+      this.opens()
     }
   }
 }

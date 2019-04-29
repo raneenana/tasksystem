@@ -107,12 +107,19 @@ export default {
       }
     },
     async search() {
-      await this.getRightExam({
+      var data = {}
+      var obj = {
         questions_type_id: this.value1,
         // questinos_id: '',
         subject_id: this.subject_id,
         exam_id: this.value
-      })
+      }
+      for (const key in obj) {
+        if (obj[key]) {
+          data[key] = obj[key]
+        }
+      }
+      await this.getRightExam(data)
     }
   }
 }
