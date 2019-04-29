@@ -94,6 +94,10 @@ export default {
 }
 </script>
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
 .wrap {
   width: 100%;
   padding-left: 30px;
@@ -117,6 +121,9 @@ h3 {
 .main .left {
   width: 73%;
   height: auto;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 30px;
   background: #fff;
 }
 .left div h5 {
@@ -136,12 +143,17 @@ h3 {
   width: 250px;
   height: 200px;
   border-radius: 30px;
-  border: 1px solid #ccc;
+  background: #fff;
   position: fixed;
   right: 20px;
   top: 200px;
   padding: 0 20px;
   box-sizing: border-box;
+}
+.wrap .right .h3 {
+  width: 100%;
+  height: 80px;
+  line-height: 80px;
 }
 .answers {
   margin-top: 20px;
@@ -161,9 +173,9 @@ h3 {
 .answers>div.true_answer {
   margin-left: 20px;
 }
- .right h3 {
+ /* .right h3 {
   height: 30px;
-}
+} */
 /* .sliders {
   padding: 0 20px;
   box-sizing: border-box;
