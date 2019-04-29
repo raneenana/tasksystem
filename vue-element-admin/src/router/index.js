@@ -56,6 +56,7 @@ export const constantRoutes = [
     path: '',
     component: Layout,
     redirect: 'dashboard',
+    hidden: true,
     children: [
       {
         path: 'dashboard',
@@ -65,7 +66,6 @@ export const constantRoutes = [
       }
     ]
   },
-  headImageRouter,
   {
     path: '/redirect',
     component: Layout,
@@ -110,6 +110,7 @@ export const asyncRoutes = [
   examination,
   examRouter,
   readRouter,
+  headImageRouter,
   { path: '*', redirect: '/404', hidden: true }
 ]
 
