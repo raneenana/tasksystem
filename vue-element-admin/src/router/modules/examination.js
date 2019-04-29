@@ -7,10 +7,10 @@ const examination = {
   component: Layout,
   redirect: 'noredirect',
   name: 'examination',
+  alwaysShow: true,
   meta: {
     title: 'examination',
     icon: 'documentation'
-    // view_id: 'main-examList,main-addExam'
   },
   children: [{
     path: 'addexamination',

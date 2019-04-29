@@ -53,20 +53,6 @@ import headImageRouter from './modules/headImage'
 // 不需要授权的路由
 export const constantRoutes = [
   {
-    path: '',
-    component: Layout,
-    redirect: 'dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
-      }
-    ]
-  },
-  headImageRouter,
-  {
     path: '/redirect',
     component: Layout,
     hidden: true,
@@ -96,6 +82,20 @@ export const constantRoutes = [
     path: '/401',
     component: () => import('@/views/errorPage/401'),
     hidden: true
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'dashboard',
+    hidden: true,
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
+      }
+    ]
   }
 ]
 
@@ -110,6 +110,7 @@ export const asyncRoutes = [
   examination,
   examRouter,
   readRouter,
+  headImageRouter,
   { path: '*', redirect: '/404', hidden: true }
 ]
 

@@ -9,7 +9,7 @@
       :key="imagecropperKey"
       :width="300"
       :height="300"
-      url="http://123.206.55.50:11000/upload"
+      url="https://service.jasonandjay.com/upload"
       method="post"
       lang-type="en"
       @close="close"
