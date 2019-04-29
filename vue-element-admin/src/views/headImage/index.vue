@@ -1,7 +1,7 @@
 <template>
   <div>
     <pan-thumb :image="info.avatar || image" />
-    <el-button type="primary" icon="upload" style="position: absolute;bottom: 15px;margin-left: 40px;" @click="imagecropperShow=true">
+    <el-button type="primary" icon="upload" style="margin-left: 40px;" @click="imagecropperShow=true">
       修改头像
     </el-button>
     <image-cropper

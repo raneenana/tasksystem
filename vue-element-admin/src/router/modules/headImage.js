@@ -17,7 +17,7 @@ const headImageRouter = {
       path: 'index',
       component: () => import('@/views/headImage'),
       name: 'headImages',
-      meta: { title: '', noCache: true }
+      meta: { title: 'headImage', noCache: true }
     }
   ]
 }
