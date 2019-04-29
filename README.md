@@ -10,5 +10,9 @@
 ```
 npm run dev
 ```
-#### 3,运用框架
+#### 3,打包项目，上线运行
+```
+npm run build:prod
+```
+#### 4,运用框架
     vue框架与element-ui

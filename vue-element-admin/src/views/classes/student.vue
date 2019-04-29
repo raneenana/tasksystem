@@ -157,8 +157,6 @@ export default {
       this.student()
     },
     search() {
-      console.log(this.arrClass)
-
       if (this.input && this.value && this.valueclass) {
         this.arrClass = this.allStud.filter((item, ind) => {
           return this.input === item.student_name && this.value === item.room_text && this.valueclass === item.grade_name
