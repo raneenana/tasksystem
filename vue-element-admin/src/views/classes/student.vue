@@ -25,14 +25,13 @@
         <el-button type="primary" class="button" @click="exportExcel">导出学生</el-button>
       </div>
       <el-table :data="arrClass.length > 0 ? arrClass.slice((currentpage - 1) * pagesize, currentpage * pagesize):allStud.slice((currentpage - 1) * pagesize, currentpage * pagesize)" style="width: 100%">
-        <el-table-column label="姓名" width="216">
+        <el-table-column label="姓名">
           <template slot-scope="scope">
             {{ scope.row.student_name }}
           </template>
         </el-table-column>
         <el-table-column
           label="学号"
-          width="359"
         >
           <template slot-scope="scope">
             {{ scope.row.student_id }}
@@ -40,7 +39,6 @@
         </el-table-column>
         <el-table-column
           label="班级"
-          width="216"
         >
           <template slot-scope="scope">
             {{ scope.row.grade_name }}
@@ -48,7 +46,6 @@
         </el-table-column>
         <el-table-column
           label="教室"
-          width="204"
         >
           <template slot-scope="scope">
             {{ scope.row.room_text }}
@@ -56,7 +53,6 @@
         </el-table-column>
         <el-table-column
           label="密码"
-          width="459"
         >
           <template slot-scope="scope">
             {{ scope.row.student_pwd }}
