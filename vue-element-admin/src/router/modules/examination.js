@@ -11,7 +11,6 @@ const examination = {
   meta: {
     title: 'examination',
     icon: 'documentation'
-    // view_id: 'main-examList,main-addExam'
   },
   children: [{
     path: 'addexamination',
