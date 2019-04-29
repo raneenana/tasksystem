@@ -4,6 +4,7 @@ const readRouter = {
   component: Layout,
   redirect: 'noredirect',
   name: 'readPapers',
+  alwaysShow: true,
   meta: {
     title: 'readPapers',
     icon: 'project'

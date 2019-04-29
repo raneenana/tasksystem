@@ -4,6 +4,7 @@ const examRouter = {
   component: Layout,
   redireact: 'noredirect',
   name: 'Exam',
+  alwaysShow: true,
   meta: {
     title: 'exam',
     icon: 'sliders'

@@ -7,6 +7,7 @@ const examRouter = {
   component: Layout,
   redirect: 'noredirect',
   name: 'Classes',
+  alwaysShow: true,
   meta: {
     title: 'classes',
     icon: 'table'
