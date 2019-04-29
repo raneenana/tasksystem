@@ -18,7 +18,7 @@
             />
           </el-select>
         </div>
-        <el-button type="primary"><i class="el-icon-search" />查询</el-button>
+        <el-button type="primary" @click="getList"><i class="el-icon-search" />查询</el-button>
       </form>
     </div>
     <div class="add-layout-content">
@@ -144,6 +144,13 @@ export default {
     async handleCurrentChange(tab) {
       this.page = tab
       this.arr = this.studentData.slice((this.page - 1) * this.size, this.page * this.size)
+    },
+    async getList() {
+      // console.log(this.classList.value)
+      await this.getStudent({
+        grade_id: this.classList.value
+      })
+      this.arr = this.studentData.slice(0, this.size * 1)
     },
     getScore(eid, nid, name) {
       window.localStorage.setItem('examIds', JSON.stringify({
