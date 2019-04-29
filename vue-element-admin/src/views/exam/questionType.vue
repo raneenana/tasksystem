@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .wrap{
   padding: 0px 24px 24px;
   background: #f0f2f5;

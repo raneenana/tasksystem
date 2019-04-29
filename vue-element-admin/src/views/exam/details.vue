@@ -11,19 +11,25 @@
         <span class="exam_name">{{ exam_name }}</span>
       </div>
       <p class="valu">
-        {{ add }}
+        <!-- {{ add }} -->
+        <vueMarkdown>{{ add }}</vueMarkdown>
       </p>
     </div>
     <div class="Answer">
       <p class="message">答案信息</p>
-      <div classs="messagevalue">{{ questions_answer }}</div>
+      <!-- <div classs="messagevalue">{{ questions_answer }}</div> -->
+      <vueMarkdown>{{ questions_answer }}</vueMarkdown>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import vueMarkdown from 'vue-markdown'
 export default {
+  components: {
+    vueMarkdown
+  },
   data() {
     return {
       id: '',
