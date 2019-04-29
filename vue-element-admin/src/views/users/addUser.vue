@@ -294,6 +294,11 @@ export default {
         identity_id: num
       })
       if (res.code === 1) {
+        this.add = {
+          name: '',
+          pwd: '',
+          idText: ''
+        }
         Message({
           message: res.msg,
           type: 'success',
@@ -488,6 +493,10 @@ export default {
           type: 'success',
           duration: 5 * 1000
         })
+        this.setApi = {
+          idMsg: '',
+          apiMsg: ''
+        }
       }
     },
     // 身份设置视图权限
@@ -530,6 +539,10 @@ export default {
             type: 'success',
             duration: 5 * 1000
           })
+          this.viewAuthor = {
+            idAuth: '',
+            viewAuth: ''
+          }
         }
       }
     },
