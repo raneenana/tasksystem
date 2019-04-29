@@ -77,13 +77,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
+        <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
+      </el-table> -->
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+// import UploadExcelComponent from '@/components/UploadExcel/index.vue'
 export default {
+  // components: { UploadExcelComponent },
   data() {
     return {
       info: {
